@@ -18,6 +18,103 @@ The system integrates **crowdsourced GPS data, real-time monitoring, AI-based de
 
 ---
 
+## Folder Structure
+```
+traffic-management-system/
+│
+├── client/                         # Frontend (User + Relief Center UI)
+│   ├── public/
+│   ├── src/
+│   │   ├── components/             # Reusable UI components
+│   │   │   ├── Map/
+│   │   │   ├── Alerts/
+│   │   │   ├── Dashboard/
+│   │   │   └── Navbar/
+│   │   │
+│   │   ├── pages/                 # Main pages
+│   │   │   ├── UserApp/
+│   │   │   ├── ReliefDashboard/
+│   │   │   └── Login/
+│   │   │
+│   │   ├── services/              # API calls
+│   │   │   ├── api.js
+│   │   │   └── socket.js
+│   │   │
+│   │   ├── utils/                 # Helper functions
+│   │   │   ├── geoUtils.js
+│   │   │   └── constants.js
+│   │   │
+│   │   ├── hooks/                 # Custom hooks
+│   │   │   └── useLocation.js
+│   │   │
+│   │   ├── assets/                # Images, icons
+│   │   └── App.js
+│   │
+│   └── package.json
+│
+├── server/                        # Backend (Core Logic)
+│   ├── src/
+│   │   ├── controllers/           # Request handlers
+│   │   │   ├── accidentController.js
+│   │   │   ├── trafficController.js
+│   │   │   └── alertController.js
+│   │   │
+│   │   ├── routes/                # API routes
+│   │   │   ├── accidentRoutes.js
+│   │   │   ├── trafficRoutes.js
+│   │   │   └── alertRoutes.js
+│   │   │
+│   │   ├── models/                # Database schemas
+│   │   │   ├── Accident.js
+│   │   │   ├── User.js
+│   │   │   ├── ReliefCenter.js
+│   │   │   └── TrafficData.js
+│   │   │
+│   │   ├── services/              # Business logic
+│   │   │   ├── geoService.js      # Distance & geospatial queries
+│   │   │   ├── alertService.js    # Notification logic
+│   │   │   └── routingService.js  # Route suggestions
+│   │   │
+│   │   ├── ai/                    # AI / detection logic
+│   │   │   ├── anomalyDetection.js
+│   │   │   ├── riskPrediction.js
+│   │   │   └── congestionAnalysis.js
+│   │   │
+│   │   ├── sockets/               # Real-time communication
+│   │   │   └── socketHandler.js
+│   │   │
+│   │   ├── middleware/            # Auth, validation
+│   │   │   └── authMiddleware.js
+│   │   │
+│   │   ├── config/                # Config files
+│   │   │   ├── db.js
+│   │   │   └── env.js
+│   │   │
+│   │   ├── utils/                 # Helper utilities
+│   │   │   └── logger.js
+│   │   │
+│   │   └── app.js
+│   │
+│   └── package.json
+│
+├── simulation/                    # Fake data generator
+│   ├── gpsSimulator.js
+│   ├── accidentGenerator.js
+│   └── trafficPattern.js
+│
+├── docs/                          # Documentation
+│   ├── README.md
+│   ├── API.md
+│   └── architecture.md
+│
+├── .env
+├── .gitignore
+├── docker-compose.yml (optional)
+└── package.json (root if monorepo)
+```
+
+---
+
 # 🧩 System Architecture
 
 The system is divided into three main layers:
