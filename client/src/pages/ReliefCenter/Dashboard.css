@@ -1,0 +1,126 @@
+/* Relief Dashboard — Stitch spec (Mobile-first + Desktop) */
+.relief-dashboard-page {
+  padding-bottom: 80px;
+  min-height: 100vh;
+}
+
+.relief-dashboard-content {
+  padding: 20px 16px;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.dashboard-title {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.dashboard-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.dashboard-clock {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* Stats row */
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+/* Grid */
+.dashboard-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.dashboard-section {}
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Status bar at bottom */
+.dashboard-status-bar {
+  margin-top: 24px;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.dashboard-status-item {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ===== DESKTOP — 3 column (25% / 45% / 30%) ===== */
+@media (min-width: 1024px) {
+  .relief-dashboard-page {
+    padding-bottom: 0;
+  }
+  .relief-dashboard-content {
+    padding: 0;
+    display: grid;
+    grid-template-columns: 25% 45% 30%;
+    grid-template-rows: auto 1fr;
+    height: calc(100vh - 56px);
+  }
+  .dashboard-header {
+    grid-column: 1 / -1;
+    padding: 20px 24px;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .dashboard-stats {
+    grid-column: 1;
+    grid-template-columns: 1fr;
+    padding: 16px;
+    margin-bottom: 0;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-subtle);
+    align-content: start;
+  }
+  .dashboard-grid {
+    grid-column: 2 / -1;
+    grid-template-columns: 1fr 1fr;
+    padding: 16px;
+    overflow-y: auto;
+    align-content: start;
+  }
+  .dashboard-status-bar {
+    grid-column: 1 / -1;
+  }
+}
