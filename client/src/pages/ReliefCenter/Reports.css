@@ -1,0 +1,119 @@
+/* Relief Reports — Stitch spec (Mobile-first + Desktop) */
+.relief-reports-page {
+  padding-bottom: 80px;
+  min-height: 100vh;
+}
+
+.relief-reports-content {
+  padding: 20px 16px;
+}
+
+/* Filters card */
+.reports-filters {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Grid */
+.reports-grid {
+  display: grid;
+  gap: 20px;
+}
+
+/* Table */
+.reports-table-wrap {
+  overflow-x: auto;
+}
+
+.reports-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  font-family: var(--font-body);
+}
+
+.reports-table th {
+  text-align: left;
+  padding: 10px 12px;
+  background: var(--bg-elevated);
+  color: var(--color-text-muted);
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.reports-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.reports-table tr:hover td {
+  background: var(--bg-hover);
+}
+
+/* Team grid */
+.team-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.team-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+/* ===== DESKTOP — 3 column (25% / 45% / 30%) ===== */
+@media (min-width: 1024px) {
+  .relief-reports-page {
+    padding-bottom: 0;
+  }
+  .relief-reports-content {
+    padding: 0;
+    display: grid;
+    grid-template-columns: 25% 45% 30%;
+    grid-template-rows: auto auto 1fr;
+    height: calc(100vh - 56px);
+  }
+  .relief-reports-content > .page-title {
+    grid-column: 1 / -1;
+    padding: 20px 24px;
+    margin-bottom: 0;
+  }
+  .reports-filters {
+    grid-column: 1 / -1;
+    margin: 0;
+    border-bottom: 1px solid var(--border-subtle);
+    border-radius: 0;
+    background: var(--bg-card);
+  }
+  .filter-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .reports-grid {
+    grid-column: 1 / -1;
+    grid-template-columns: 2fr 1fr;
+    padding: 16px;
+    overflow-y: auto;
+  }
+}
