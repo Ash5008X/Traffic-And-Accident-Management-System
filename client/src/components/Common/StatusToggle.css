@@ -1,0 +1,68 @@
+/* StatusToggle — Pill ON/OFF per Stitch */
+.status-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  min-height: 44px;
+}
+.status-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status-toggle-pills {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.status-toggle-pill {
+  padding: 6px 14px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-toggle-pill.on-pill {
+  background: var(--color-active);
+  color: #fff;
+}
+
+.status-toggle-pill.off-pill {
+  background: var(--bg-elevated);
+  color: var(--color-inactive);
+}
+
+/* Active states */
+.status-toggle.on .on-pill {
+  background: var(--color-active);
+  color: #fff;
+}
+.status-toggle.on .off-pill {
+  background: var(--bg-elevated);
+  color: var(--color-inactive);
+}
+
+.status-toggle.off .on-pill {
+  background: var(--bg-elevated);
+  color: var(--color-inactive);
+}
+.status-toggle.off .off-pill {
+  background: var(--color-inactive);
+  color: #fff;
+}

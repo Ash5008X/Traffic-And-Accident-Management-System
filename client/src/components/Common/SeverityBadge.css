@@ -1,0 +1,49 @@
+/* SeverityBadge — Stitch spec */
+.severity-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+.severity-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+/* Severity-specific fills */
+.severity-critical {
+  background: var(--color-critical);
+  color: #fff;
+}
+.severity-critical .severity-dot {
+  background: #fff;
+  animation: live-pulse 1.5s ease-in-out infinite;
+}
+.severity-high {
+  background: var(--color-high);
+  color: #fff;
+}
+.severity-high .severity-dot {
+  background: #fff;
+}
+.severity-medium {
+  background: var(--color-medium);
+  color: #1a1a1a;
+}
+.severity-medium .severity-dot {
+  background: #1a1a1a;
+}
+.severity-low {
+  background: var(--color-low);
+  color: #1a1a1a;
+}
+.severity-low .severity-dot {
+  background: #1a1a1a;
+}

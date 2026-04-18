@@ -1,0 +1,5 @@
+.heatmap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(48px, 1fr)); gap: 4px; }
+.heatmap-cell { aspect-ratio: 1; border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease; cursor: default; }
+.heatmap-cell:hover { transform: scale(1.1); z-index: 1; }
+.heatmap-count { font-family: var(--font-mono); font-size: 11px; color: #fff; font-weight: 600; }
+.heatmap-empty { text-align: center; padding: 24px; color: var(--color-text-muted); font-size: 12px; }

@@ -1,0 +1,36 @@
+/* StatChip — Stitch spec */
+.stat-chip {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+.stat-chip:hover {
+  background: var(--bg-hover);
+  transform: translateY(-2px);
+}
+.stat-chip-icon {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+.stat-chip-value {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--chip-color);
+  line-height: 1.1;
+}
+.stat-chip-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}

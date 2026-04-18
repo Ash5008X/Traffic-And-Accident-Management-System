@@ -1,0 +1,124 @@
+/* IncidentCard — Stitch "Signature Component" */
+.incident-card {
+  padding: 16px 16px 16px 20px;
+  animation: fadeIn 0.3s ease;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  position: relative;
+}
+
+.incident-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.incident-type-icon {
+  font-size: 22px;
+  min-width: 28px;
+}
+
+.incident-card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.incident-id {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: block;
+}
+
+.incident-type {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+.incident-subtitle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.incident-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 12px;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.incident-card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.incident-location {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-accent);
+  letter-spacing: 0.03em;
+}
+
+.incident-card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.incident-time {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+}
+
+.incident-status {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* Status badge colors */
+.status-pending { background: rgba(255, 184, 48, 0.15); color: var(--color-medium); }
+.status-assigned { background: rgba(58, 134, 255, 0.15); color: var(--color-info); }
+.status-en_route { background: rgba(255, 107, 53, 0.15); color: var(--color-high); }
+.status-on_site { background: rgba(46, 196, 182, 0.15); color: var(--color-accent); }
+.status-resolved { background: rgba(46, 196, 182, 0.15); color: var(--color-resolved); }
+.status-dismissed { background: rgba(139, 143, 168, 0.15); color: var(--color-inactive); }
+
+.incident-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.incident-card-actions .btn {
+  font-size: 12px;
+  padding: 8px 16px;
+  min-height: 36px;
+  letter-spacing: 0.05em;
+}
