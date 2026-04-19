@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
     if (token) {
       api.get('/auth/me')
         .then((res) => {
+          console.log(`[AuthContext] Loaded user: "${res.data?.name}" | role: "${res.data?.role}"`);
           setUser(res.data);
           localStorage.setItem('user', JSON.stringify(res.data));
         })

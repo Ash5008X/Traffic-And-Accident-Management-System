@@ -17,6 +17,7 @@ import ReliefDashboard from './pages/ReliefCenter/Dashboard';
 import ActiveIncidents from './pages/ReliefCenter/ActiveIncidents';
 import ReliefAlerts from './pages/ReliefCenter/ReliefAlerts';
 import ReliefReports from './pages/ReliefCenter/Reports';
+import ReliefProfile from './pages/ReliefCenter/ReliefProfile';
 
 // Field Unit pages
 import MyMission from './pages/FieldUnit/MyMission';
@@ -30,10 +31,14 @@ import Toast from './components/Common/Toast';
 function ProtectedRoute({ children, allowedRoles }) {
   const { user, loading } = useAuth();
   if (loading) return <div className="app-loading"><div className="skeleton" style={{ width: 200, height: 20, margin: '40vh auto' }} /></div>;
-  if (!user) return <Navigate to="/login" replace />;
-  if (allowedRoles && !allowedRoles.includes(user.role)) {
+  if (!user) {
+    console.warn('[ProtectedRoute] No user found — redirecting to /login');
+    return <Navigate to="/login" replace />;
+  }
+  if (allowedRoles && !allowedRoles.includes(user.role?.toLowerCase())) {
+    console.warn(`[ProtectedRoute] Role "${user.role}" not in allowed: [${allowedRoles}] — redirecting`);
     const redirectMap = { user: '/user/home', relief_admin: '/relief/dashboard', field_unit: '/field/mission' };
-    return <Navigate to={redirectMap[user.role] || '/login'} replace />;
+    return <Navigate to={redirectMap[user.role?.toLowerCase()] || '/login'} replace />;
   }
   return children;
 }
@@ -42,8 +47,9 @@ function RoleRedirect() {
   const { user, loading } = useAuth();
   if (loading) return null;
   if (!user) return <Navigate to="/login" replace />;
+  console.log(`[RoleRedirect] Current user role: "${user.role}"`);
   const redirectMap = { user: '/user/home', relief_admin: '/relief/dashboard', field_unit: '/field/mission' };
-  return <Navigate to={redirectMap[user.role] || '/login'} replace />;
+  return <Navigate to={redirectMap[user.role?.toLowerCase()] || '/login'} replace />;
 }
 
 export default function App() {
@@ -66,6 +72,7 @@ export default function App() {
         <Route path="/relief/incidents" element={<ProtectedRoute allowedRoles={['relief_admin']}><ActiveIncidents /></ProtectedRoute>} />
         <Route path="/relief/alerts" element={<ProtectedRoute allowedRoles={['relief_admin']}><ReliefAlerts /></ProtectedRoute>} />
         <Route path="/relief/reports" element={<ProtectedRoute allowedRoles={['relief_admin']}><ReliefReports /></ProtectedRoute>} />
+        <Route path="/relief/profile" element={<ProtectedRoute allowedRoles={['relief_admin']}><ReliefProfile /></ProtectedRoute>} />
 
         {/* Field Unit routes */}
         <Route path="/field/mission" element={<ProtectedRoute allowedRoles={['field_unit']}><MyMission /></ProtectedRoute>} />
