@@ -27,7 +27,7 @@ async function start() {
     socketHandler(io);
 
     server.listen(PORT, () => {
-      console.log(`NexusTRAFFIC server running on port ${PORT}`);
+      console.log(`NexusTRAFFIC server running : http://localhost:5000/`);
     });
   } catch (err) {
     console.error('Failed to start server:', err);
