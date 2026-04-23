@@ -111,6 +111,16 @@ const authController = {
     } catch (err) {
       res.status(500).json({ error: 'Server error' });
     }
+  },
+
+  async getUserCount(req, res) {
+    try {
+      const count = await userModel.countUsers();
+      res.json({ count });
+    } catch (err) {
+      console.error('getUserCount error:', err);
+      res.status(500).json({ error: 'Server error' });
+    }
   }
 };
 

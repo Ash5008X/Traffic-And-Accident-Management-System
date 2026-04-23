@@ -36,9 +36,8 @@
 <nav class="h-16 flex items-center justify-between px-6 border-b" style="border-color: var(--nt-nav-border); background-color: var(--nt-nav-bg); position: sticky; top: 0; z-index: 50;">
   <!-- Brand -->
   <div class="flex items-center gap-4">
-    <div class="barlow-800 text-2xl flex tracking-tighter">
-      <span style="color: var(--nt-bright)">NEXUS</span>
-      <span class="text-[#F97316]">TRAFFIC</span>
+    <div class="nt-brand-logo">
+      <span style="color: var(--nt-bright)">NEXUS</span><span class="text-[#F97316]">TRAFFIC</span>
     </div>
   </div>
 
@@ -46,10 +45,8 @@
   <div class="hidden md:flex items-center gap-8">
     <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)"
        onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Dashboard</a>
-    <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)"
-       onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Active Incidents</a>
+       href="relief_dashbaord.html">Dashboard</a>
+    <a class="outfit font-semibold text-[#F97316] border-b-2 border-[#F97316] pb-1" href="active_incident.html">Active Incidents</a>
     <a class="outfit font-medium transition-colors" 
        style="color: var(--nt-dim)" onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
        href="#">Alerts</a>
@@ -99,7 +96,7 @@
   <!-- LEFT COLUMN: Queue Management (25%) -->
   <aside class="w-[25%] border-r border-[#1F3448]/40 flex flex-col overflow-hidden">
     <div class="p-6 pb-2">
-      <h2 class="font-headline font-[700] text-xl tracking-tight mb-4" style="color: var(--nt-bright)">QUEUE MANAGEMENT</h2>
+      <h2 class="font-headline font-[700] text-xl tracking-tight mb-4" style="color: var(--nt-bright)">ACTIVE INCIDENTS</h2>
       <div class="flex gap-2 overflow-x-auto pb-4">
         <button class="px-3 py-1 text-[10px] font-bold bg-[#F97316] text-white rounded-sm whitespace-nowrap">PENDING</button>
         <button class="nt-filter-inactive px-3 py-1 text-[10px] font-bold rounded-sm whitespace-nowrap">ASSIGNED</button>
@@ -108,65 +105,10 @@
       </div>
     </div>
 
-    <div class="flex-1 overflow-y-auto px-6 space-y-4 pb-6">
-      <!-- Incident Card 1: Critical -->
-      <div class="nt-card hoverable border-l-4 border-[#FF3B30] p-4 shadow-sm">
-        <div class="flex justify-between items-start mb-2">
-          <span class="font-technical text-[10px] tracking-widest" style="color: var(--nt-dim)">INCIDENT_ID // 882-QX</span>
-          <span class="w-2 h-2 rounded-full bg-[#FF3B30] pulse"></span>
-        </div>
-        <h3 class="font-body font-semibold text-sm mb-2 uppercase" style="color: var(--nt-bright)">Multi-Vehicle Collision: I-95 North</h3>
-        <div class="flex gap-4">
-          <span class="font-technical text-[9px]" style="color: var(--nt-dim)">LVL: CRITICAL</span>
-          <span class="font-technical text-[9px]" style="color: var(--nt-dim)">ETA: 4 MIN</span>
-        </div>
-      </div>
-
-      <!-- Incident Card 2: High -->
-      <div class="nt-card hoverable border-l-4 border-[#FF6B35] p-4 shadow-sm">
-        <div class="flex justify-between items-start mb-2">
-          <span class="font-technical text-[10px] tracking-widest" style="color: var(--nt-dim)">INCIDENT_ID // 721-BA</span>
-          <span class="w-2 h-2 rounded-full bg-[#FF6B35]"></span>
-        </div>
-        <h3 class="font-body font-semibold text-sm mb-2 uppercase" style="color: var(--nt-bright)">Hazardous Spill: Sector 4 Junction</h3>
-        <div class="flex gap-4">
-          <span class="font-technical text-[9px]" style="color: var(--nt-dim)">LVL: HIGH</span>
-          <span class="font-technical text-[9px]" style="color: var(--nt-dim)">ETA: 9 MIN</span>
-        </div>
-      </div>
-
-      <!-- Incident Card 3: Medium -->
-      <div class="nt-card hoverable border-l-4 border-[#FFB830] p-4 shadow-sm opacity-80">
-        <div class="flex justify-between items-start mb-2">
-          <span class="font-technical text-[10px] tracking-widest" style="color: var(--nt-dim)">INCIDENT_ID // 459-TR</span>
-          <span class="w-2 h-2 rounded-full bg-[#FFB830]"></span>
-        </div>
-        <h3 class="font-body font-semibold text-sm mb-2 uppercase" style="color: var(--nt-bright)">Signal Malfunction: Broadway Ave</h3>
-        <div class="flex gap-4">
-          <span class="font-technical text-[9px]" style="color: var(--nt-dim)">LVL: MEDIUM</span>
-          <span class="font-technical text-[9px]" style="color: var(--nt-dim)">ETA: 12 MIN</span>
-        </div>
-      </div>
-
-      <!-- Unassigned Units -->
-      <div class="mt-8 border-t border-[#1F3448]/40 pt-6">
-        <h2 class="font-headline font-[700] text-sm tracking-widest mb-4" style="color: var(--nt-dim)">UNASSIGNED UNITS</h2>
-        <div class="space-y-3">
-          <div class="nt-unit-row flex justify-between items-center p-3 rounded-sm">
-            <div class="flex flex-col">
-              <span class="font-technical text-[10px] text-[#F97316]">UNIT_DELTA_04</span>
-              <span class="font-body text-[10px]" style="color: var(--nt-dim)">PATROL / SECTOR 2</span>
-            </div>
-            <button class="nt-assign-btn text-[9px] font-bold px-3 py-1 rounded-sm border hover:bg-[#F97316] hover:text-white transition-all">ASSIGN</button>
-          </div>
-          <div class="nt-unit-row flex justify-between items-center p-3 rounded-sm">
-            <div class="flex flex-col">
-              <span class="font-technical text-[10px] text-[#F97316]">UNIT_OMEGA_12</span>
-              <span class="font-body text-[10px]" style="color: var(--nt-dim)">RESCUE / MAIN HUB</span>
-            </div>
-            <button class="nt-assign-btn text-[9px] font-bold px-3 py-1 rounded-sm border hover:bg-[#F97316] hover:text-white transition-all">ASSIGN</button>
-          </div>
-        </div>
+    <div class="flex-1 overflow-y-auto px-6 space-y-4 pb-6" id="active-incidents-container">
+      <div class="text-center py-12" style="color:var(--nt-dim)">
+        <span class="material-symbols-outlined text-4xl block mb-2" style="color:var(--nt-dim)">sync</span>
+        <p class="outfit text-xs">Loading incidents…</p>
       </div>
     </div>
   </aside>
@@ -185,42 +127,9 @@
     </div>
 
     <!-- Tactical Map -->
-    <div class="flex-1 min-h-[400px] relative nt-card overflow-hidden rounded-sm group">
-      <img alt="Tactical Map" class="w-full h-full object-cover opacity-50 grayscale hover:grayscale-0 transition-all duration-700"
-           src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAgRKTB1MXyVtAO4aefcHOwK2EYQ-73us0iJtgxGV0FAN5QWc0_dFVLP052MVZKIkLUh3Ogi02XL_lych08UyiTRzh8ltynyx8di0-TRAtkUixIZqf__jlu5vQ6FDYkgwosvPtSH65Lcqj6on1syAEi3V8KqcHLDe7kZj3kV_UThBISvUjSSfq8fiZ4xmItNH-onF_f2KFdLG0QwSxk6Grix1uTs8kN3-3DeuDOoifk0r4oKeWFLXXpXSjN5KOTxnLTqPFwAo7DiY"/>
-
-      <!-- Overlay UI -->
-      <div class="absolute inset-0 pointer-events-none p-6 flex flex-col justify-between">
-        <div class="flex justify-between">
-          <div class="nt-overlay-panel p-3 border border-[#1F3448]/40">
-            <span class="block font-technical text-[9px] text-[#FF3B30]">⬤ ACTIVE_INCIDENT_882-QX</span>
-            <span class="block font-technical text-[9px]" style="color: var(--nt-dim)">GRID_LOC: 40.7128° N, 74.0060° W</span>
-            <span class="block font-technical text-[9px] text-[#F97316]">SCANNING_REGION: MIDTOWN_SOUTH</span>
-          </div>
-          <div class="flex flex-col gap-2">
-            <div class="bg-[#FF3B30] p-2 text-white font-headline text-[10px] tracking-widest text-center">ZONE_ALPHA // LOCKDOWN</div>
-            <div class="nt-overlay-panel backdrop-blur-md p-2 flex items-center gap-2">
-              <span class="w-2 h-2 bg-[#F97316] rounded-full"></span>
-              <span class="font-technical text-[8px]" style="color: var(--nt-text)">UNIT_SYNC_COMPLETE</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex justify-center items-center">
-          <div class="w-32 h-32 border-2 border-[#F97316]/20 rounded-full flex items-center justify-center animate-spin-slow">
-            <div class="w-16 h-16 border border-[#F97316]/40 rounded-full"></div>
-          </div>
-        </div>
-
-        <div class="flex justify-between items-end">
-          <div class="flex gap-1">
-            <div class="w-1 h-8 bg-[#F97316]"></div>
-            <div class="w-1 h-6 bg-[#F97316]/60"></div>
-            <div class="w-1 h-10 bg-[#F97316]/40"></div>
-          </div>
-          <div class="font-technical text-[10px] bg-black/40 px-2 py-1" style="color: var(--nt-dim)">SECURE_FEED_ENC_AES256</div>
-        </div>
-      </div>
+    <div class="flex-1 min-h-[400px] relative nt-card overflow-hidden rounded-sm group" id="leaflet-map-container">
+      <div id="leaflet-map" style="width:100%;height:100%;border-radius:inherit;z-index:0;"></div>
+      <span class="absolute bottom-2 left-2 z-10 fira-code text-[10px] text-[#F97316] font-bold px-2 py-0.5 border border-[#F97316]/30 pointer-events-none bg-black/40">LIVE_MAP_STREAM · 50 KM ZONE</span>
     </div>
 
     <!-- Dispatch Log -->
@@ -239,31 +148,8 @@
               <th class="p-2">STATUS</th>
             </tr>
           </thead>
-          <tbody class="nt-table-row-divide divide-y divide-[#1F3448]/40">
-            <tr>
-              <td class="p-2" style="color: var(--nt-dim)">14:28:44</td>
-              <td class="p-2" style="color: var(--nt-text)">UNIT_DEPLOYMENT_RESCUE</td>
-              <td class="p-2 text-[#F97316]">UNIT_D-04</td>
-              <td class="p-2 text-[#34C759]">COMPLETE</td>
-            </tr>
-            <tr>
-              <td class="p-2" style="color: var(--nt-dim)">14:30:02</td>
-              <td class="p-2" style="color: var(--nt-text)">INCIDENT_ESCALATION_LVL4</td>
-              <td class="p-2 text-[#FF3B30]">SYSTEM</td>
-              <td class="p-2 text-error">PENDING_ACK</td>
-            </tr>
-            <tr>
-              <td class="p-2" style="color: var(--nt-dim)">14:31:12</td>
-              <td class="p-2" style="color: var(--nt-text)">TRAFFIC_REDIRECT_S3</td>
-              <td class="p-2 text-[#F97316]">UNIT_O-12</td>
-              <td class="p-2 text-[#F97316]">EN_ROUTE</td>
-            </tr>
-            <tr>
-              <td class="p-2" style="color: var(--nt-dim)">14:31:55</td>
-              <td class="p-2" style="color: var(--nt-text)">HELI_SURVEILLANCE_REQ</td>
-              <td class="p-2 text-[#F97316]">AIR_9</td>
-              <td class="p-2 text-secondary">ACTIVE</td>
-            </tr>
+          <tbody class="nt-table-row-divide divide-y divide-[#1F3448]/40" id="dispatch-log-container">
+            <!-- Dispatch log injected here -->
           </tbody>
         </table>
       </div>
@@ -276,35 +162,8 @@
     <!-- Unit Status Board -->
     <div>
       <h2 class="font-headline font-bold text-xl tracking-tight mb-6" style="color: var(--nt-bright)">UNIT STATUS BOARD</h2>
-      <div class="grid grid-cols-2 gap-3">
-        <div class="nt-unit-card p-3 border border-[#1F3448]/20">
-          <div class="flex justify-between items-center mb-2">
-            <span class="font-technical text-[10px] text-[#F97316]">U_ALPHA_01</span>
-            <span class="text-[8px] bg-[#34C759]/20 text-[#34C759] font-bold px-1.5 py-0.5 rounded-full">ON SITE</span>
-          </div>
-          <p class="font-body text-[10px]" style="color: var(--nt-dim)">Sector 1: North Terminal</p>
-        </div>
-        <div class="nt-unit-card p-3 border border-[#1F3448]/20">
-          <div class="flex justify-between items-center mb-2">
-            <span class="font-technical text-[10px] text-[#F97316]">U_BRAVO_05</span>
-            <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full" style="background-color: rgba(249,115,22,0.15); color: #F97316; border: 1px solid rgba(249,115,22,0.35)">EN ROUTE</span>
-          </div>
-          <p class="font-body text-[10px]" style="color: var(--nt-dim)">Transit: Sector 4 Loop</p>
-        </div>
-        <div class="nt-unit-card p-3 border border-[#1F3448]/20">
-          <div class="flex justify-between items-center mb-2">
-            <span class="font-technical text-[10px] text-[#F97316]">U_CHAR_09</span>
-            <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full" style="background-color: var(--nt-card2); color: var(--nt-dim)">AVAILABLE</span>
-          </div>
-          <p class="font-body text-[10px]" style="color: var(--nt-dim)">Standby: HQ Garage</p>
-        </div>
-        <div class="nt-unit-card p-3 border border-[#1F3448]/20">
-          <div class="flex justify-between items-center mb-2">
-            <span class="font-technical text-[10px] text-[#F97316]">U_DELTA_02</span>
-            <span class="text-[8px] bg-[#34C759]/20 text-[#34C759] font-bold px-1.5 py-0.5 rounded-full">ON SITE</span>
-          </div>
-          <p class="font-body text-[10px]" style="color: var(--nt-dim)">Sector 2: Bridge West</p>
-        </div>
+      <div class="grid grid-cols-2 gap-3" id="unit-status-container">
+        <!-- Units injected here -->
       </div>
     </div>
 
@@ -313,15 +172,8 @@
       <h2 class="font-headline font-bold text-sm tracking-widest text-[#FF3B30] mb-4 flex items-center gap-2">
         <span class="material-symbols-outlined text-sm">warning</span> CRITICAL ALERTS
       </h2>
-      <div class="space-y-2">
-        <div class="nt-card hoverable border-l-2 border-[#FF3B30] p-3">
-          <p class="font-body text-xs font-semibold" style="color: var(--nt-bright)">POWER GRID FAILURE - SECTOR 9 SIGNALS</p>
-          <p class="font-technical text-[9px] mt-1" style="color: var(--nt-dim)">TIME: 14:31:02 // CODE: ELEC_09</p>
-        </div>
-        <div class="nt-card hoverable border-l-2 border-[#FF3B30] p-3">
-          <p class="font-body text-xs font-semibold" style="color: var(--nt-bright)">AMBULANCE DELAYED BY CONGESTION</p>
-          <p class="font-technical text-[9px] mt-1" style="color: var(--nt-dim)">LOC: 4TH ST // UNIT: EMS_62</p>
-        </div>
+      <div class="space-y-2" id="critical-alerts-container">
+        <!-- Critical alerts injected here -->
       </div>
     </div>
 
@@ -331,15 +183,15 @@
       <div class="space-y-6">
         <div class="flex justify-between items-end nt-metrics-divide border-b border-[#1F3448]/40 pb-2">
           <span class="font-body text-xs" style="color: var(--nt-dim)">Units Deployed</span>
-          <span class="font-headline font-bold text-3xl text-[#F97316]">24<span class="text-xs font-normal ml-1" style="color: var(--nt-dim)">/40</span></span>
+          <span class="font-headline font-bold text-3xl text-[#F97316]" id="metric-units">—</span>
         </div>
         <div class="flex justify-between items-end nt-metrics-divide border-b border-[#1F3448]/40 pb-2">
           <span class="font-body text-xs" style="color: var(--nt-dim)">Avg ETA</span>
-          <span class="font-headline font-bold text-3xl text-[#F97316]">06:22</span>
+          <span class="font-headline font-bold text-3xl text-[#F97316]" id="metric-eta">—</span>
         </div>
         <div class="flex justify-between items-end">
-          <span class="font-body text-xs" style="color: var(--nt-dim)">Incidents Cleared</span>
-          <span class="font-headline font-bold text-3xl text-[#F97316]">112</span>
+          <span class="font-body text-xs" style="color: var(--nt-dim)">Incidents Resolved</span>
+          <span class="font-headline font-bold text-3xl text-[#F97316]" id="metric-resolved">—</span>
         </div>
       </div>
     </div>

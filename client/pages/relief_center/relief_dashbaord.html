@@ -27,27 +27,26 @@
 <nav class="h-16 flex items-center justify-between px-6 border-b">
   <!-- Brand -->
   <div class="flex items-center gap-4">
-    <div class="barlow-800 text-2xl flex tracking-tighter">
-      <span style="color: var(--nt-bright)">NEXUS</span>
-      <span class="text-[#F97316]">TRAFFIC</span>
+    <div class="nt-brand-logo">
+      <span style="color: var(--nt-bright)">NEXUS</span><span class="text-[#F97316]">TRAFFIC</span>
     </div>
   </div>
 
   <!-- Nav links -->
   <div class="hidden md:flex items-center gap-8">
-    <a class="outfit font-semibold text-[#F97316] border-b-2 border-[#F97316] pb-1" href="#">Dashboard</a>
+    <a class="outfit font-semibold text-[#F97316] border-b-2 border-[#F97316] pb-1" href="relief_dashbaord.html">Dashboard</a>
     <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)"
        onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Active Incidents</a>
+       href="active_incident.html">Active Incidents</a>
     <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)"
        onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Alerts</a>
+       href="alerts.html">Alerts</a>
     <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)"
        onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Reports</a>
+       href="reports.html">Reports</a>
     <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)"
        onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Teams</a>
+       href="teams.html">Teams</a>
   </div>
 
   <!-- Right meta -->
@@ -93,126 +92,83 @@
   <section class="col-left col-scroll w-1/4 flex flex-col border-r border-[#1F3448]/30">
     <div class="queue-header p-4 flex justify-between items-center sticky top-0 z-10 border-b border-[#1F3448]/30">
       <h2 class="barlow-700 text-lg tracking-wider" style="color: var(--nt-bright)">Active Incidents</h2>
-      <span class="bg-[#FF3B30] text-white text-xs barlow-800 px-2 py-0.5 rounded">12 NEW</span>
+      <span class="bg-[#FF3B30] text-white text-xs barlow-800 px-2 py-0.5 rounded">0 NEW</span>
     </div>
     <div class="flex-1 p-4 space-y-4">
-
-      <!-- Critical Incident -->
-      <div class="nt-card hoverable p-4 rounded glowing-red">
-        <div class="flex justify-between items-start mb-2">
-          <span class="fira-code text-[10px] text-[#FF3B30]">CRITICAL // ID: 882-QX</span>
-          <span class="fira-code text-[10px]" style="color: var(--nt-dim)">2M AGO</span>
-        </div>
-        <h3 class="barlow-800 text-lg leading-tight mb-2" style="color: var(--nt-bright)">MULTI-VEHICLE COLLISION</h3>
-        <div class="fira-code text-xs text-[#F97316] mb-4">COORD: 34.0522° N, 118.2437° W</div>
-        <div class="flex gap-2">
-          <button class="btn-accept flex-1 outfit text-xs font-bold bg-[#F97316] text-white py-2 rounded">ACCEPT</button>
-          <button class="btn-dismiss flex-1 outfit text-xs font-bold py-2 rounded">DISMISS</button>
-        </div>
+      <!-- Incident cards injected by relief_dashboard.js -->
+      <div class="text-center py-12" style="color:var(--nt-dim)">
+        <span class="material-symbols-outlined text-4xl block mb-2" style="color:var(--nt-dim)">sync</span>
+        <p class="outfit text-xs">Loading incidents…</p>
       </div>
-
-      <!-- High Severity Incident -->
-      <div class="nt-card hoverable p-4 rounded border-l-4 border-[#FF6B35]">
-        <div class="flex justify-between items-start mb-2">
-          <span class="fira-code text-[10px] text-[#FF6B35]">HIGH // ID: 771-BK</span>
-          <span class="fira-code text-[10px]" style="color: var(--nt-dim)">8M AGO</span>
-        </div>
-        <h3 class="barlow-800 text-lg leading-tight mb-2" style="color: var(--nt-bright)">STALLED FREIGHTER - LANE 1</h3>
-        <div class="fira-code text-xs text-[#F97316] mb-4">COORD: 34.1021° N, 118.3114° W</div>
-        <div class="flex gap-2">
-          <button class="btn-accept flex-1 outfit text-xs font-bold bg-[#F97316] text-white py-2 rounded">ACCEPT</button>
-          <button class="btn-dismiss flex-1 outfit text-xs font-bold py-2 rounded">DISMISS</button>
-        </div>
-      </div>
-
-      <!-- Medium Severity Incident -->
-      <div class="nt-card hoverable p-4 rounded border-l-4 border-[#FFB830]">
-        <div class="flex justify-between items-start mb-2">
-          <span class="fira-code text-[10px] text-[#FFB830]">MEDIUM // ID: 449-ZA</span>
-          <span class="fira-code text-[10px]" style="color: var(--nt-dim)">15M AGO</span>
-        </div>
-        <h3 class="barlow-800 text-lg leading-tight mb-2" style="color: var(--nt-bright)">DEBRIS ON ROADWAY</h3>
-        <div class="fira-code text-xs text-[#F97316] mb-4">COORD: 34.0881° N, 118.4219° W</div>
-        <div class="flex gap-2">
-          <button class="btn-accept flex-1 outfit text-xs font-bold bg-[#F97316] text-white py-2 rounded">ACCEPT</button>
-          <button class="btn-dismiss flex-1 outfit text-xs font-bold py-2 rounded">DISMISS</button>
-        </div>
-      </div>
-
     </div>
   </section>
 
   <!-- Column 2: INCIDENT DETAILS (45%) -->
   <section class="col-center col-scroll w-[45%] flex flex-col border-r border-[#1F3448]/30">
-    <div class="p-6 space-y-8">
 
-      <!-- Header Info -->
-      <div class="nt-card p-8 rounded-lg border-l-4 border-[#FF3B30] shadow-2xl relative">
-        <div class="absolute top-4 right-6 fira-code text-[#FF3B30] font-bold text-sm bg-[#FF3B30]/10 px-3 py-1 rounded">IN_PROGRESS</div>
-        <span class="fira-code text-xs" style="color: var(--nt-dim)">INCIDENT_ID // 882-QX-44-DELTA</span>
-        <h1 class="barlow-800 text-4xl mt-2 mb-4" style="color: var(--nt-bright)">MULTI-VEHICLE COLLISION // I-10 EASTBOUND</h1>
-        <div class="grid grid-cols-2 gap-8 mt-6">
-          <div>
-            <p class="outfit text-xs uppercase font-bold tracking-widest mb-1" style="color: var(--nt-dim)">Location Coordinates</p>
-            <p class="fira-code text-lg" style="color: var(--nt-bright)">34.0522° N, 118.2437° W</p>
-          </div>
-          <div>
-            <p class="outfit text-xs uppercase font-bold tracking-widest mb-1" style="color: var(--nt-dim)">Time Elapsed</p>
-            <p class="fira-code text-lg text-[#FF3B30]">00:14:22</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Incident Description -->
-      <div class="mt-6">
-        <p class="outfit text-xs uppercase font-bold tracking-widest mb-2" style="color: var(--nt-dim)">Incident Description</p>
-        <p class="outfit leading-relaxed" style="color: var(--nt-bright)">Three-vehicle collision reported near the Vermont Ave exit. Lane 1 and 2 blocked. Emergency services dispatched. Potential hazardous spill from second vehicle (delivery van).</p>
-      </div>
-
-      <!-- Action Toolbar -->
-      <div class="flex flex-wrap gap-4">
-        <button class="btn-action flex-1 barlow-700 bg-[#3A86FF] text-white py-4 rounded font-bold tracking-tighter">MARK EN ROUTE</button>
-        <button class="btn-action flex-1 barlow-700 bg-[#34C759] text-white py-4 rounded font-bold tracking-tighter">MARK RESOLVED</button>
-        <button class="btn-action flex-1 barlow-700 bg-[#F97316] text-white py-4 rounded font-bold tracking-tighter">SEND UPDATE TO USER</button>
-      </div>
-
-      <!-- Communication Thread -->
-      <div class="space-y-4 pt-4 border-t border-[#1F3448]/40">
-        <h3 class="barlow-700 text-sm tracking-widest" style="color: var(--nt-dim)">COMMUNICATION_LOG</h3>
-
-        <div class="flex flex-col items-start space-y-1">
-          <div class="bubble-in p-4 rounded-xl rounded-tl-none max-w-[80%] border border-[#1F3448]/50">
-            <p class="outfit text-sm" style="color: var(--nt-bright)">Help! The engine is smoking and we can't open the driver's side door.</p>
-          </div>
-          <span class="fira-code text-[10px] ml-1" style="color: var(--nt-dim)">USER_MOBILE // 14:18</span>
-        </div>
-
-        <div class="flex flex-col items-end space-y-1">
-          <div class="bubble-out p-4 rounded-xl rounded-tr-none max-w-[80%] shadow-lg">
-            <p class="outfit text-sm font-medium">Understood. Rescue team is 4 minutes away. Stay clear of the vehicle if possible. Emergency services are in transit.</p>
-          </div>
-          <span class="fira-code text-[10px] mr-1" style="color: var(--nt-dim)">RELIEF_CENTER // 14:20</span>
-        </div>
-
-        <div class="flex flex-col items-start space-y-1">
-          <div class="bubble-in p-4 rounded-xl rounded-tl-none max-w-[80%] border border-[#1F3448]/50">
-            <p class="outfit text-sm" style="color: var(--nt-bright)">Fire trucks just arrived. Thank you.</p>
-          </div>
-          <span class="fira-code text-[10px] ml-1" style="color: var(--nt-dim)">USER_MOBILE // 14:31</span>
-        </div>
-      </div>
-
+    <!-- Empty state: shown when no incident is selected -->
+    <div id="detail-empty" class="flex-1 flex flex-col items-center justify-center gap-4" style="color:var(--nt-dim)">
+      <span class="material-symbols-outlined" style="font-size:56px;opacity:0.3">crisis_alert</span>
+      <p class="outfit text-sm tracking-wider" style="opacity:0.4">SELECT AN INCIDENT TO VIEW DETAILS</p>
     </div>
 
-    <!-- Input area (sticks to bottom of column) -->
-    <div class="input-area p-4 border-t border-[#1F3448] sticky bottom-0">
-      <div class="relative flex items-center">
-        <input class="chat-input w-full rounded py-3 pl-4 pr-12 outfit border" placeholder="Type command or message..." type="text"/>
-        <button class="absolute right-3 text-[#F97316] transition-transform hover:scale-110">
-          <span class="material-symbols-outlined">send</span>
-        </button>
+    <!-- Detail panel: hidden until incident selected -->
+    <div id="detail-panel" class="hidden flex-col flex-1" style="display:none">
+      <div class="p-6 space-y-6 flex-1 overflow-y-auto">
+
+        <!-- Header Info -->
+        <div id="detail-header" class="nt-card p-8 rounded-lg border-l-4 shadow-2xl relative" style="border-left-color:#FF3B30">
+          <div id="detail-status" class="absolute top-4 right-6 fira-code text-sm font-bold px-3 py-1 rounded"
+               style="color:#FF3B30;background:#FF3B3022">PENDING</div>
+          <span id="detail-id" class="fira-code text-xs" style="color: var(--nt-dim)">INCIDENT_ID // —</span>
+          <h1 id="detail-title" class="barlow-800 text-4xl mt-2 mb-4" style="color: var(--nt-bright)">—</h1>
+          <div class="grid grid-cols-2 gap-8 mt-6">
+            <div>
+              <p class="outfit text-xs uppercase font-bold tracking-widest mb-1" style="color: var(--nt-dim)">Location Coordinates</p>
+              <p id="detail-coords" class="fira-code text-lg" style="color: var(--nt-bright)">—° N, —° E</p>
+            </div>
+            <div>
+              <p class="outfit text-xs uppercase font-bold tracking-widest mb-1" style="color: var(--nt-dim)">Time Elapsed</p>
+              <p id="detail-elapsed" class="fira-code text-lg text-[#FF3B30]">—</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Incident Description -->
+        <div>
+          <p class="outfit text-xs uppercase font-bold tracking-widest mb-2" style="color: var(--nt-dim)">Incident Description</p>
+          <p id="detail-desc" class="outfit leading-relaxed" style="color: var(--nt-bright)">—</p>
+        </div>
+
+        <!-- Action Toolbar -->
+        <div class="flex flex-wrap gap-4">
+          <button id="btn-en-route" class="btn-action flex-1 barlow-700 bg-[#3A86FF] text-white py-4 rounded font-bold tracking-tighter">MARK EN ROUTE</button>
+          <button id="btn-resolve" class="btn-action flex-1 barlow-700 bg-[#34C759] text-white py-4 rounded font-bold tracking-tighter">MARK RESOLVED</button>
+          <button id="btn-send-update" class="btn-action flex-1 barlow-700 bg-[#F97316] text-white py-4 rounded font-bold tracking-tighter">SEND UPDATE TO USER</button>
+        </div>
+
+        <!-- Communication Thread -->
+        <div class="space-y-4 pt-4 border-t border-[#1F3448]/40">
+          <h3 class="barlow-700 text-sm tracking-widest" style="color: var(--nt-dim)">COMMUNICATION_LOG</h3>
+          <div id="chat-log" class="space-y-3 max-h-60 overflow-y-auto pr-1">
+            <!-- Chat messages injected by JS -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Input area -->
+      <div class="input-area p-4 border-t border-[#1F3448] sticky bottom-0">
+        <div class="relative flex items-center">
+          <input id="chat-input" class="chat-input w-full rounded py-3 pl-4 pr-12 outfit border"
+                 placeholder="Type message to user..." type="text"/>
+          <button id="chat-send" class="absolute right-3 text-[#F97316] transition-transform hover:scale-110">
+            <span class="material-symbols-outlined">send</span>
+          </button>
+        </div>
       </div>
     </div>
+
   </section>
 
   <!-- Column 3: LIVE STATS & ALERTS (30%) -->
@@ -223,42 +179,26 @@
       <div class="grid grid-cols-1 gap-4">
         <div class="stat-chip p-4 rounded flex justify-between items-center border-l-2 border-[#FF6B35]">
           <span class="outfit text-sm font-bold" style="color: var(--nt-dim)">ACTIVE INCIDENTS</span>
-          <span class="barlow-800 text-3xl text-[#FF6B35]">14</span>
+          <span class="barlow-800 text-3xl text-[#FF6B35]">—</span>
         </div>
         <div class="stat-chip p-4 rounded flex justify-between items-center border-l-2 border-[#34C759]">
           <span class="outfit text-sm font-bold" style="color: var(--nt-dim)">RESOLVED TODAY</span>
-          <span class="barlow-800 text-3xl text-[#34C759]">142</span>
+          <span class="barlow-800 text-3xl text-[#34C759]">—</span>
         </div>
         <div class="stat-chip p-4 rounded flex justify-between items-center border-l-2 border-[#3A86FF]">
           <span class="outfit text-sm font-bold" style="color: var(--nt-dim)">AVG RESPONSE TIME</span>
-          <span class="barlow-800 text-3xl text-[#3A86FF]">3:42M</span>
+          <span class="barlow-800 text-3xl text-[#3A86FF]">—</span>
         </div>
       </div>
 
       <!-- Recent Alerts -->
       <div class="space-y-4">
         <h3 class="barlow-700 text-sm tracking-widest px-1" style="color: var(--nt-dim)">RECENT ALERTS SENT</h3>
-        <div class="space-y-3">
-          <div class="alert-row flex items-center gap-3 p-3 rounded" style="background-color: color-mix(in srgb, var(--nt-nav-bg) 40%, transparent)">
-            <div class="w-2 h-2 rounded-full bg-[#FF3B30] flex-shrink-0"></div>
-            <div class="flex-1">
-              <p class="outfit text-sm" style="color: var(--nt-bright)">Area Alert: Interstate-10 Eastbound Closed</p>
-            </div>
-            <span class="fira-code text-[10px]" style="color: var(--nt-dim)">14:28</span>
-          </div>
-          <div class="alert-row flex items-center gap-3 p-3 rounded" style="background-color: color-mix(in srgb, var(--nt-nav-bg) 40%, transparent)">
-            <div class="w-2 h-2 rounded-full bg-[#FFB830] flex-shrink-0"></div>
-            <div class="flex-1">
-              <p class="outfit text-sm" style="color: var(--nt-bright)">Traffic Advisory: Santa Monica Blvd Congestion</p>
-            </div>
-            <span class="fira-code text-[10px]" style="color: var(--nt-dim)">14:15</span>
-          </div>
-          <div class="alert-row flex items-center gap-3 p-3 rounded" style="background-color: color-mix(in srgb, var(--nt-nav-bg) 40%, transparent)">
-            <div class="w-2 h-2 rounded-full bg-[#F97316] flex-shrink-0"></div>
-            <div class="flex-1">
-              <p class="outfit text-sm" style="color: var(--nt-bright)">System Check: All Relief Nodes Operational</p>
-            </div>
-            <span class="fira-code text-[10px]" style="color: var(--nt-dim)">14:00</span>
+        <div id="recent-alerts-list" class="space-y-3">
+          <!-- Injected by relief_dashboard.js -->
+          <div class="text-center py-4" style="color:var(--nt-dim)">
+            <span class="material-symbols-outlined block mb-1" style="opacity:0.4;font-size:20px">sync</span>
+            <p class="outfit text-xs" style="opacity:0.5">Loading alerts…</p>
           </div>
         </div>
       </div>
@@ -267,39 +207,37 @@
       <div class="space-y-4">
         <h3 class="barlow-700 text-sm tracking-widest px-1" style="color: var(--nt-dim)">NEARBY INCIDENTS HEATMAP</h3>
         <div class="grid grid-cols-2 gap-2">
-          <div class="zone-cell bg-[#FF3B30]/20 border border-[#FF3B30]/30 p-4 rounded flex flex-col justify-between aspect-video">
-            <span class="barlow-800 text-[#FF3B30]">ZONE A</span>
-            <span class="fira-code text-2xl" style="color: var(--nt-bright)">08</span>
+          <div class="zone-cell bg-[#1F3448]/30 border border-[#1F3448]/50 p-4 rounded flex flex-col justify-between aspect-video">
+            <span class="barlow-800" style="color:var(--nt-dim)">ZONE A</span>
+            <span class="fira-code text-2xl" style="color: var(--nt-bright)">00</span>
           </div>
-          <div class="zone-cell bg-[#FFB830]/20 border border-[#FFB830]/30 p-4 rounded flex flex-col justify-between aspect-video">
-            <span class="barlow-800 text-[#FFB830]">ZONE B</span>
-            <span class="fira-code text-2xl" style="color: var(--nt-bright)">03</span>
+          <div class="zone-cell bg-[#1F3448]/30 border border-[#1F3448]/50 p-4 rounded flex flex-col justify-between aspect-video">
+            <span class="barlow-800" style="color:var(--nt-dim)">ZONE B</span>
+            <span class="fira-code text-2xl" style="color: var(--nt-bright)">00</span>
           </div>
-          <div class="zone-cell bg-[#F97316]/20 border border-[#F97316]/30 p-4 rounded flex flex-col justify-between aspect-video">
-            <span class="barlow-800 text-[#F97316]">ZONE C</span>
-            <span class="fira-code text-2xl" style="color: var(--nt-bright)">01</span>
+          <div class="zone-cell bg-[#1F3448]/30 border border-[#1F3448]/50 p-4 rounded flex flex-col justify-between aspect-video">
+            <span class="barlow-800" style="color:var(--nt-dim)">ZONE C</span>
+            <span class="fira-code text-2xl" style="color: var(--nt-bright)">00</span>
           </div>
           <div class="zone-cell border p-4 rounded flex flex-col justify-between aspect-video" style="background-color: var(--nt-card); border-color: var(--nt-card-border)">
             <span class="barlow-800" style="color: var(--nt-dim)">ZONE D</span>
             <span class="fira-code text-2xl" style="color: var(--nt-bright)">00</span>
           </div>
-          <div class="zone-cell bg-[#FFB830]/10 border border-[#FFB830]/20 p-4 rounded flex flex-col justify-between aspect-video">
-            <span class="barlow-800 text-[#FFB830]/70">ZONE E</span>
-            <span class="fira-code text-2xl" style="color: var(--nt-bright)">02</span>
+          <div class="zone-cell bg-[#1F3448]/30 border border-[#1F3448]/50 p-4 rounded flex flex-col justify-between aspect-video">
+            <span class="barlow-800" style="color:var(--nt-dim)">ZONE E</span>
+            <span class="fira-code text-2xl" style="color: var(--nt-bright)">00</span>
           </div>
-          <div class="zone-cell bg-[#F97316]/10 border border-[#F97316]/20 p-4 rounded flex flex-col justify-between aspect-video">
-            <span class="barlow-800 text-[#F97316]/70">ZONE F</span>
-            <span class="fira-code text-2xl" style="color: var(--nt-bright)">01</span>
+          <div class="zone-cell bg-[#1F3448]/30 border border-[#1F3448]/50 p-4 rounded flex flex-col justify-between aspect-video">
+            <span class="barlow-800" style="color:var(--nt-dim)">ZONE F</span>
+            <span class="fira-code text-2xl" style="color: var(--nt-bright)">00</span>
           </div>
         </div>
       </div>
 
-      <!-- Mini Map -->
-      <div class="mini-map h-48 rounded border relative overflow-hidden flex items-center justify-center">
-        <img alt="Satellite view of traffic" class="absolute inset-0 w-full h-full object-cover opacity-40"
-             src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnsYJywDllJq3Gwbh0cYVaP5X9lfVkcOt7lK2bQw3PvZk3YWBIF5KTDHNdUMHCm8jSN-rSBiHyG4xBKrKdvZ4QTXsnBzObsx6TQJyGVKiW6nrex1d8ZuVuX5KIkXtva3yRsHFi5QDOhGSVTw67RpOdzvwCOqBbMFJbzdpeP1k1LP_Mk_Yz3WEjTd-x1PpT_57dmo6-N0Sl-fdPRhgFwQxkAq_BjClnY4phOKB2l5cKUTJdcRMeuzJwY3sb8ZfJVivBM4PayHfm0jY"/>
-        <div class="absolute inset-0 bg-gradient-to-t from-[#0D1B2A] to-transparent"></div>
-        <span class="relative z-10 fira-code text-[10px] text-[#F97316] font-bold px-2 py-1 border border-[#F97316]/30" style="background-color: color-mix(in srgb, var(--nt-card) 80%, transparent)">LIVE_MAP_STREAM</span>
+      <!-- Live Map with 5 km zone circle -->
+      <div class="mini-map rounded border relative overflow-hidden" style="height:220px;">
+        <!-- Leaflet map injected here by relief_dashboard.js -->
+        <span class="absolute bottom-2 left-2 z-10 fira-code text-[10px] text-[#F97316] font-bold px-2 py-0.5 border border-[#F97316]/30 pointer-events-none" style="background-color: color-mix(in srgb, var(--nt-card) 80%, transparent)">LIVE_MAP_STREAM · 5 KM ZONE</span>
       </div>
 
     </div>
@@ -313,8 +251,8 @@
 <footer class="h-8 border-t flex items-center justify-between px-6">
   <div class="fira-code text-[10px]" style="color: var(--nt-dim)">SYSTEM_STATUS: NOMINAL // ENCRYPTION: AES-256-ACTIVE</div>
   <div class="flex gap-4">
-    <span class="fira-code text-[10px]" style="color: var(--nt-dim)">LAT: 34.0522</span>
-    <span class="fira-code text-[10px]" style="color: var(--nt-dim)">LONG: -118.2437</span>
+    <span class="fira-code text-[10px]" style="color: var(--nt-dim)">LAT: 31.2649</span>
+    <span class="fira-code text-[10px]" style="color: var(--nt-dim)">LONG: 75.7002</span>
   </div>
 </footer>
 

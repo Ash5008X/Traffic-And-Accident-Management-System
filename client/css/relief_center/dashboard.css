@@ -124,8 +124,8 @@ html, body {
     --nt-scroll-trk:  #061423;
     --nt-scroll-tmb:  #283646;
     --nt-glass:       rgba(22,37,52,0.9);
-    --nt-section-bg:  #0D1B2A;
-    --nt-center-bg:   #132030;
+    --nt-section-bg:  #061423;
+    --nt-center-bg:   #000000;
   }
 
   /* ═══════════════════════════════════════════════════════
@@ -152,6 +152,17 @@ html, body {
     min-height: 0;
   }
 
+  .nt-brand-logo {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.05em;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
   /* Each column scrolls independently */
   .col-scroll {
     overflow-y: auto;
@@ -173,6 +184,8 @@ html, body {
   }
 
   /* ─── SECTIONS / PANELS ───────────────── */
+  aside       { background-color: var(--nt-section-bg) !important; transition: background-color var(--t-slow); }
+  section     { background-color: var(--nt-center-bg) !important; transition: background-color var(--t-slow); }
   .col-left   { background-color: var(--nt-section-bg) !important; border-color: color-mix(in srgb, var(--nt-card-border) 30%, transparent) !important; transition: background-color var(--t-slow), border-color var(--t-slow); }
   .col-center { background-color: var(--nt-center-bg) !important;  border-color: color-mix(in srgb, var(--nt-card-border) 30%, transparent) !important; transition: background-color var(--t-slow), border-color var(--t-slow); }
   .col-right  { background-color: var(--nt-section-bg) !important; transition: background-color var(--t-slow); }

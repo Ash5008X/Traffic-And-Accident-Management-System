@@ -62,9 +62,14 @@
     <!-- Sort -->
     <div>
       <span class="sort-label">Sort_Registry</span>
-      <div class="sort-select">
-        <span>Newest First</span>
-        <span class="material-symbols-outlined" style="font-size:16px;">expand_more</span>
+      <div class="sort-select-wrap">
+        <select id="sort-select" class="sort-select" aria-label="Sort incidents">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="severity">Severity (Critical First)</option>
+          <option value="severity-asc">Severity (Low First)</option>
+        </select>
+        <span class="sort-arrow material-symbols-outlined">expand_more</span>
       </div>
     </div>
 
@@ -110,7 +115,7 @@
       </div>
 
       <!-- Critical Card -->
-      <div class="incident-card crit">
+      <div class="incident-card crit" data-severity="1" data-time="1745432400">
         <div class="incident-card-top">
           <div>
             <div class="incident-title crit">Multi-Vehicle Collision // Fire</div>
@@ -126,7 +131,7 @@
       </div>
 
       <!-- High Card -->
-      <div class="incident-card high">
+      <div class="incident-card high" data-severity="2" data-time="1745430000">
         <div class="incident-card-top">
           <div>
             <div class="incident-title high">Structural Instability</div>

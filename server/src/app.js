@@ -7,6 +7,7 @@ const incidentRoutes = require('./routes/incidentRoutes');
 const alertRoutes = require('./routes/alertRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const fieldUnitRoutes = require('./routes/fieldUnitRoutes');
+const teamRoutes = require('./routes/teamRoutes');
 const reliefCenterModel = require('./modules/reliefCenterModel');
 const auth = require('./middleware/auth');
 
@@ -25,6 +26,7 @@ app.use('/api/incidents', incidentRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/field-units', fieldUnitRoutes);
+app.use('/api/teams', teamRoutes);
 
 // Relief center routes
 app.get('/api/relief-centers', auth, async (req, res) => {
@@ -52,6 +54,21 @@ app.patch('/api/users/preferences', auth, async (req, res) => {
     const userModel = require('./modules/userModel');
     const user = await userModel.updatePreferences(req.user.id, req.body);
     res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Update user default location (used for admin's relief center location)
+app.patch('/api/users/location', auth, async (req, res) => {
+  try {
+    const userModel = require('./modules/userModel');
+    const { lat, lng } = req.body;
+    if (lat == null || lng == null) {
+      return res.status(400).json({ error: 'lat and lng required' });
+    }
+    await userModel.updateLocation(req.user.id, { lat: parseFloat(lat), lng: parseFloat(lng) });
+    res.json({ success: true, location: { lat: parseFloat(lat), lng: parseFloat(lng) } });
   } catch (err) {
     res.status(500).json({ error: 'Server error' });
   }

@@ -8,6 +8,7 @@ router.get('/', auth, incidentController.getAll);
 router.get('/nearby', auth, incidentController.nearby);
 router.get('/stats', auth, incidentController.getStats);
 router.get('/heatmap', auth, incidentController.getHeatmap);
+router.get('/dashboard-stats', auth, incidentController.dashboardStats);
 router.get('/:id', auth, incidentController.getById);
 router.patch('/:id/status', auth, incidentController.updateStatus);
 router.patch('/:id/accept', auth, incidentController.accept);

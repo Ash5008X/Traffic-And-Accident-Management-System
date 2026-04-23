@@ -1,5 +1,7 @@
 const incidentModel = require('../modules/incidentModel');
 const fieldUnitModel = require('../modules/fieldUnitModel');
+const { filterAndAnnotate } = require('../utils/zoneUtils');
+const userModel = require('../modules/userModel');
 
 const incidentController = {
   async create(req, res) {
@@ -194,6 +196,72 @@ const incidentController = {
       }
       res.json({ success: true });
     } catch (err) {
+      res.status(500).json({ error: 'Server error' });
+    }
+  },
+
+  /**
+   * Dashboard stats scoped to a 5km radius around the admin's saved location.
+   * Returns: activeCount, resolvedToday, avgResponseTimeMinutes, nearbyIncidents, zoneBreakdown
+   */
+  async dashboardStats(req, res) {
+    try {
+      const adminUser = await userModel.findById(req.user.id);
+      if (!adminUser || !adminUser.location) {
+        return res.status(400).json({ error: 'Admin location not set' });
+      }
+
+      const centerLat = adminUser.location.lat;
+      const centerLng = adminUser.location.lng;
+      const RADIUS_KM = 50;
+
+      // Fetch all non-dismissed incidents
+      const allActive = await incidentModel.findAll({ });
+
+      // Filter to 5km radius and annotate with zone
+      const nearby = filterAndAnnotate(allActive, centerLat, centerLng, RADIUS_KM);
+
+      const activeIncidents = nearby.filter(inc => !['resolved', 'dismissed'].includes(inc.status));
+
+      // Resolved TODAY within 5km
+      const todayStart = new Date();
+      todayStart.setHours(0, 0, 0, 0);
+      const resolvedToday = nearby.filter(inc =>
+        inc.status === 'resolved' && inc.resolvedAt && new Date(inc.resolvedAt) >= todayStart
+      );
+
+      // Average response time (createdAt → resolvedAt) in minutes for resolved-today
+      let avgResponseMinutes = null;
+      if (resolvedToday.length > 0) {
+        const totalMs = resolvedToday.reduce((sum, inc) => {
+          return sum + (new Date(inc.resolvedAt) - new Date(inc.createdAt));
+        }, 0);
+        avgResponseMinutes = Math.round(totalMs / resolvedToday.length / 60000);
+      }
+
+      // Zone breakdown (A-F) for active nearby incidents
+      const zoneBreakdown = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+      for (const inc of activeIncidents) {
+        if (inc.zone && zoneBreakdown[inc.zone] !== undefined) {
+          zoneBreakdown[inc.zone]++;
+        }
+      }
+
+      const fieldUnits = await fieldUnitModel.findAll();
+
+      res.json({
+        centerLat,
+        centerLng,
+        radiusKm: RADIUS_KM,
+        activeCount: activeIncidents.length,
+        resolvedTodayCount: resolvedToday.length,
+        avgResponseMinutes,
+        activeIncidents,
+        zoneBreakdown,
+        fieldUnits
+      });
+    } catch (err) {
+      console.error('Dashboard stats error:', err);
       res.status(500).json({ error: 'Server error' });
     }
   }

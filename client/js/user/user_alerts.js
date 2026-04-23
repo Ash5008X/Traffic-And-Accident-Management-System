@@ -30,8 +30,8 @@
     });
   });
 
-  // Mock User Location (Sector 01)
-  const USER_LOCATION = { lat: 34.053, lng: -118.241 };
+  // Real User Location
+  let USER_LOCATION = { lat: 0, lng: 0 };
 
   // Helpers
   function haversine(lat1, lon1, lat2, lon2) {
@@ -80,23 +80,60 @@
 
   const loadAlerts = async () => {
     try {
-      const res = await fetch('/api/incidents', {
-        headers: { 'Authorization': `Bearer ${getToken()}` }
-      });
-      if (!res.ok) throw new Error('Failed to fetch incidents');
-      const allIncidents = await res.json();
+      const [profileRes, incidentRes, myAlertRes, activeAlertRes] = await Promise.all([
+        fetch('/api/auth/me', { headers: { 'Authorization': `Bearer ${getToken()}` } }),
+        fetch('/api/incidents', { headers: { 'Authorization': `Bearer ${getToken()}` } }),
+        fetch('/api/alerts/my', { headers: { 'Authorization': `Bearer ${getToken()}` } }),
+        fetch('/api/alerts/active', { headers: { 'Authorization': `Bearer ${getToken()}` } })
+      ]);
+
+      if (profileRes.ok) {
+        const profile = await profileRes.json();
+        if (profile.location && profile.location.lat != null) {
+          USER_LOCATION = { lat: profile.location.lat, lng: profile.location.lng };
+        }
+      }
+
+      if (!incidentRes.ok) throw new Error('Failed to fetch incidents');
+      const allIncidents = await incidentRes.json();
+      const myAlerts = myAlertRes.ok ? await myAlertRes.json() : [];
+      const activeBroadcasts = activeAlertRes.ok ? await activeAlertRes.json() : [];
       const myId = getUserId();
 
-      // Filter: Within 2km AND NOT reported by me
+      // Filter incidents: Within 50km AND NOT reported by me
       allNearbyAlerts = allIncidents.filter(inc => {
         if (inc.reportedBy === myId) return false;
         if (!inc.location || !inc.location.lat) return false;
         const dist = haversine(USER_LOCATION.lat, USER_LOCATION.lng, inc.location.lat, inc.location.lng);
-        if (dist <= 2) {
-          inc.distanceKm = dist; // attach distance
+        if (dist <= 50) {
+          inc.distanceKm = dist;
           return true;
         }
         return false;
+      });
+
+      // Also include my own incidents (so I can see relief center replies)
+      const myIncidents = allIncidents.filter(inc => String(inc.reportedBy) === String(myId));
+      myIncidents.forEach(inc => {
+        if (!allNearbyAlerts.find(x => String(x._id) === String(inc._id))) {
+          allNearbyAlerts.push(inc);
+        }
+      });
+
+      // Map Active Broadcasts into the same structure and append
+      activeBroadcasts.forEach(ab => {
+         if (!ab.targetUser) {
+           allNearbyAlerts.push({
+              _id: ab._id,
+              type: ab.type || 'SYSTEM BROADCAST',
+              status: ab.active !== false ? 'pending' : 'resolved',
+              description: ab.message,
+              severity: ab.severity,
+              createdAt: ab.createdAt,
+              location: { address: `ZONE ${ab.zone || 'UNKNOWN'}` },
+              isBroadcast: true
+           });
+         }
       });
 
       // Sort newest first
@@ -122,6 +159,12 @@
 
       renderActiveAlerts(activeAlerts);
       renderPastAlerts(pastAlerts);
+
+      // Render personal notifications in a separate section if present
+      renderPersonalNotifications(myAlerts);
+      
+      // Update bell icon
+      updateBellIcon(activeAlerts, myAlerts);
 
     } catch (err) {
       console.error(err);
@@ -221,6 +264,112 @@
         const alert = allNearbyAlerts.find(x => x._id === id);
         if (alert) showDetail(alert);
       });
+    });
+  };
+
+  const renderPersonalNotifications = (alerts) => {
+    // Find or create a personal messages container
+    let container = document.getElementById('personal-notifications');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'personal-notifications';
+      container.style.cssText = 'margin-top:1.5rem;';
+      // Insert before the active alerts section if possible
+      const alertsSection = activeAlertsList?.parentElement;
+      if (alertsSection?.parentElement) {
+        alertsSection.parentElement.insertBefore(container, alertsSection);
+      }
+    }
+
+    if (!alerts || alerts.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
+
+    const relevantAlerts = alerts.filter(a => a.type === 'relief_center_message');
+    if (relevantAlerts.length === 0) { container.innerHTML = ''; return; }
+
+    const html = `
+      <div style="margin-bottom:0.75rem;">
+        <h3 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.5rem;">MESSAGES FROM RELIEF CENTER</h3>
+        ${relevantAlerts.map(a => `
+          <div style="background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.25);border-left:3px solid #F97316;border-radius:6px;padding:0.75rem 1rem;margin-bottom:0.5rem;">
+            <p style="font-family:'Outfit',sans-serif;font-size:0.875rem;color:var(--text-primary,#fff);margin:0 0 0.25rem;">${a.message}</p>
+            <span style="font-family:'Fira Code',monospace;font-size:0.65rem;color:var(--text-muted);">${formatDate(a.createdAt)}</span>
+          </div>
+        `).join('')}
+      </div>`;
+    container.innerHTML = html;
+  };
+
+  const updateBellIcon = (activeAlerts, myAlerts) => {
+    const bellBtn = document.getElementById('navbar-bell-btn');
+    const bellCount = document.getElementById('navbar-bell-count');
+    const dropdown = document.getElementById('navbar-bell-dropdown');
+
+    if (!bellBtn || !bellCount || !dropdown) return;
+
+    // Filter to active broadcast alerts and personal unread/active alerts
+    const activeBroadcasts = activeAlerts.filter(a => a.isBroadcast);
+    const personalAlerts = myAlerts.filter(a => a.active !== false);
+
+    const allNotifs = [...activeBroadcasts, ...personalAlerts];
+    allNotifs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    if (allNotifs.length > 0) {
+      bellCount.style.display = 'flex';
+      bellCount.textContent = allNotifs.length;
+      bellCount.style.background = '#FF3B30';
+      bellCount.style.color = '#fff';
+      bellCount.style.width = '16px';
+      bellCount.style.height = '16px';
+      bellCount.style.fontSize = '9px';
+      bellCount.style.borderRadius = '50%';
+      bellCount.style.alignItems = 'center';
+      bellCount.style.justifyContent = 'center';
+      bellCount.style.position = 'absolute';
+      bellCount.style.top = '-4px';
+      bellCount.style.right = '-4px';
+      bellCount.style.fontWeight = 'bold';
+    } else {
+      bellCount.style.display = 'none';
+    }
+
+    if (allNotifs.length === 0) {
+      dropdown.innerHTML = `<div style="padding:16px;text-align:center;color:var(--text-muted);font-size:12px;">No new notifications</div>`;
+    } else {
+      dropdown.innerHTML = allNotifs.map(notif => {
+        const isPersonal = notif.targetUser;
+        const color = isPersonal ? '#F97316' : '#FF3B30';
+        const title = isPersonal ? 'Relief Center Message' : (notif.type || 'System Broadcast');
+        const msg = notif.description || notif.message || '';
+        return `
+          <div style="padding:12px 16px; border-bottom:1px solid var(--border-color); cursor:pointer;" onmouseover="this.style.background='var(--surface-3)'" onmouseout="this.style.background='transparent'">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;color:${color};margin-bottom:4px;text-transform:uppercase;">
+              ${title}
+            </div>
+            <div style="font-family:'Outfit',sans-serif;font-size:12px;color:var(--text-primary);margin-bottom:6px;line-height:1.4;">
+              ${msg}
+            </div>
+            <div style="font-family:'Fira Code',monospace;font-size:9px;color:var(--text-muted);">
+              ${formatDate(notif.createdAt)}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Toggle logic
+    bellBtn.onclick = (e) => {
+      e.stopPropagation();
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    };
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!bellBtn.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
     });
   };
 

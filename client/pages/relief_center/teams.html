@@ -13,9 +13,6 @@
 
 </head>
 <body class="outfit bg-[var(--nt-body-bg)]">
-<!-- TopNav - Component -->
-
-<!-- Main Content Area - 3 Columns -->
 
 <!-- ════════════════════════════════════════════════
      TOP NAV BAR
@@ -23,9 +20,8 @@
 <nav class="h-16 flex items-center justify-between px-6 border-b" style="border-color: var(--nt-nav-border); background-color: var(--nt-nav-bg); position: sticky; top: 0; z-index: 50;">
   <!-- Brand -->
   <div class="flex items-center gap-4">
-    <div class="barlow-800 text-2xl flex tracking-tighter">
-      <span style="color: var(--nt-bright)">NEXUS</span>
-      <span class="text-[#F97316]">TRAFFIC</span>
+    <div class="nt-brand-logo">
+      <span style="color: var(--nt-bright)">NEXUS</span><span class="text-[#F97316]">TRAFFIC</span>
     </div>
   </div>
 
@@ -33,19 +29,18 @@
   <div class="hidden md:flex items-center gap-8">
     <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)"
        onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Dashboard</a>
+       href="relief_dashbaord.html">Dashboard</a>
     <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)"
        onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Active Incidents</a>
+       href="active_incident.html">Active Incidents</a>
     <a class="outfit font-medium transition-colors" 
        style="color: var(--nt-dim)" onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Alerts</a>
+       href="alerts.html">Alerts</a>
     <a class="outfit font-medium transition-colors" 
        style="color: var(--nt-dim)" onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Reports</a>
+       href="reports.html">Reports</a>
     <a class="outfit font-semibold text-[#F97316] border-b-2 border-[#F97316] pb-1" 
-       
-       href="#">Teams</a>
+       href="teams.html">Teams</a>
   </div>
 
   <!-- Right meta -->
@@ -89,15 +84,15 @@
 <div class="grid grid-cols-1 gap-3">
 <div class="nt-card p-4 rounded border border-[var(--nt-card-border)] flex flex-col justify-between h-[90px]">
 <span class="outfit text-xs text-[var(--nt-dim)] font-semibold uppercase">TOTAL TEAMS</span>
-<span class="barlow-800 text-4xl text-[var(--nt-bright)] font-black leading-none">12</span>
+<span id="stat-total-teams" class="barlow-800 text-4xl text-[var(--nt-bright)] font-black leading-none">—</span>
 </div>
 <div class="nt-card p-4 rounded border border-[var(--nt-card-border)] flex flex-col justify-between h-[90px]">
-<span class="outfit text-xs text-[var(--nt-dim)] font-semibold uppercase">ACTIVE MEMBERS</span>
-<span class="barlow-800 text-4xl text-[var(--nt-bright)] font-black leading-none">48</span>
+<span class="outfit text-xs text-[var(--nt-dim)] font-semibold uppercase">MEMBERS</span>
+<span id="stat-members" class="barlow-800 text-4xl text-[var(--nt-bright)] font-black leading-none">—</span>
 </div>
 <div class="nt-card p-4 rounded border-l-4 border-l-alert-active flex flex-col justify-between h-[90px] border border-[var(--nt-card-border)]">
 <span class="outfit text-xs text-[var(--nt-dim)] font-semibold uppercase">ON DUTY NOW</span>
-<span class="barlow-800 text-4xl text-[#34C759] font-black leading-none">32</span>
+<span id="stat-on-duty" class="barlow-800 text-4xl text-[#34C759] font-black leading-none">—</span>
 </div>
 </div>
 <!-- Create Team Panel -->
@@ -109,25 +104,27 @@
 <div class="p-4 space-y-5">
 <div class="space-y-1">
 <label class="outfit text-[10px] uppercase font-semibold text-[var(--nt-dim)]">TEAM NAME</label>
-<input class="w-full bg-[var(--nt-body-bg)] border border-[var(--nt-card-border)] rounded px-3 py-2 text-sm fira-code text-[var(--nt-bright)] focus:outline-none focus:border-[#F97316] placeholder:text-[var(--nt-dim)]/60" placeholder="e.g. ALPHA_MED_01" type="text"/>
+<input id="create-team-name" class="w-full bg-[var(--nt-body-bg)] border border-[var(--nt-card-border)] rounded px-3 py-2 text-sm fira-code text-[var(--nt-bright)] focus:outline-none focus:border-[#F97316] placeholder:text-[var(--nt-dim)]/60" placeholder="e.g. ALPHA_MED_01" type="text"/>
 </div>
 <div class="space-y-2">
 <label class="outfit text-[10px] uppercase font-semibold text-[var(--nt-dim)]">SPECIALIZATION</label>
-<div class="flex flex-wrap gap-2">
-<button class="px-3 py-1 rounded-full text-xs font-semibold bg-[#F97316] text-white">Medical</button>
-<button class="px-3 py-1 rounded-full text-xs font-semibold bg-[#1F3448]/30 text-[var(--nt-dim)] border border-[var(--nt-card-border)] hover:text-[var(--nt-bright)]">Traffic Control</button>
-<button class="px-3 py-1 rounded-full text-xs font-semibold bg-[#1F3448]/30 text-[var(--nt-dim)] border border-[var(--nt-card-border)] hover:text-[var(--nt-bright)]">Hazmat</button>
+<div class="flex flex-wrap gap-2" id="create-spec-btns">
+<button data-val="medical" class="spec-btn px-3 py-1 rounded-full text-xs font-semibold bg-[#F97316] text-white">Medical</button>
+<button data-val="traffic_control" class="spec-btn px-3 py-1 rounded-full text-xs font-semibold bg-[#1F3448]/30 text-[var(--nt-dim)] border border-[var(--nt-card-border)] hover:text-[var(--nt-bright)]">Traffic Control</button>
 </div>
 </div>
 <div class="space-y-2">
 <label class="outfit text-[10px] uppercase font-semibold text-[var(--nt-dim)]">ASSIGNED ZONE</label>
-<div class="flex flex-wrap gap-2">
-<button class="px-3 py-1 rounded-full text-xs font-semibold bg-[#1F3448]/30 text-[var(--nt-dim)] border border-[var(--nt-card-border)] hover:text-[var(--nt-bright)]">North Sector</button>
-<button class="px-3 py-1 rounded-full text-xs font-semibold bg-[#1F3448]/30 text-[var(--nt-bright)] border border-[#F97316]/40">Central Hub</button>
-<button class="px-3 py-1 rounded-full text-xs font-semibold bg-[#1F3448]/30 text-[var(--nt-dim)] border border-[var(--nt-card-border)] hover:text-[var(--nt-bright)]">South Arterial</button>
+<div class="flex flex-wrap gap-2" id="create-zone-btns">
+<button data-val="A" class="zone-btn px-3 py-1 rounded-full text-xs font-semibold bg-[#1F3448]/30 text-[var(--nt-dim)] border border-[var(--nt-card-border)] hover:text-[var(--nt-bright)]">Zone A</button>
+<button data-val="B" class="zone-btn px-3 py-1 rounded-full text-xs font-semibold bg-[#1F3448]/30 text-[var(--nt-dim)] border border-[var(--nt-card-border)] hover:text-[var(--nt-bright)]">Zone B</button>
+<button data-val="C" class="zone-btn px-3 py-1 rounded-full text-xs font-semibold bg-[#1F3448]/30 text-[var(--nt-dim)] border border-[var(--nt-card-border)] hover:text-[var(--nt-bright)]">Zone C</button>
+<button data-val="D" class="zone-btn px-3 py-1 rounded-full text-xs font-semibold bg-[#1F3448]/30 text-[var(--nt-dim)] border border-[var(--nt-card-border)] hover:text-[var(--nt-bright)]">Zone D</button>
+<button data-val="E" class="zone-btn px-3 py-1 rounded-full text-xs font-semibold bg-[#1F3448]/30 text-[var(--nt-dim)] border border-[var(--nt-card-border)] hover:text-[var(--nt-bright)]">Zone E</button>
+<button data-val="F" class="zone-btn px-3 py-1 rounded-full text-xs font-semibold bg-[#1F3448]/30 text-[var(--nt-dim)] border border-[var(--nt-card-border)] hover:text-[var(--nt-bright)]">Zone F</button>
 </div>
 </div>
-<button class="w-full mt-4 bg-gradient-to-r from-primary to-alert-medium text-white barlow-800 text-lg font-bold py-3 rounded uppercase tracking-wide hover:opacity-90 transition-opacity flex justify-center items-center gap-2">
+<button id="btn-create-team" class="w-full mt-4 bg-[var(--nt-section-bg)] border border-[var(--nt-card-border)] text-[var(--nt-bright)] barlow-800 text-lg font-bold py-3 rounded uppercase tracking-wide hover:bg-[#F97316] hover:text-white hover:border-[#F97316] transition-all flex justify-center items-center gap-2">
 <span>CREATE TEAM</span>
 <span class="material-symbols-outlined text-base">arrow_forward</span>
 </button>
@@ -143,123 +140,63 @@
 <h1 class="barlow-800 text-2xl font-bold text-[var(--nt-bright)] uppercase tracking-tight">ALL TEAMS</h1>
 <div class="relative w-64">
 <span class="material-symbols-outlined absolute left-3 top-2 text-[var(--nt-dim)] text-sm">search</span>
-<input class="w-full bg-[var(--nt-section-bg)] border border-[var(--nt-card-border)] rounded pl-9 pr-3 py-1.5 text-xs fira-code text-[var(--nt-bright)] focus:outline-none focus:border-[#F97316] placeholder:text-[var(--nt-dim)]/60" placeholder="SEARCH TEAMS..." type="text"/>
+<input id="search-teams" class="w-full bg-[var(--nt-section-bg)] border border-[var(--nt-card-border)] rounded pl-9 pr-3 py-1.5 text-xs fira-code text-[var(--nt-bright)] focus:outline-none focus:border-[#F97316] placeholder:text-[var(--nt-dim)]/60" placeholder="SEARCH TEAMS..." type="text"/>
 </div>
 </div>
-<div class="flex gap-2 pb-4 overflow-x-auto no-scrollbar border-b border-[var(--nt-card-border)]">
-<button class="shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold nt-card text-[var(--nt-bright)] border border-[#F97316]/40">All Teams</button>
-<button class="shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold bg-transparent text-[var(--nt-dim)] hover:nt-card transition-colors">Medical</button>
-<button class="shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold bg-transparent text-[var(--nt-dim)] hover:nt-card transition-colors">Traffic Control</button>
-<button class="shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold bg-transparent text-[var(--nt-dim)] hover:nt-card transition-colors">Hazmat</button>
+<div class="flex gap-2 pb-4 overflow-x-auto no-scrollbar border-b border-[var(--nt-card-border)]" id="filter-btns">
+<button data-filter="all" class="filter-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold nt-card text-[var(--nt-bright)] border border-[#F97316]/40">All Teams</button>
+<button data-filter="medical" class="filter-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold bg-transparent text-[var(--nt-dim)] hover:nt-card transition-colors">Medical</button>
+<button data-filter="traffic_control" class="filter-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold bg-transparent text-[var(--nt-dim)] hover:nt-card transition-colors">Traffic Control</button>
 </div>
 </div>
 <!-- Scrollable List -->
-<div class="flex-1 overflow-y-auto p-5 pb-24 space-y-4">
-<!-- Team Card 1 -->
-<div class="nt-card rounded border border-[var(--nt-card-border)] border-l-4 border-l-alert-critical p-4 flex flex-col gap-4 shadow-[0_0_20px_0px_rgba(0,0,0,0.2)]">
-<div class="flex justify-between items-start">
-<div>
-<h3 class="barlow-800 text-xl font-bold text-[var(--nt-bright)] uppercase tracking-tight">RAPID_RESPONSE_01</h3>
-<div class="flex gap-2 mt-1">
-<span class="bg-[var(--nt-section-bg)] border border-[var(--nt-card-border)] px-2 py-0.5 rounded text-[10px] fira-code text-[#FF3B30]">MEDICAL</span>
-<span class="bg-[var(--nt-section-bg)] border border-[var(--nt-card-border)] px-2 py-0.5 rounded text-[10px] fira-code text-[var(--nt-dim)]">NORTH_SECTOR</span>
+<div class="flex-1 overflow-y-auto p-5 pb-24 space-y-4" id="teams-list">
+  <!-- Injected by teams.js -->
+  <div class="text-center py-12" style="color:var(--nt-dim)">
+    <span class="material-symbols-outlined text-4xl block mb-2" style="opacity:0.3">sync</span>
+    <p class="outfit text-xs" style="opacity:0.5">Loading teams…</p>
+  </div>
 </div>
-</div>
-<div class="text-right">
-<span class="barlow-800 text-2xl font-black text-[#34C759]">4<span class="text-lg text-[var(--nt-dim)] font-semibold">/4</span></span>
-<div class="text-[10px] outfit text-[var(--nt-dim)] uppercase font-bold">ON DUTY</div>
-</div>
-</div>
-<div class="flex justify-between items-center border-t border-[var(--nt-card-border)] pt-3">
-<div class="flex -space-x-2">
-<div class="w-8 h-8 rounded bg-[#1F3448]/30 border border-[var(--nt-card-border)] flex items-center justify-center fira-code text-xs font-bold text-[var(--nt-bright)]">JD</div>
-<div class="w-8 h-8 rounded bg-[#1F3448]/30 border border-[var(--nt-card-border)] flex items-center justify-center fira-code text-xs font-bold text-[var(--nt-bright)]">SM</div>
-<div class="w-8 h-8 rounded bg-[#1F3448]/30 border border-[var(--nt-card-border)] flex items-center justify-center fira-code text-xs font-bold text-[var(--nt-bright)]">TR</div>
-<div class="w-8 h-8 rounded bg-[#1F3448]/30 border border-[var(--nt-card-border)] flex items-center justify-center fira-code text-xs font-bold text-[var(--nt-bright)]">LK</div>
-</div>
-<div class="flex gap-2">
-<button class="bg-[var(--nt-section-bg)] hover:bg-[#1F3448]/30 border border-[var(--nt-card-border)] text-[var(--nt-bright)] outfit text-xs font-semibold px-4 py-1.5 rounded transition-colors">VIEW TEAM</button>
-</div>
-</div>
-</div>
-<!-- Team Card 2 -->
-<div class="nt-card rounded border border-[var(--nt-card-border)] border-l-4 border-l-alert-medium p-4 flex flex-col gap-4">
-<div class="flex justify-between items-start">
-<div>
-<h3 class="barlow-800 text-xl font-bold text-[var(--nt-bright)] uppercase tracking-tight">TRAFFIC_CTRL_BETA</h3>
-<div class="flex gap-2 mt-1">
-<span class="bg-[var(--nt-section-bg)] border border-[var(--nt-card-border)] px-2 py-0.5 rounded text-[10px] fira-code text-[#FFB830]">CONTROL</span>
-<span class="bg-[var(--nt-section-bg)] border border-[var(--nt-card-border)] px-2 py-0.5 rounded text-[10px] fira-code text-[var(--nt-dim)]">CENTRAL_HUB</span>
-</div>
-</div>
-<div class="text-right">
-<span class="barlow-800 text-2xl font-black text-[#34C759]">2<span class="text-lg text-[var(--nt-dim)] font-semibold">/6</span></span>
-<div class="text-[10px] outfit text-[var(--nt-dim)] uppercase font-bold">ON DUTY</div>
-</div>
-</div>
-<div class="flex justify-between items-center border-t border-[var(--nt-card-border)] pt-3">
-<div class="flex -space-x-2">
-<div class="w-8 h-8 rounded bg-[#1F3448]/30 border border-[var(--nt-card-border)] flex items-center justify-center fira-code text-xs font-bold text-[var(--nt-bright)]">PR</div>
-<div class="w-8 h-8 rounded bg-[#1F3448]/30 border border-[var(--nt-card-border)] flex items-center justify-center fira-code text-xs font-bold text-[var(--nt-bright)]">MK</div>
-<div class="w-8 h-8 rounded border border-dashed border-text-muted bg-transparent flex items-center justify-center text-[var(--nt-dim)]"><span class="material-symbols-outlined text-sm">add</span></div>
-</div>
-<div class="flex gap-2">
-<button class="bg-[var(--nt-section-bg)] hover:bg-[#1F3448]/30 border border-[var(--nt-card-border)] text-[var(--nt-bright)] outfit text-xs font-semibold px-4 py-1.5 rounded transition-colors">VIEW TEAM</button>
-</div>
-</div>
-</div>
-<!-- Unassigned Section -->
-<div class="mt-8">
-<h2 class="barlow-800 text-lg font-bold text-[var(--nt-dim)] uppercase tracking-tight mb-3 border-b border-[var(--nt-card-border)] pb-2">UNASSIGNED MEMBERS</h2>
-<div class="space-y-2">
-<!-- Unassigned Item -->
-<div class="flex items-center gap-3 p-2 hover:nt-card rounded transition-colors group cursor-pointer">
-<input class="w-4 h-4 rounded border-[var(--nt-card-border)] bg-[var(--nt-body-bg)] text-[#F97316] focus:ring-primary focus:ring-offset-background" type="checkbox"/>
-<div class="w-8 h-8 rounded bg-[#FF6B35] flex items-center justify-center fira-code text-xs font-bold text-background">AL</div>
-<div class="flex-1">
-<div class="outfit text-sm font-semibold text-[var(--nt-bright)]">Alex Mercer</div>
-<div class="fira-code text-[10px] text-[var(--nt-dim)]">OP_ID // 882-X</div>
-</div>
-<span class="bg-[#34C759]/10 text-[#34C759] border border-[#34C759]/30 px-2 py-0.5 rounded text-[10px] font-bold uppercase">AVAILABLE</span>
-</div>
-<!-- Unassigned Item -->
-<div class="flex items-center gap-3 p-2 hover:nt-card rounded transition-colors group cursor-pointer">
-<input class="w-4 h-4 rounded border-[var(--nt-card-border)] bg-[var(--nt-body-bg)] text-[#F97316] focus:ring-primary focus:ring-offset-background" type="checkbox"/>
-<div class="w-8 h-8 rounded bg-[#BF5AF2] flex items-center justify-center fira-code text-xs font-bold text-background">SJ</div>
-<div class="flex-1">
-<div class="outfit text-sm font-semibold text-[var(--nt-bright)]">Sarah Jenkins</div>
-<div class="fira-code text-[10px] text-[var(--nt-dim)]">OP_ID // 441-Y</div>
-</div>
-<span class="bg-text-muted/10 text-[var(--nt-dim)] border border-text-muted/30 px-2 py-0.5 rounded text-[10px] font-bold uppercase">OFF DUTY</span>
-</div>
-</div>
-</div>
-</div>
+<!-- Unassigned Section (rendered dynamically) -->
+
 <!-- Assignment Action Bar (Fixed Bottom) -->
 <div class="absolute bottom-0 left-0 w-full p-4 bg-[var(--nt-section-bg)]/90 backdrop-blur-md border-t border-[var(--nt-card-border)]/80 flex justify-between items-center z-20">
-<span class="barlow-800 text-lg font-bold text-[var(--nt-bright)]">0 SELECTED</span>
+<span id="selected-count" class="barlow-800 text-lg font-bold text-[var(--nt-bright)]">0 SELECTED</span>
 <div class="flex gap-2">
-<button class="px-4 py-2 bg-[#1F3448]/30 hover:nt-card text-[var(--nt-dim)] hover:text-[var(--nt-bright)] outfit text-xs font-semibold rounded transition-colors border border-[var(--nt-card-border)]">ASSIGN TO EXISTING</button>
-<button class="px-4 py-2 nt-card text-[var(--nt-dim)] outfit text-xs font-semibold rounded border border-[var(--nt-card-border)] cursor-not-allowed opacity-50">NEW TEAM</button>
+<button id="btn-assign-existing" class="px-4 py-2 bg-[#1F3448]/30 hover:nt-card text-[var(--nt-dim)] hover:text-[var(--nt-bright)] outfit text-xs font-semibold rounded transition-colors border border-[var(--nt-card-border)]">ASSIGN TO EXISTING</button>
 </div>
 </div>
 </section>
 <!-- RIGHT COLUMN: Detail Panel (30%) -->
 <aside class="w-[30%] h-full bg-[var(--nt-section-bg)] flex flex-col">
-<div class="p-5 flex-1 overflow-y-auto">
-<!-- Empty State / Placeholder for Detail -->
-<div class="h-full flex flex-col items-center justify-center text-center opacity-40">
+<div class="p-5 flex-1 overflow-y-auto" id="detail-panel">
+<!-- Empty State -->
+<div id="detail-empty" class="h-full flex flex-col items-center justify-center text-center opacity-40">
 <span class="material-symbols-outlined text-6xl mb-4 text-[var(--nt-dim)]">groups</span>
 <h2 class="barlow-800 text-xl font-bold text-[var(--nt-bright)] uppercase">NO TEAM SELECTED</h2>
 <p class="outfit text-sm text-[var(--nt-dim)] mt-2">Select a team from the list to view details, manage members, and reassign roles.</p>
 </div>
-<!-- 
-                (Commented out detail view for context if one was active)
-                <div class="mb-6">
-                    <h2 class="barlow-800 text-2xl font-bold text-[var(--nt-bright)] uppercase tracking-tight">RAPID_RESPONSE_01</h2>
-                    <p class="fira-code text-xs text-[var(--nt-dim)] mt-1">ID // TM-992-AX</p>
-                </div>
-                -->
+<!-- Detail view (hidden by default) -->
+<div id="detail-view" class="hidden space-y-6">
+  <div>
+    <h2 id="detail-team-name" class="barlow-800 text-2xl font-bold text-[var(--nt-bright)] uppercase tracking-tight"></h2>
+    <p id="detail-team-meta" class="fira-code text-xs text-[var(--nt-dim)] mt-1"></p>
+  </div>
+  <div class="grid grid-cols-2 gap-3">
+    <div class="nt-card p-3 rounded border border-[var(--nt-card-border)]">
+      <span class="outfit text-[10px] text-[var(--nt-dim)] uppercase block">ZONE</span>
+      <span id="detail-zone" class="barlow-800 text-xl text-[#F97316]"></span>
+    </div>
+    <div class="nt-card p-3 rounded border border-[var(--nt-card-border)]">
+      <span class="outfit text-[10px] text-[var(--nt-dim)] uppercase block">MEMBERS</span>
+      <span id="detail-member-count" class="barlow-800 text-xl text-[var(--nt-bright)]"></span>
+    </div>
+  </div>
+  <div>
+    <h3 class="barlow-800 text-sm text-[var(--nt-dim)] uppercase mb-3 border-b border-[var(--nt-card-border)] pb-2">TEAM MEMBERS</h3>
+    <div id="detail-members-list" class="space-y-2"></div>
+  </div>
+</div>
 </div>
 </aside>
 </main>
@@ -270,11 +207,26 @@
 <span>ENCRYPTION: AES-256</span>
 </div>
 <div class="flex gap-6">
-<span>TEAMS_ACTIVE: 12</span>
+<span id="footer-teams-active">TEAMS_ACTIVE: —</span>
 <span>N 40.7128 // W 74.0060</span>
 </div>
 </footer>
 
 <script src="../../js/app.js"></script>
 <script src="../../js/theme.js"></script>
+<script src="../../js/relief_center/teams.js"></script>
+
+<!-- Team Picker Modal -->
+<div id="team-picker-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-black/60 backdrop-blur-sm transition-all duration-300">
+  <div class="nt-card w-full max-w-md border border-[var(--nt-card-border)] rounded-lg overflow-hidden shadow-2xl scale-95 opacity-0 transition-all duration-300" id="team-picker-container">
+    <div class="px-6 py-4 border-b border-[var(--nt-card-border)] flex justify-between items-center bg-[var(--nt-section-bg)]">
+      <h2 class="barlow-800 text-xl font-bold text-[var(--nt-bright)] uppercase tracking-tight">SELECT TARGET TEAM</h2>
+      <button id="close-picker" class="material-symbols-outlined text-[var(--nt-dim)] hover:text-[#FF3B30] transition-colors">close</button>
+    </div>
+    <div class="p-6 max-h-[60vh] overflow-y-auto space-y-3" id="team-picker-list">
+      <!-- Teams injected by teams.js -->
+    </div>
+  </div>
+</div>
+
 </body></html>

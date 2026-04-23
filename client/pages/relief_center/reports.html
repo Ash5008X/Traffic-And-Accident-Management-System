@@ -24,9 +24,8 @@
 <nav class="h-16 flex items-center justify-between px-6 border-b" style="border-color: var(--nt-nav-border); background-color: var(--nt-nav-bg); position: sticky; top: 0; z-index: 50;">
   <!-- Brand -->
   <div class="flex items-center gap-4">
-    <div class="barlow-800 text-2xl flex tracking-tighter">
-      <span style="color: var(--nt-bright)">NEXUS</span>
-      <span class="text-[#F97316]">TRAFFIC</span>
+    <div class="nt-brand-logo">
+      <span style="color: var(--nt-bright)">NEXUS</span><span class="text-[#F97316]">TRAFFIC</span>
     </div>
   </div>
 
@@ -34,19 +33,17 @@
   <div class="hidden md:flex items-center gap-8">
     <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)"
        onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Dashboard</a>
+       href="relief_dashbaord.html">Dashboard</a>
     <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)"
        onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Active Incidents</a>
+       href="active_incident.html">Active Incidents</a>
     <a class="outfit font-medium transition-colors" 
        style="color: var(--nt-dim)" onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Alerts</a>
-    <a class="outfit font-semibold text-[#F97316] border-b-2 border-[#F97316] pb-1" 
-       
-       href="#">Reports</a>
+       href="alerts.html">Alerts</a>
+    <a class="outfit font-semibold text-[#F97316] border-b-2 border-[#F97316] pb-1" href="reports.html">Reports</a>
     <a class="outfit font-medium transition-colors" 
        style="color: var(--nt-dim)" onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
-       href="#">Teams</a>
+       href="teams.html">Teams</a>
   </div>
 
   <!-- Right meta -->
@@ -91,17 +88,17 @@
 <div class="space-y-4">
 <div>
 <label class="barlow-800 text-xs text-[var(--nt-dim)] uppercase mb-1 block">FROM DATE</label>
-<input class="w-full bg-[var(--nt-body-bg)] border border-[var(--nt-card-border)] text-[#F97316] fira-code text-sm py-2 rounded" type="text" value="2023_10_01"/>
+<input id="filter-from-date" class="w-full bg-[var(--nt-body-bg)] border border-[var(--nt-card-border)] text-[#F97316] fira-code text-sm py-2 rounded" type="date" />
 </div>
 <div>
 <label class="barlow-800 text-xs text-[var(--nt-dim)] uppercase mb-1 block">TO DATE</label>
-<input class="w-full bg-[var(--nt-body-bg)] border border-[var(--nt-card-border)] text-[#F97316] fira-code text-sm py-2 rounded" type="text" value="2023_10_28"/>
+<input id="filter-to-date" class="w-full bg-[var(--nt-body-bg)] border border-[var(--nt-card-border)] text-[#F97316] fira-code text-sm py-2 rounded" type="date" />
 </div>
-<div class="grid grid-cols-2 gap-2 mt-2">
-<button class="bg-[#1F3448]/30 py-2 text-[10px] barlow-800 text-[var(--nt-dim)] hover:bg-[#F97316] hover:text-white transition-all rounded">TODAY</button>
-<button class="bg-[#1F3448]/30 py-2 text-[10px] barlow-800 text-[var(--nt-dim)] hover:bg-[#F97316] hover:text-white transition-all rounded">7 DAYS</button>
-<button class="bg-[#F97316] text-white py-2 text-[10px] barlow-800 font-bold rounded">30 DAYS</button>
-<button class="bg-[#1F3448]/30 py-2 text-[10px] barlow-800 text-[var(--nt-dim)] hover:bg-[#F97316] hover:text-white transition-all rounded">ALL TIME</button>
+<div class="grid grid-cols-2 gap-2 mt-2" id="quick-dates">
+<button data-days="0" class="date-btn bg-[#1F3448]/30 py-2 text-[10px] barlow-800 text-[var(--nt-dim)] hover:bg-[#F97316] hover:text-white transition-all rounded">TODAY</button>
+<button data-days="7" class="date-btn bg-[#1F3448]/30 py-2 text-[10px] barlow-800 text-[var(--nt-dim)] hover:bg-[#F97316] hover:text-white transition-all rounded">7 DAYS</button>
+<button data-days="30" class="date-btn bg-[#F97316] text-white py-2 text-[10px] barlow-800 font-bold rounded">30 DAYS</button>
+<button data-days="all" class="date-btn bg-[#1F3448]/30 py-2 text-[10px] barlow-800 text-[var(--nt-dim)] hover:bg-[#F97316] hover:text-white transition-all rounded">ALL TIME</button>
 </div>
 </div>
 </div>
@@ -110,39 +107,39 @@
 <section>
 <h3 class="barlow-800 text-xs text-[var(--nt-dim)] uppercase mb-3 flex items-center gap-2">
 <span class="w-1 h-3 bg-[#FF3B30]"></span> SEVERITY
-                    </h3>
-<div class="flex flex-wrap gap-2">
-<button class="px-3 py-1 rounded-full bg-[#FF3B30]/20 text-[#FF3B30] text-[10px] font-bold border border-[#FF3B30]/40 uppercase">Critical</button>
-<button class="px-3 py-1 rounded-full bg-[#FF6B35]/20 text-[#FF6B35] text-[10px] font-bold border border-[#FF6B35]/40 uppercase">High</button>
-<button class="px-3 py-1 rounded-full bg-[#1F3448]/30 text-[var(--nt-dim)] text-[10px] font-bold uppercase">Medium</button>
-<button class="px-3 py-1 rounded-full bg-[#1F3448]/30 text-[var(--nt-dim)] text-[10px] font-bold uppercase">Low</button>
+</h3>
+<div class="flex flex-wrap gap-2" id="filter-severity">
+<button data-val="critical" class="filter-btn active px-3 py-1 rounded-full bg-[#FF3B30]/20 text-[#FF3B30] text-[10px] font-bold border border-[#FF3B30]/40 uppercase">Critical</button>
+<button data-val="high" class="filter-btn active px-3 py-1 rounded-full bg-[#FF6B35]/20 text-[#FF6B35] text-[10px] font-bold border border-[#FF6B35]/40 uppercase">High</button>
+<button data-val="medium" class="filter-btn active px-3 py-1 rounded-full bg-[#FFB830]/20 text-[#FFB830] text-[10px] font-bold border border-[#FFB830]/40 uppercase">Medium</button>
+<button data-val="low" class="filter-btn active px-3 py-1 rounded-full bg-[#34C759]/20 text-[#34C759] text-[10px] font-bold border border-[#34C759]/40 uppercase">Low</button>
 </div>
 </section>
 <section>
 <h3 class="barlow-800 text-xs text-[var(--nt-dim)] uppercase mb-3 flex items-center gap-2">
 <span class="w-1 h-3 bg-[#F97316]"></span> STATUS
-                    </h3>
-<div class="flex flex-wrap gap-2">
-<button class="px-3 py-1 rounded-full bg-[#F97316]/20 text-[#F97316] text-[10px] font-bold border border-[#F97316]/40 uppercase">Resolved</button>
-<button class="px-3 py-1 rounded-full bg-[#1F3448]/30 text-[var(--nt-dim)] text-[10px] font-bold uppercase">Pending</button>
-<button class="px-3 py-1 rounded-full bg-[#1F3448]/30 text-[var(--nt-dim)] text-[10px] font-bold uppercase">Dismissed</button>
+</h3>
+<div class="flex flex-wrap gap-2" id="filter-status">
+<button data-val="resolved" class="filter-btn active px-3 py-1 rounded-full bg-[#F97316]/20 text-[#F97316] text-[10px] font-bold border border-[#F97316]/40 uppercase">Resolved</button>
+<button data-val="pending" class="filter-btn active px-3 py-1 rounded-full bg-[#F97316]/20 text-[#F97316] text-[10px] font-bold border border-[#F97316]/40 uppercase">Pending</button>
+<button data-val="dismissed" class="filter-btn active px-3 py-1 rounded-full bg-[#F97316]/20 text-[#F97316] text-[10px] font-bold border border-[#F97316]/40 uppercase">Dismissed</button>
 </div>
 </section>
 <section>
 <h3 class="barlow-800 text-xs text-[var(--nt-dim)] uppercase mb-3 flex items-center gap-2">
 <span class="w-1 h-3 bg-[#BF5AF2]"></span> TYPE
-                    </h3>
-<div class="flex flex-wrap gap-2">
-<button class="px-3 py-1 rounded-full bg-[#1F3448]/30 text-[var(--nt-dim)] text-[10px] font-bold uppercase">Accident</button>
-<button class="px-3 py-1 rounded-full bg-[#BF5AF2]/20 text-[#BF5AF2] text-[10px] font-bold border border-[#BF5AF2]/40 uppercase">Medical</button>
-<button class="px-3 py-1 rounded-full bg-[#1F3448]/30 text-[var(--nt-dim)] text-[10px] font-bold uppercase">Congestion</button>
-<button class="px-3 py-1 rounded-full bg-[#1F3448]/30 text-[var(--nt-dim)] text-[10px] font-bold uppercase">Maintenance</button>
+</h3>
+<div class="flex flex-wrap gap-2" id="filter-type">
+<button data-val="accident" class="filter-btn active px-3 py-1 rounded-full bg-[#BF5AF2]/20 text-[#BF5AF2] text-[10px] font-bold border border-[#BF5AF2]/40 uppercase">Accident</button>
+<button data-val="medical" class="filter-btn active px-3 py-1 rounded-full bg-[#BF5AF2]/20 text-[#BF5AF2] text-[10px] font-bold border border-[#BF5AF2]/40 uppercase">Medical</button>
+<button data-val="congestion" class="filter-btn active px-3 py-1 rounded-full bg-[#BF5AF2]/20 text-[#BF5AF2] text-[10px] font-bold border border-[#BF5AF2]/40 uppercase">Congestion</button>
+<button data-val="maintenance" class="filter-btn active px-3 py-1 rounded-full bg-[#BF5AF2]/20 text-[#BF5AF2] text-[10px] font-bold border border-[#BF5AF2]/40 uppercase">Maintenance</button>
 </div>
 </section>
 </div>
 <!-- Primary Action -->
 <div class="mt-8 pt-6 border-t border-[var(--nt-card-border)]">
-<button class="w-full bg-[#F97316] hover:opacity-95 text-white barlow-800 font-bold text-lg py-3 rounded transition-all transform active:scale-[0.98]">
+<button id="btn-generate-report" class="w-full bg-[#F97316] hover:opacity-95 text-white barlow-800 font-bold text-lg py-3 rounded transition-all transform active:scale-[0.98]">
                     GENERATE REPORT
                 </button>
 </div>
@@ -150,15 +147,15 @@
 <div class="mt-6 nt-card p-4 rounded border border-[var(--nt-card-border)]">
 <h3 class="barlow-800 text-xs text-[var(--nt-dim)] uppercase mb-3">EXPORT SYSTEM</h3>
 <div class="grid grid-cols-3 gap-2">
-<button class="flex flex-col items-center gap-1 p-2 hover:bg-[#1F3448]/30 transition-colors rounded">
+<button id="btn-export-pdf" class="flex flex-col items-center gap-1 p-2 hover:bg-[#1F3448]/30 transition-colors rounded">
 <span class="material-symbols-outlined text-[#FF3B30]">picture_as_pdf</span>
 <span class="barlow-800 text-[10px] font-bold">PDF</span>
 </button>
-<button class="flex flex-col items-center gap-1 p-2 hover:bg-[#1F3448]/30 transition-colors rounded">
+<button id="btn-export-csv" class="flex flex-col items-center gap-1 p-2 hover:bg-[#1F3448]/30 transition-colors rounded">
 <span class="material-symbols-outlined text-[#F97316]">csv</span>
 <span class="barlow-800 text-[10px] font-bold">CSV</span>
 </button>
-<button class="flex flex-col items-center gap-1 p-2 hover:bg-[#1F3448]/30 transition-colors rounded">
+<button id="btn-export-excel" class="flex flex-col items-center gap-1 p-2 hover:bg-[#1F3448]/30 transition-colors rounded">
 <span class="material-symbols-outlined text-[#FFB830]">table</span>
 <span class="barlow-800 text-[10px] font-bold">EXCEL</span>
 </button>
@@ -171,8 +168,8 @@
 <div>
 <h1 class="barlow-800 font-extrabold text-4xl tracking-tighter uppercase text-[var(--nt-bright)] leading-none">INCIDENT SUMMARY</h1>
 <div class="flex items-center gap-3 mt-2">
-<span class="bg-[#F97316]/20 text-[#F97316] fira-code text-xs px-2 py-0.5 rounded border border-[#F97316]/20">1,247 RECORDS FOUND</span>
-<span class="text-[var(--nt-dim)] fira-code text-[10px]">OCT 01 — OCT 28, 2023</span>
+<span class="bg-[#F97316]/20 text-[#F97316] fira-code text-xs px-2 py-0.5 rounded border border-[#F97316]/20" id="records-found-badge">0 RECORDS FOUND</span>
+<span class="text-[var(--nt-dim)] fira-code text-[10px]" id="date-range-badge">OCT 01 — OCT 28, 2023</span>
 </div>
 </div>
 </div>
@@ -180,216 +177,66 @@
 <div class="grid grid-cols-4 gap-4 mb-8">
 <div class="nt-card p-4 border-l-4 border-[#FF6B35] rounded-r border border-[var(--nt-card-border)]">
 <div class="text-[var(--nt-dim)] barlow-800 text-[10px] uppercase mb-1">TOTAL INCIDENTS</div>
-<div class="text-3xl barlow-800 font-extrabold text-[#FF6B35]">1,247</div>
+<div class="text-3xl barlow-800 font-extrabold text-[#FF6B35]" id="stat-total-incidents">0</div>
 </div>
 <div class="nt-card p-4 border-l-4 border-[#F97316] rounded-r border border-[var(--nt-card-border)]">
 <div class="text-[var(--nt-dim)] barlow-800 text-[10px] uppercase mb-1">RESOLVED</div>
-<div class="text-3xl barlow-800 font-extrabold text-[#F97316]">1,182</div>
+<div class="text-3xl barlow-800 font-extrabold text-[#F97316]" id="stat-resolved">0</div>
 </div>
 <div class="nt-card p-4 border-l-4 border-[#FFB830] rounded-r border border-[var(--nt-card-border)]">
 <div class="text-[var(--nt-dim)] barlow-800 text-[10px] uppercase mb-1">AVG RESPONSE</div>
-<div class="text-3xl barlow-800 font-extrabold text-[#FFB830]">4.2<span class="text-xs ml-1">MIN</span></div>
+<div class="text-3xl barlow-800 font-extrabold text-[#FFB830]"><span id="stat-avg-response">0</span><span class="text-xs ml-1">MIN</span></div>
 </div>
 <div class="nt-card p-4 border-l-4 border-[#FF3B30] rounded-r border border-[var(--nt-card-border)]">
-<div class="text-[var(--nt-dim)] barlow-800 text-[10px] uppercase mb-1">ESCALATED</div>
-<div class="text-3xl barlow-800 font-extrabold text-[#FF3B30]">31</div>
+<div class="text-[var(--nt-dim)] barlow-800 text-[10px] uppercase mb-1">DISMISSED</div>
+<div class="text-3xl barlow-800 font-extrabold text-[#FF3B30]" id="stat-dismissed">0</div>
 </div>
 </div>
 <!-- Incident Timeline -->
 <div class="mb-10">
 <h2 class="barlow-800 font-bold text-lg tracking-tight mb-6 uppercase border-b border-[var(--nt-card-border)] pb-2">INCIDENT TIMELINE // LIVE_FEED</h2>
-<div class="space-y-6 relative ml-4 border-l border-[var(--nt-card-border)]">
-<!-- Timeline Item -->
-<div class="relative pl-8">
-<div class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-[#FF3B30] ring-4 ring-alert-critical/20"></div>
-<div class="flex justify-between items-start">
-<div>
-<h4 class="barlow-800 font-bold text-[var(--nt-bright)] uppercase tracking-tight">MULTI-VEHICLE PILEUP // SECTOR_04</h4>
-<p class="text-[var(--nt-dim)] text-xs mt-1">Interstate 95 - Southbound Mile Marker 124</p>
-</div>
-<span class="fira-code text-[10px] text-[var(--nt-dim)]">14:12:00</span>
-</div>
-</div>
-<!-- Timeline Item -->
-<div class="relative pl-8">
-<div class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-[#FF6B35] ring-4 ring-alert-high/20"></div>
-<div class="flex justify-between items-start">
-<div>
-<h4 class="barlow-800 font-bold text-[var(--nt-bright)] uppercase tracking-tight">STALLED CAR // TUNNEL_01_WEST</h4>
-<p class="text-[var(--nt-dim)] text-xs mt-1">Right lane blocked, heavy congestion buildup</p>
-</div>
-<span class="fira-code text-[10px] text-[var(--nt-dim)]">13:55:12</span>
-</div>
-</div>
-<!-- Timeline Item -->
-<div class="relative pl-8 opacity-60">
-<div class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-[#34C759] ring-4 ring-alert-active/20"></div>
-<div class="flex justify-between items-start">
-<div>
-<h4 class="barlow-800 font-bold text-[var(--nt-bright)] uppercase tracking-tight">RESOLVED: ROAD WORK // SECTOR_09</h4>
-<p class="text-[var(--nt-dim)] text-xs mt-1">Paving completed, all lanes reopened to traffic</p>
-</div>
-<span class="fira-code text-[10px] text-[var(--nt-dim)]">13:40:45</span>
-</div>
-</div>
+<div class="space-y-6 relative ml-4 border-l border-[var(--nt-card-border)]" id="incident-timeline">
 </div>
 </div>
 <!-- Severity Breakdown Chart Mockup -->
 <div>
 <h2 class="barlow-800 font-bold text-lg tracking-tight mb-4 uppercase">SEVERITY BREAKDOWN</h2>
 <div class="nt-card p-6 rounded border border-[var(--nt-card-border)]">
-<div class="flex h-12 w-full rounded-lg overflow-hidden mb-6">
-<div class="h-full bg-[#FF3B30] flex items-center justify-center barlow-800 font-bold text-xs" style="width: 15%">15%</div>
-<div class="h-full bg-[#FF6B35] flex items-center justify-center barlow-800 font-bold text-xs" style="width: 25%">25%</div>
-<div class="h-full bg-[#FFB830] flex items-center justify-center barlow-800 font-bold text-xs" style="width: 40%">40%</div>
-<div class="h-full bg-[#34C759] flex items-center justify-center barlow-800 font-bold text-xs" style="width: 20%">20%</div>
+<div class="flex h-12 w-full rounded-lg overflow-hidden mb-6" id="severity-bar">
 </div>
 <div class="grid grid-cols-4 gap-4">
 <div class="flex items-center gap-2">
 <span class="w-3 h-3 rounded-sm bg-[#FF3B30]"></span>
-<span class="barlow-800 text-[10px] text-[var(--nt-dim)] uppercase">CRITICAL</span>
+<span class="barlow-800 text-[10px] text-[var(--nt-dim)] uppercase">CRITICAL (<span id="sev-count-critical">0</span>)</span>
 </div>
 <div class="flex items-center gap-2">
 <span class="w-3 h-3 rounded-sm bg-[#FF6B35]"></span>
-<span class="barlow-800 text-[10px] text-[var(--nt-dim)] uppercase">HIGH</span>
+<span class="barlow-800 text-[10px] text-[var(--nt-dim)] uppercase">HIGH (<span id="sev-count-high">0</span>)</span>
 </div>
 <div class="flex items-center gap-2">
 <span class="w-3 h-3 rounded-sm bg-[#FFB830]"></span>
-<span class="barlow-800 text-[10px] text-[var(--nt-dim)] uppercase">MEDIUM</span>
+<span class="barlow-800 text-[10px] text-[var(--nt-dim)] uppercase">MEDIUM (<span id="sev-count-medium">0</span>)</span>
 </div>
 <div class="flex items-center gap-2">
 <span class="w-3 h-3 rounded-sm bg-[#34C759]"></span>
-<span class="barlow-800 text-[10px] text-[var(--nt-dim)] uppercase">LOW</span>
+<span class="barlow-800 text-[10px] text-[var(--nt-dim)] uppercase">LOW (<span id="sev-count-low">0</span>)</span>
 </div>
 </div>
 </div>
 </div>
 </section>
-<!-- COLUMN 3: LEADERBOARD & TRENDS (30%) -->
+<!-- COLUMN 3: TRENDS (30%) -->
 <aside class="w-[30%] border-l border-[var(--nt-card-border)] bg-[var(--nt-section-bg)] p-6 overflow-y-auto no-scrollbar">
-<!-- Team Performance -->
-<div class="mb-8">
-<h2 class="barlow-800 font-bold text-lg tracking-tight mb-6 uppercase flex justify-between items-center">
-                    TEAM PERFORMANCE
-                    <span class="fira-code text-[10px] text-[var(--nt-dim)]">UNIT_RATING</span>
-</h2>
-<div class="space-y-3">
-<!-- Leaderboard Item -->
-<div class="nt-card p-3 rounded flex items-center gap-4 border border-[var(--nt-card-border)]">
-<span class="barlow-800 font-bold text-[#F97316] text-xl">01</span>
-<img class="w-10 h-10 rounded object-cover grayscale brightness-110" data-alt="portrait of professional dispatch officer with headset in high-tech traffic operations center ambient blue lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUMKWnNaVXnId-xnw9M297-PtG6EVJLiXvc_Kbr_S-woKvwgcc--eXw8KkfFap8v6P5pqqNa3TAlITDZs6FlRDlvwzFLMYopsclQEFIkowoEfzMUst9UWpNg6dyILENoW52Jp9uJLwOu6H_Ui6QlGLk7m-rx4RRox-osM6XzGs9_0uaPXoLQbDjwoPq3hTdqaa1O0qCO6HFkqwrzkBDPOq_S8iuUrZkoSPZMeQVKuiu2zcQfLAYKM6N_LJihXnhDWk1hiKI_WJkcU"/>
-<div class="flex-1">
-<div class="flex justify-between">
-<span class="barlow-800 font-bold text-sm">ELARA VANCE</span>
-<span class="fira-code text-[10px] text-[var(--nt-dim)]">UNIT_08X</span>
-</div>
-<div class="flex justify-between items-center mt-1">
-<div class="flex gap-1">
-<span class="w-8 h-1.5 bg-[#F97316] rounded-full"></span>
-<span class="w-8 h-1.5 bg-[#F97316] rounded-full"></span>
-<span class="w-8 h-1.5 bg-[#F97316] rounded-full"></span>
-<span class="w-8 h-1.5 bg-[#1F3448]/30 rounded-full"></span>
-</div>
-<span class="fira-code text-[10px] text-[var(--nt-bright)]">142 INCIDENTS</span>
-</div>
-</div>
-</div>
-<!-- Leaderboard Item -->
-<div class="nt-card p-3 rounded flex items-center gap-4 border border-[var(--nt-card-border)]">
-<span class="barlow-800 font-bold text-[var(--nt-dim)] text-xl">02</span>
-<img class="w-10 h-10 rounded object-cover grayscale brightness-110" data-alt="headshot of experienced male incident commander looking focused in dark command center with digital displays" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY2dHq1-d635PC9MMqWRBHtWm0E7YvpoijLpNrqYL2WLsV0b64oj4cVBgOnwQjVRU6TVIhsnzkvDLkbh-SC0u_Cp4M2SdoJ5rJOJCUd0Vwp9YF6wYKSn3YOLc3dI-vJ2qAg1GnsawRBAXO5cgrYsycnD77-Ipbbhd2B6tVJM9E88njSy3ml9VadYti-ygerIUIm9odkg4ail2nN_Xi9ZboU4Co4PH3b6Nc2UnI-dUzA4Wp4l4-ki2JU7rQP1J7vXP9rmxpcvo1g2E"/>
-<div class="flex-1">
-<div class="flex justify-between">
-<span class="barlow-800 font-bold text-sm">MARCUS REED</span>
-<span class="fira-code text-[10px] text-[var(--nt-dim)]">UNIT_12A</span>
-</div>
-<div class="flex justify-between items-center mt-1">
-<div class="flex gap-1">
-<span class="w-8 h-1.5 bg-[#F97316] rounded-full"></span>
-<span class="w-8 h-1.5 bg-[#F97316] rounded-full"></span>
-<span class="w-8 h-1.5 bg-[#1F3448]/30 rounded-full"></span>
-<span class="w-8 h-1.5 bg-[#1F3448]/30 rounded-full"></span>
-</div>
-<span class="fira-code text-[10px] text-[var(--nt-bright)]">128 INCIDENTS</span>
-</div>
-</div>
-</div>
-</div>
-</div>
 <!-- Weekly Trend -->
 <div class="mb-8">
 <h2 class="barlow-800 font-bold text-lg tracking-tight mb-4 uppercase">WEEKLY TREND</h2>
-<div class="nt-card p-4 rounded h-40 flex items-end justify-between gap-2 border border-[var(--nt-card-border)]">
-<!-- Bar Chart Visual Mockup -->
-<div class="flex-1 flex flex-col gap-0.5">
-<div class="bg-[#FF3B30] h-4 w-full opacity-60"></div>
-<div class="bg-[#FF6B35] h-12 w-full"></div>
-<div class="bg-[#FFB830] h-10 w-full"></div>
-<span class="fira-code text-[8px] text-center mt-1 text-[var(--nt-dim)]">MON</span>
-</div>
-<div class="flex-1 flex flex-col gap-0.5">
-<div class="bg-[#FF3B30] h-6 w-full opacity-60"></div>
-<div class="bg-[#FF6B35] h-8 w-full"></div>
-<div class="bg-[#FFB830] h-16 w-full"></div>
-<span class="fira-code text-[8px] text-center mt-1 text-[var(--nt-dim)]">TUE</span>
-</div>
-<div class="flex-1 flex flex-col gap-0.5">
-<div class="bg-[#FF3B30] h-2 w-full opacity-60"></div>
-<div class="bg-[#FF6B35] h-14 w-full"></div>
-<div class="bg-[#FFB830] h-12 w-full"></div>
-<span class="fira-code text-[8px] text-center mt-1 text-[var(--nt-dim)]">WED</span>
-</div>
-<div class="flex-1 flex flex-col gap-0.5">
-<div class="bg-[#FF3B30] h-10 w-full opacity-60"></div>
-<div class="bg-[#FF6B35] h-10 w-full"></div>
-<div class="bg-[#FFB830] h-10 w-full"></div>
-<span class="fira-code text-[8px] text-center mt-1 text-[var(--nt-dim)]">THU</span>
-</div>
-<div class="flex-1 flex flex-col gap-0.5">
-<div class="bg-[#FF3B30] h-5 w-full opacity-60"></div>
-<div class="bg-[#FF6B35] h-18 w-full"></div>
-<div class="bg-[#FFB830] h-8 w-full"></div>
-<span class="fira-code text-[8px] text-center mt-1 text-[var(--nt-dim)]">FRI</span>
-</div>
-<div class="flex-1 flex flex-col gap-0.5">
-<div class="bg-[#FF3B30] h-2 w-full opacity-60"></div>
-<div class="bg-[#FF6B35] h-4 w-full"></div>
-<div class="bg-[#FFB830] h-6 w-full"></div>
-<span class="fira-code text-[8px] text-center mt-1 text-[var(--nt-dim)]">SAT</span>
-</div>
-<div class="flex-1 flex flex-col gap-0.5">
-<div class="bg-[#FF3B30] h-1 w-full opacity-60"></div>
-<div class="bg-[#FF6B35] h-2 w-full"></div>
-<div class="bg-[#FFB830] h-4 w-full"></div>
-<span class="fira-code text-[8px] text-center mt-1 text-[var(--nt-dim)]">SUN</span>
-</div>
+<div class="nt-card p-4 rounded h-40 flex items-end justify-between gap-2 border border-[var(--nt-card-border)]" id="weekly-trend">
 </div>
 </div>
 <!-- Zone Report -->
 <div>
 <h2 class="barlow-800 font-bold text-lg tracking-tight mb-4 uppercase">ZONE REPORT</h2>
-<div class="space-y-2">
-<div class="flex items-center justify-between p-3 nt-card border-l-4 border-[#FF3B30] border border-[var(--nt-card-border)]">
-<div>
-<span class="barlow-800 font-bold text-xs uppercase">ZONE_ALPHA_CORE</span>
-<div class="fira-code text-[10px] text-[var(--nt-dim)]">HIGH_DENSITY // CRITICAL</div>
-</div>
-<span class="barlow-800 font-extrabold text-xl text-[#FF3B30]">42</span>
-</div>
-<div class="flex items-center justify-between p-3 nt-card border-l-4 border-[#FF6B35] border border-[var(--nt-card-border)]">
-<div>
-<span class="barlow-800 font-bold text-xs uppercase">ZONE_BETA_EXP</span>
-<div class="fira-code text-[10px] text-[var(--nt-dim)]">MED_DENSITY // MONITORING</div>
-</div>
-<span class="barlow-800 font-extrabold text-xl text-[#FF6B35]">28</span>
-</div>
-<div class="flex items-center justify-between p-3 nt-card border-l-4 border-[#34C759] border border-[var(--nt-card-border)]">
-<div>
-<span class="barlow-800 font-bold text-xs uppercase">ZONE_GAMMA_ST</span>
-<div class="fira-code text-[10px] text-[var(--nt-dim)]">LOW_DENSITY // CLEAR</div>
-</div>
-<span class="barlow-800 font-extrabold text-xl text-[#34C759]">12</span>
-</div>
+<div class="space-y-2" id="zone-report">
 </div>
 </div>
 </aside>
@@ -412,4 +259,5 @@
 
 <script src="../../js/app.js"></script>
 <script src="../../js/theme.js"></script>
+<script src="../../js/relief_center/reports.js"></script>
 </body></html>

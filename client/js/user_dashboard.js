@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const activeReportDesc = document.getElementById('active-report-desc');
   const nearbyAlertsList = document.getElementById('nearby-alerts-list');
 
-  // Mock User Location (Sector 01 - Los Angeles Metro)
-  const USER_LOCATION = { lat: 34.053, lng: -118.241 };
+  // Real user location — loaded from /api/auth/me on boot
+  let USER_LOCATION = null;
   
   // Helpers
   const getToken = () => {
@@ -68,7 +68,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === modalOverlay) closeModal();
   });
 
-  // 2. Fetch User Data
+  // 2a. Load the real user location from the profile endpoint
+  const loadUserLocation = async () => {
+    try {
+      const res = await fetch('/api/auth/me', {
+        headers: { 'Authorization': `Bearer ${getToken()}` }
+      });
+      if (!res.ok) throw new Error('Failed to fetch user profile');
+      const profile = await res.json();
+      if (profile.location && profile.location.lat != null && profile.location.lng != null) {
+        USER_LOCATION = { lat: profile.location.lat, lng: profile.location.lng };
+      } else {
+        // Fallback: use browser geolocation or a safe default
+        USER_LOCATION = { lat: 0, lng: 0 };
+        console.warn('User location not set in profile — using (0,0) as fallback');
+      }
+    } catch (err) {
+      console.error('Error loading user location:', err);
+      USER_LOCATION = { lat: 0, lng: 0 };
+    }
+  };
+
+  // 2b. Fetch User Data
   const loadUserData = async () => {
     try {
       const res = await fetch('/api/incidents?reportedBy=me', {
@@ -165,10 +186,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // 3. Fetch Nearby Alerts
   const loadNearbyAlerts = async () => {
     try {
-      const res = await fetch(`/api/incidents/nearby?lat=${USER_LOCATION.lat}&lng=${USER_LOCATION.lng}&radius=2`, {
+      const res = await fetch(`/api/incidents/nearby?lat=${USER_LOCATION.lat}&lng=${USER_LOCATION.lng}&radius=50`, {
         headers: { 'Authorization': `Bearer ${getToken()}` }
       });
       if (!res.ok) throw new Error('Failed to fetch nearby alerts');
@@ -216,12 +236,19 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.innerHTML = '<span class="material-symbols-outlined">sync</span> Submitting...';
     submitBtn.disabled = true;
 
+    if (!USER_LOCATION || (USER_LOCATION.lat === 0 && USER_LOCATION.lng === 0)) {
+      alert('Your location is not configured. Please contact support.');
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+      return;
+    }
+
     const data = {
       type: document.getElementById('report-type').value,
       severity: document.getElementById('report-severity').value,
       location: {
         address: document.getElementById('report-location').value,
-        lat: USER_LOCATION.lat, // Use mock location for now
+        lat: USER_LOCATION.lat,
         lng: USER_LOCATION.lng
       },
       description: document.getElementById('report-description').value
@@ -253,7 +280,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Init
-  loadUserData();
-  loadNearbyAlerts();
+  // Init — load real location first, then all data
+  loadUserLocation().then(() => {
+    loadUserData();
+    loadNearbyAlerts();
+  });
 });

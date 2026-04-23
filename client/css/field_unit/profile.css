@@ -75,15 +75,15 @@ html, body {
      ═══════════════════════════════════════════════════════ */
   [data-theme="dark"] {
     --bg:              #000000;
-    --surface:         #141417;
-    --surface-2:       #1C1C21;
-    --surface-3:       #242429;
-    --border:          #28282F;
-    --border-subtle:   #1E1E24;
+    --surface:         #0D1B2A;
+    --surface-2:       #162534;
+    --surface-3:       #1B2D3E;
+    --border:          #1F3448;
+    --border-subtle:   #0f1c2c;
 
-    --text-primary:    #F2F2F5;
-    --text-secondary:  #9999AB;
-    --text-muted:      #55556A;
+    --text-primary:    #D6E4F9;
+    --text-secondary:  #8AABB8;
+    --text-muted:      #5A7A8E;
 
     --accent-subtle:   rgba(249,115,22,0.09);
     --accent-border:   rgba(249,115,22,0.22);
@@ -166,7 +166,7 @@ html, body {
   }
 
   [data-theme="dark"] .navbar {
-    background: rgba(20,20,23,0.85);
+    background: rgba(22, 37, 52, 0.92);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
@@ -206,8 +206,11 @@ html, body {
     transition: color var(--t-fast), background var(--t-fast);
   }
 
-  .nav-link:hover { color: var(--text-primary); background: var(--surface-2); }
-  .nav-link.active { color: var(--text-primary); font-weight: 600; background: var(--surface-2); }
+  .nav-link:hover { color: var(--text-primary); background: var(--surface-3); }
+  .nav-link.active {
+    color: var(--accent); font-weight: 600;
+    border-bottom: 2px solid var(--accent); padding-bottom: 3px;
+  }
 
   .navbar-right { display: flex; align-items: center; gap: 6px; }
 

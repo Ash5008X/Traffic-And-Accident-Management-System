@@ -18,6 +18,9 @@ const alertModel = {
       radius: data.radius || 5,
       severity: data.severity || 'medium',
       broadcastBy: new ObjectId(data.broadcastBy),
+      // Optional: target a specific user (for incident chat notifications)
+      targetUser: data.targetUser ? new ObjectId(data.targetUser) : null,
+      incidentId: data.incidentId ? new ObjectId(data.incidentId) : null,
       usersReached: data.usersReached || 0,
       active: true,
       scheduledFor: data.scheduledFor ? new Date(data.scheduledFor) : null,
@@ -35,6 +38,14 @@ const alertModel = {
   async findHistory() {
     const db = getDB();
     return db.collection(COLLECTION).find({}).sort({ createdAt: -1 }).toArray();
+  },
+
+  async findByUser(userId) {
+    const db = getDB();
+    return db.collection(COLLECTION)
+      .find({ targetUser: new ObjectId(userId) })
+      .sort({ createdAt: -1 })
+      .toArray();
   },
 
   async cancel(id) {

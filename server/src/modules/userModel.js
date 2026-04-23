@@ -49,6 +49,11 @@ const userModel = {
       { $set: data },
       { returnDocument: 'after' }
     );
+  },
+
+  async countUsers() {
+    const db = getDB();
+    return db.collection(COLLECTION).countDocuments({ role: 'user' });
   }
 };
 

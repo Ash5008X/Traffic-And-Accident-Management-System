@@ -272,14 +272,47 @@ html, body {
     text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px; display: block;
   }
 
-  .sort-select {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 12px; background: var(--surface);
-    border: 1px solid var(--border); border-radius: var(--radius);
-    cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-primary);
-    transition: border-color var(--t-fast), background var(--t-slow);
+  .sort-select-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
   }
-  .sort-select:hover { border-color: var(--accent); }
+
+  .sort-select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 10px 36px 10px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--font-body);
+    font-size: 13px; font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    outline: none;
+    transition: border-color var(--t-fast), background var(--t-slow), box-shadow var(--t-fast);
+  }
+  .sort-select:hover  { border-color: var(--accent); }
+  .sort-select:focus  { border-color: var(--accent); box-shadow: var(--focus-ring); }
+
+  .sort-select option {
+    background: var(--surface);
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  /* Custom chevron icon — pointer-events:none so clicks pass through to select */
+  .sort-arrow {
+    position: absolute;
+    right: 10px;
+    font-size: 16px !important;
+    color: var(--text-muted);
+    pointer-events: none;
+    transition: color var(--t-fast);
+  }
+  .sort-select-wrap:hover .sort-arrow,
+  .sort-select:focus ~ .sort-arrow { color: var(--accent); }
 
   /* Duty summary */
   .duty-card {

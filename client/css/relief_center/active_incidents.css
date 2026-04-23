@@ -73,6 +73,7 @@ html, body {
     --nt-scroll-tmb:  #C5D0DC;
     --nt-glass:       rgba(240,244,248,0.85);
     --nt-section-bg:  #F5F7FA;
+    --nt-center-bg:   #FFFFFF;
   }
 
   /* ═══════════════════════════════════════════════════════
@@ -124,6 +125,7 @@ html, body {
     --nt-scroll-tmb:  #283646;
     --nt-glass:       rgba(22,37,52,0.9);
     --nt-section-bg:  #061423;
+    --nt-center-bg:   #000000;
   }
 
   /* ═══════════════════════════════════════════════════════
@@ -138,11 +140,25 @@ html, body {
     transition: background-color var(--t-slow), color var(--t-slow);
   }
 
+  .nt-brand-logo {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.05em;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
   /* ─── NAV ─────────────────────────────── */
   nav {
     background-color: var(--nt-glass) !important;
     border-color: color-mix(in srgb, var(--nt-card-border) 40%, transparent) !important;
     transition: background-color var(--t-slow), border-color var(--t-slow);
+    position: sticky;
+    top: 0;
+    z-index: 50;
   }
   [data-theme="dark"] nav {
     backdrop-filter: blur(12px);
@@ -151,14 +167,14 @@ html, body {
 
   /* ─── ASIDE PANELS ───────────────────── */
   aside {
-    background-color: var(--nt-body-bg) !important;
+    background-color: var(--nt-section-bg) !important;
     border-color: color-mix(in srgb, var(--nt-card-border) 40%, transparent) !important;
     transition: background-color var(--t-slow), border-color var(--t-slow);
   }
 
   /* ─── CENTER SECTION ─────────────────── */
-  .center-section {
-    background-color: var(--nt-section-bg) !important;
+  section, .center-section {
+    background-color: var(--nt-center-bg) !important;
     transition: background-color var(--t-slow);
   }
 
