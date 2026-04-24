@@ -59,7 +59,7 @@ const alertController = {
    */
   async sendIncidentNotification(req, res) {
     try {
-      const { incidentId, message } = req.body;
+      const { incidentId, message, skipChat } = req.body;
       if (!incidentId || !message) {
         return res.status(400).json({ error: 'incidentId and message are required' });
       }
@@ -69,12 +69,14 @@ const alertController = {
 
       const targetUserId = incident.reportedBy?.toString();
 
-      // 1. Store chat message on the incident
-      await incidentModel.addChat(incidentId, {
-        message,
-        senderRole: 'relief_admin',
-        senderId: req.user.id
-      });
+      // 1. Store chat message on the incident (optional)
+      if (!skipChat) {
+        await incidentModel.addChat(incidentId, {
+          message,
+          senderRole: 'relief_admin',
+          senderId: req.user.id
+        });
+      }
 
       // 2. Create a targeted alert notification for the reporter
       const alert = await alertModel.create({
@@ -86,15 +88,18 @@ const alertController = {
         incidentId
       });
 
-      // 3. Emit socket event to user's room if connected
+      // 3. Emit socket events
       if (req.app.get('io')) {
         req.app.get('io').to(`user:${targetUserId}`).emit('alert:personal', alert);
-        req.app.get('io').to(`incident:${incidentId}`).emit('chat:message', {
-          incidentId,
-          message,
-          senderRole: 'relief_admin',
-          timestamp: new Date()
-        });
+        
+        if (!skipChat) {
+          req.app.get('io').to(`incident:${incidentId}`).emit('chat:message', {
+            incidentId,
+            message,
+            senderRole: 'relief_admin',
+            timestamp: new Date()
+          });
+        }
       }
 
       res.status(201).json({ success: true, alert });

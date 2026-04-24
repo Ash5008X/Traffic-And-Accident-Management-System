@@ -118,10 +118,13 @@ html, body {
     --teal-border:     rgba(46,196,182,0.22);
     --teal-fg:         #4fdbcc;
 
-    --shadow-xs: 0 1px 2px rgba(0,0,0,0.3);
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.25);
-    --shadow-md: 0 4px 8px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
     --shadow-lg: 0 12px 24px rgba(0,0,0,0.5), 0 4px 8px rgba(0,0,0,0.3);
+
+    --nt-nav-bg:      #162534;
+    --nt-nav-border:  #1F3448;
+    --nt-card2:       #243547;
+    --nt-dim:         #5A7A8E;
+    --nt-bright:      #F0F4F8;
   }
 
   /* ═══════════════════════════════════════════════════
@@ -141,6 +144,17 @@ html, body {
     /* SCROLL FIX: no overflow-hidden, natural scroll */
     display: flex;
     flex-direction: column;
+  }
+
+  .nt-brand-logo {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.05em;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    line-height: 1;
   }
 
   a { text-decoration: none; color: inherit; }
@@ -773,3 +787,19 @@ html, body {
   }
 
   .footer-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+
+  /* Tactical Zone Hover Effects */
+  .zone-cell {
+    transition: transform var(--t-base), background var(--t-base), border-color var(--t-base), box-shadow var(--t-base) !important;
+    cursor: pointer;
+  }
+  .zone-cell:hover {
+    transform: translateY(-2px) scale(1.02);
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--accent-border);
+    z-index: 10;
+  }
+  .zone-cell:active {
+    transform: scale(0.98);
+  }

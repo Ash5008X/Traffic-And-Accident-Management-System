@@ -68,18 +68,29 @@ const incidentModel = {
     );
   },
 
-  async assignUnit(id, unitId, reliefCenterId) {
+  async assignTeam(id, teamId, zone, reliefCenterId) {
     const db = getDB();
     return db.collection(COLLECTION).findOneAndUpdate(
       { _id: new ObjectId(id) },
       {
         $set: {
-          assignedUnit: new ObjectId(unitId),
+          assignedTeamId: new ObjectId(teamId),
+          zone: zone,
           reliefCenter: reliefCenterId ? new ObjectId(reliefCenterId) : null,
-          status: 'assigned',
+          status: 'dispatched',
+          assignedAt: new Date(),
           updatedAt: new Date()
         }
       },
+      { returnDocument: 'after' }
+    );
+  },
+
+  async clearAssignment(id) {
+    const db = getDB();
+    return db.collection(COLLECTION).findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: { assignedUnit: null, assignedTeamId: null, status: 'pending', updatedAt: new Date() } },
       { returnDocument: 'after' }
     );
   },

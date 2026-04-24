@@ -140,13 +140,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('');
   };
 
+  let activeReportId = null;
+
   const renderActiveReport = (report) => {
     if (!report) {
+      activeReportId = null;
       activeReportCard.style.display = 'none';
       noActiveReportCard.style.display = 'block';
       return;
     }
 
+    activeReportId = report._id;
     activeReportCard.style.display = 'block';
     noActiveReportCard.style.display = 'none';
 
@@ -185,6 +189,48 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   };
+
+  // Global listener for the resolve button using delegation for robustness
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('#resolve-report-btn');
+    if (!btn) return;
+    
+    // Safety check for activeReportId
+    if (!activeReportId) {
+        console.warn('No active report ID found to resolve.');
+        return;
+    }
+    
+    if (!confirm('Are you sure you want to mark this incident as resolved?')) return;
+
+    try {
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = '<span class="material-symbols-outlined" style="animation: spin 1s linear infinite">sync</span> Processing...';
+      btn.disabled = true;
+
+      const res = await fetch(`/api/incidents/${activeReportId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getToken()}`
+        },
+        body: JSON.stringify({ status: 'resolved' })
+      });
+
+      if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Failed to resolve report');
+      }
+      
+      await loadUserData();
+    } catch (err) {
+      console.error('Error resolving report:', err);
+      alert(`Failed to resolve report: ${err.message}`);
+    } finally {
+      btn.innerHTML = '<span class="material-symbols-outlined">task_alt</span> Resolve Report';
+      btn.disabled = false;
+    }
+  });
 
   const loadNearbyAlerts = async () => {
     try {
@@ -279,6 +325,23 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.disabled = false;
     }
   });
+
+  // 5. WebSocket Listeners
+  const socket = (window.NexusAuth && typeof window.NexusAuth.initSocket === 'function') 
+    ? window.NexusAuth.initSocket() 
+    : null;
+
+  if (socket) {
+    socket.on('incident:new', () => {
+      loadNearbyAlerts();
+    });
+
+    socket.on('incident:updated', (incident) => {
+      // Reload everything to ensure consistency
+      loadUserData();
+      loadNearbyAlerts();
+    });
+  }
 
   // Init — load real location first, then all data
   loadUserLocation().then(() => {

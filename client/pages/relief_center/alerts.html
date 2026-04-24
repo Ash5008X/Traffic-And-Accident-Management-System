@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>ALERTS | NEXUSTRAFFIC COMMAND CENTER</title>
+<title>NexusTraffic | Alerts</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
 <!-- NexusTraffic type stack: Bricolage Grotesque + Figtree + JetBrains Mono -->
@@ -60,14 +60,14 @@
   <div class="flex items-center gap-4">
     <div class="fira-code text-sm hidden lg:block" style="color: var(--nt-dim)" id="clock">14:32:08 UTC</div>
 
-    <div class="relative">
-      <span class="material-symbols-outlined cursor-pointer" style="color: var(--nt-dim)">notifications</span>
-      <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#FF2D55] text-[10px] flex items-center justify-center rounded-full text-white font-bold">3</span>
-    </div>
+    <button class="icon-btn relative group" title="Notifications" id="relief-notif-btn">
+      <span class="material-symbols-outlined" style="color: var(--nt-dim)">notifications</span>
+      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#F97316] rounded-full border-2 border-[#141417] hidden notif-dot"></span>
+    </button>
     
     <div class="relative group flex items-center gap-2 cursor-pointer nt-user-profile">
       <span class="outfit text-sm font-semibold nt-user-name" style="color: var(--nt-bright)">Admin</span>
-      <div class="w-8 h-8 rounded-full flex items-center justify-center border overflow-hidden bg-[#1F3448]/30" style="border-color: var(--nt-card-border)">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center border overflow-hidden user-avatar" style="border-color: var(--nt-card-border)">
         <span class="material-symbols-outlined text-[var(--nt-dim)]">account_circle</span>
       </div>
       
@@ -89,7 +89,7 @@
   </div>
 </nav>
 
-<main class="flex-1 mt-14 mb-8 overflow-hidden grid grid-cols-12 gap-0 w-full">
+<main class="flex-1 flex overflow-hidden grid grid-cols-12 gap-0 w-full">
 
   <!-- Column 1: Compose -->
   <aside class="col-span-3 border-r flex flex-col p-6 overflow-y-auto custom-scrollbar">
@@ -131,7 +131,7 @@
       <div>
         <label class="block font-body text-xs font-semibold mb-3 uppercase tracking-wider" style="color: var(--nt-dim)">AFFECTED ZONE</label>
         <div class="flex flex-wrap gap-2" id="affected-zones">
-          <button data-zone="ZONE_A" class="zone-btn px-3 py-1 rounded-sm font-label text-[10px] hover:bg-primary-container hover:text-on-primary-container transition-colors active-zone bg-primary-container text-on-primary-container">ZONE_A</button>
+          <button data-zone="ZONE_A" class="zone-btn px-3 py-1 rounded-sm font-label text-[10px] active-zone">ZONE_A</button>
           <button data-zone="ZONE_B" class="zone-btn px-3 py-1 rounded-sm font-label text-[10px]">ZONE_B</button>
           <button data-zone="ZONE_C" class="zone-btn px-3 py-1 rounded-sm font-label text-[10px]">ZONE_C</button>
           <button data-zone="ZONE_D" class="zone-btn px-3 py-1 rounded-sm font-label text-[10px]">ZONE_D</button>
@@ -143,10 +143,10 @@
       <div>
         <label class="block font-body text-xs font-semibold mb-3 uppercase tracking-wider" style="color: var(--nt-dim)">SEVERITY LEVEL</label>
         <div class="grid grid-cols-4 gap-1" id="severity-levels">
-          <button data-sev="low" class="sev-btn py-2 text-[9px] font-headline font-bold rounded-sm" style="color: var(--nt-dim)">LOW</button>
-          <button data-sev="medium" class="sev-btn py-2 text-[9px] font-headline font-bold text-[#FFB830] rounded-sm">MEDIUM</button>
-          <button data-sev="high" class="sev-btn py-2 text-[9px] font-headline font-bold text-[#FF6B35] rounded-sm">HIGH</button>
-          <button data-sev="critical" class="sev-btn py-2 text-[9px] font-headline font-bold text-white rounded-sm active-sev bg-[#FF3B30] ring-2 ring-white/10">CRITICAL</button>
+          <button data-sev="low" class="sev-btn py-2 text-[9px] font-headline font-bold rounded-sm">LOW</button>
+          <button data-sev="medium" class="sev-btn py-2 text-[9px] font-headline font-bold rounded-sm">MEDIUM</button>
+          <button data-sev="high" class="sev-btn py-2 text-[9px] font-headline font-bold rounded-sm">HIGH</button>
+          <button data-sev="critical" class="sev-btn py-2 text-[9px] font-headline font-bold rounded-sm active-sev">CRITICAL</button>
         </div>
       </div>
 

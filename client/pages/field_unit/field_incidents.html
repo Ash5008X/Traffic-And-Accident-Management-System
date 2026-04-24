@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>NEXUSTRAFFIC // FIELD_INCIDENTS</title>
+<title>NexusTraffic | Incidents</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Barlow+Condensed:wght@700;800&family=Fira+Code:wght@500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Barlow:wght@700;800;900&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@300,0&display=swap" rel="stylesheet"/>
 
 <link href="../../css/field_unit/incidents.css" rel="stylesheet"/>
@@ -14,30 +15,41 @@
 <body>
 
 <!-- ── NAVBAR ──────────────────────────────────── -->
-<nav class="navbar">
-  <div style="display:flex;align-items:center;gap:24px;flex:1;">
-    <div class="brand">
-      <div class="brand-mark">
-        <span class="material-symbols-outlined">traffic</span>
-      </div>
-      <span class="brand-name">NEXUS<span>TRAFFIC</span></span>
+<nav class="h-16 flex items-center justify-between px-6 border-b" style="border-color: var(--nt-nav-border); background-color: var(--nt-nav-bg); position: sticky; top: 0; z-index: 50;">
+  <!-- Brand -->
+  <div class="flex items-center gap-4">
+    <div class="nt-brand-logo">
+      <span style="color: var(--nt-bright)">NEXUS</span><span class="text-[#F97316]">TRAFFIC</span>
     </div>
-    <nav class="nav-links">
-      <a class="nav-link" href="#">My Mission</a>
-      <a class="nav-link active" href="#">Incidents</a>
-      <a class="nav-link" href="#">Updates</a>
-      <a class="nav-link" href="#">Profile</a>
-    </nav>
   </div>
 
-  <div class="navbar-right">
-    <button class="icon-btn"><span class="material-symbols-outlined">notifications</span></button>
-    <button class="icon-btn"><span class="material-symbols-outlined">settings</span></button>
-    <button class="theme-btn" id="theme-toggle" aria-label="Toggle theme">
+  <!-- Nav links -->
+  <div class="hidden md:flex items-center gap-8">
+    <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)" 
+       onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
+       href="field_desktop.html">My Mission</a>
+    <a class="outfit font-semibold text-[#F97316] border-b-2 border-[#F97316] pb-1" href="field_incidents.html">Incidents</a>
+    <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)" 
+       onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
+       href="field_profile.html">Profile</a>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <button class="w-10 h-10 flex items-center justify-center rounded-xl border transition-colors hover:bg-[var(--nt-card2)]" 
+            style="border-color: var(--nt-nav-border); background: var(--nt-nav-bg); color: var(--nt-dim)">
+      <span class="material-symbols-outlined">notifications</span>
+    </button>
+    
+    <!-- Theme toggle -->
+    <button class="w-10 h-10 flex items-center justify-center rounded-xl border transition-colors hover:bg-[var(--nt-card2)]" 
+            style="border-color: var(--nt-nav-border); background: var(--nt-nav-bg); color: var(--nt-dim)"
+            id="theme-toggle">
       <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
     </button>
-    <div class="user-avatar">
-      <img alt="Agent Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuj1WLDBFjCZTniYsvoQlW7eQfjF5jYPfeOakgfdr9H-RP5hDIi2piZVbZuRsO-CABUCYvxyUkTzbZ7N1DKPytTioHa1piuxhuQap4B34ZAglzEI_xxYpeW3KO68LspMP8PjLhxv6ZUsMqoOGMKmrFh8Q8TBw2tivfBqxHinr3_J6phFy2n8n8wCx09SbKjZTGa6HOc6K0MVF2c5Nz1BkmGiflw1NIMwLrGPBjSH5T3RUZSRK1opgCbcT6uEzYZ9a_Fw6jHLOu9jk"/>
+
+    <!-- Avatar -->
+    <div class="user-avatar w-9 h-9 rounded-full border-2 overflow-hidden cursor-pointer transition-colors hover:border-[#F97316]" style="border-color: var(--nt-nav-border);">
+      <img alt="Agent Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuj1WLDBFjCZTniYsvoQlW7eQfjF5jYPfeOakgfdr9H-RP5hDIi2piZVbZuRsO-CABUCYvxyUkTzbZ7N1DKPytTioHa1piuxhuQap4B34ZAglzEI_xxYpeW3KO68LspMP8PjLhxv6ZUsMqoOGMKmrFh8Q8TBw2tivfBqxHinr3_J6phFy2n8n8wCx09SbKjZTGa6HOc6K0MVF2c5Nz1BkmGiflw1NIMwLrGPBjSH5T3RUZSRK1opgCbcT6uEzYZ9a_Fw6jHLOu9jk"/>
     </div>
   </div>
 </nav>
@@ -48,29 +60,25 @@
   <!-- LEFT COLUMN: Filters & Summary -->
   <aside class="col-left col-scroll hide-scrollbar">
 
-    <!-- Filters -->
-    <div>
-      <div class="section-heading">Control_Filters</div>
-      <div class="filter-wrap">
-        <button class="chip active">Assigned to Me</button>
-        <button class="chip">Critical</button>
-        <button class="chip">Nearby</button>
-        <button class="chip">Hazmat</button>
-      </div>
-    </div>
-
     <!-- Sort -->
     <div>
       <span class="sort-label">Sort_Registry</span>
       <div class="sort-select-wrap">
         <select id="sort-select" class="sort-select" aria-label="Sort incidents">
           <option value="newest">Newest First</option>
-          <option value="oldest">Oldest First</option>
-          <option value="severity">Severity (Critical First)</option>
-          <option value="severity-asc">Severity (Low First)</option>
+          <option value="critical">Critical Only</option>
+          <option value="pending">Pending Only</option>
         </select>
         <span class="sort-arrow material-symbols-outlined">expand_more</span>
       </div>
+    </div>
+
+    <!-- Todays Alerts List -->
+    <div id="today-alerts-sidebar" class="space-y-2">
+       <div class="section-heading" style="font-size:12px; opacity:0.6">Today's_Alerts</div>
+       <div id="sidebar-alerts-list" class="space-y-2 max-h-[300px] overflow-y-auto hide-scrollbar">
+         <!-- Dynamic -->
+       </div>
     </div>
 
     <!-- Duty Summary -->
@@ -80,7 +88,7 @@
       <div class="duty-card border-teal">
         <div>
           <div class="duty-label">Assigned</div>
-          <div class="duty-num teal">04</div>
+          <div id="stat-assigned" class="duty-num teal">--</div>
         </div>
         <span class="duty-meta">Live_Queue</span>
       </div>
@@ -88,17 +96,9 @@
       <div class="duty-card border-purple">
         <div>
           <div class="duty-label">Completed Today</div>
-          <div class="duty-num purple">12</div>
+          <div id="stat-completed" class="duty-num purple">--</div>
         </div>
         <span class="duty-meta">Session_End</span>
-      </div>
-
-      <div class="duty-card border-warning">
-        <div>
-          <div class="duty-label">Nearby Alerts</div>
-          <div class="duty-num warn">07</div>
-        </div>
-        <span class="duty-meta">Proximity_3KM</span>
       </div>
     </div>
 
@@ -114,32 +114,9 @@
         <span class="sync-badge">Sync_Active</span>
       </div>
 
-      <!-- Critical Card -->
-      <div class="incident-card crit" data-severity="1" data-time="1745432400">
-        <div class="incident-card-top">
-          <div>
-            <div class="incident-title crit">Multi-Vehicle Collision // Fire</div>
-            <div class="incident-id">Incident_ID // 882-CRIT</div>
-          </div>
-          <span class="material-symbols-outlined" style="color:var(--critical-fg);font-size:20px;">warning</span>
-        </div>
-        <p class="incident-body">I-95 Northbound, Exit 22. Estimated 4 vehicles involved. Smoke reported. Emergency units dispatched.</p>
-        <div class="coord-row">
-          <span class="coord-tag">LAT: 40.7306</span>
-          <span class="coord-tag">LONG: -73.9352</span>
-        </div>
-      </div>
-
-      <!-- High Card -->
-      <div class="incident-card high" data-severity="2" data-time="1745430000">
-        <div class="incident-card-top">
-          <div>
-            <div class="incident-title high">Structural Instability</div>
-            <div class="incident-id">Incident_ID // 441-WARN</div>
-          </div>
-          <span class="material-symbols-outlined" style="color:var(--orange-alt);font-size:20px;">engineering</span>
-        </div>
-        <p class="incident-body">Overpass degradation reported at Brooklyn Bridge off-ramp. Lanes 1 and 2 restricted.</p>
+      <div id="active-list">
+        <!-- Dynamic -->
+        <p class="outfit text-xs text-center py-8" style="color:var(--nt-dim);opacity:0.5">No active assignments</p>
       </div>
     </div>
 
@@ -148,23 +125,12 @@
       <div class="feed-header">
         <span class="feed-title" style="color:var(--text-secondary);">Proximal_Telemetry</span>
       </div>
-      <div class="proximal-grid">
-        <div class="proximal-card">
-          <div class="proximal-title">Congestion Alpha</div>
-          <div class="proximal-loc">Loc // 1.2KM North</div>
-          <div class="proximal-tags">
-            <span class="proximal-tag">Traffic</span>
-            <span class="proximal-tag">Drone_Ops</span>
-          </div>
-        </div>
-        <div class="proximal-card">
-          <div class="proximal-title">Debris Field</div>
-          <div class="proximal-loc">Loc // 0.8KM West</div>
-          <div class="proximal-tags">
-            <span class="proximal-tag">Hazard</span>
-            <span class="proximal-tag">Unit_42</span>
-          </div>
-        </div>
+      <div id="proximal-grid" class="proximal-grid">
+        <!-- 2x2 Grid Dynamic -->
+        <div class="proximal-card" style="opacity:0.3"></div>
+        <div class="proximal-card" style="opacity:0.3"></div>
+        <div class="proximal-card" style="opacity:0.3"></div>
+        <div class="proximal-card" style="opacity:0.3"></div>
       </div>
     </div>
 
@@ -173,82 +139,12 @@
       <div class="feed-header">
         <span class="feed-title" style="color:var(--text-muted);">History_Log</span>
       </div>
-
-      <div class="history-row">
-        <div class="history-row-left">
-          <span class="material-symbols-outlined" style="color:var(--teal-fg);font-size:16px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20;">check_circle</span>
-          <span class="history-row-title">Signal Calibration // Sector 4</span>
-        </div>
-        <span class="history-time">14:22:01</span>
-      </div>
-
-      <div class="history-row">
-        <div class="history-row-left">
-          <span class="material-symbols-outlined" style="color:var(--teal-fg);font-size:16px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20;">check_circle</span>
-          <span class="history-row-title">Pedestrian Escort // Wall St</span>
-        </div>
-        <span class="history-time">13:45:12</span>
+      <div id="history-list">
+        <!-- Last 5 Dynamic -->
       </div>
     </div>
 
   </section>
-
-  <!-- RIGHT COLUMN: Briefing & Actions -->
-  <aside class="col-right">
-    <div class="briefing-top-bar"></div>
-
-    <div class="briefing-body hide-scrollbar">
-
-      <!-- Heading -->
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div class="briefing-heading">Critical_Briefing</div>
-        <span class="urgent-tag">Urgent</span>
-      </div>
-
-      <!-- Sitrep -->
-      <div class="sitrep-card">
-        <div class="sitrep-label">// On-Site_Sitrep</div>
-        <div class="sitrep-title">Vehicle Fire / Multi-Collision</div>
-        <p class="sitrep-body">Two heavy transport vehicles collided with passenger sedan. Active fuel leak confirmed. Wind direction SE 12mph. Evacuation radius 200m required.</p>
-      </div>
-
-      <!-- Action tiles -->
-      <div class="action-grid">
-        <button class="action-tile">
-          <span class="material-symbols-outlined action-tile-icon" style="color:var(--critical);">medical_services</span>
-          <span class="action-tile-label">Medical Aid</span>
-        </button>
-        <button class="action-tile">
-          <span class="material-symbols-outlined action-tile-icon" style="color:var(--warning);">warning_amber</span>
-          <span class="action-tile-label">Hazard Contained</span>
-        </button>
-        <button class="action-tile">
-          <span class="material-symbols-outlined action-tile-icon" style="color:var(--teal);">broadcast_on_home</span>
-          <span class="action-tile-label">Public Alert</span>
-        </button>
-        <button class="action-tile">
-          <span class="material-symbols-outlined action-tile-icon" style="color:var(--purple);">support_agent</span>
-          <span class="action-tile-label">Backup Required</span>
-        </button>
-      </div>
-
-      <!-- Map view -->
-      <div class="map-view">
-        <img alt="Live Map" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxgOuI1YX87QN66EG6LAFRYKKR4f9RcdynA-9FmdZ2dYKOxyoBkutupVTnKQP1u2t_aJV3-XP9w7K1PD6jSOf4VLVJdKozQBCsFi0x3lDZ_kw_hCRz74uA-rIrdNMObhpH5cuFEgQynRctHD2heO80-Vc6XO-70DrF0NIZFHr_JCDLar1vb-x-WlY5W-QDuVkQbIcwEXM2PL6EIWaaLTPnU0sxcObxyTH-zd5OQ6DqgcGcWX9c8qSH_hTuVIPAVDiiC_me5hh_ER8"/>
-        <div class="map-overlay"></div>
-        <div class="map-label">Live_Feed // Unit_Eye_01</div>
-      </div>
-
-    </div>
-
-    <!-- Resolve -->
-    <div class="resolve-panel">
-      <button class="resolve-btn">
-        <span class="material-symbols-outlined" style="font-size:20px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20;">check_circle</span>
-        Mark Incident Resolved
-      </button>
-    </div>
-  </aside>
 
 </div>
 
@@ -266,6 +162,49 @@
     <span class="f-purple">System_Status // Nominal</span>
   </div>
 </footer>
+
+<!-- ── INCIDENT DETAIL MODAL ───────────────────── -->
+<div id="detail-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity duration-300">
+  <div class="bg-[var(--nt-nav-bg)] border border-[var(--nt-nav-border)] w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl transform scale-95 transition-all duration-300" id="modal-content">
+    <div class="h-1.5 w-full bg-[#F97316]"></div>
+    <div class="p-8">
+      <div class="flex justify-between items-start mb-6">
+        <div>
+          <span id="modal-severity" class="critical-badge mb-2 inline-block">--</span>
+          <h2 id="modal-title" class="barlow-900 text-3xl tracking-tight text-[var(--nt-bright)]">--</h2>
+          <p id="modal-id" class="fira-code text-xs text-[var(--nt-dim)] mt-1">INCIDENT_ID // --</p>
+        </div>
+        <button id="close-modal" class="text-[var(--nt-dim)] hover:text-[var(--nt-bright)] transition-colors">
+          <span class="material-symbols-outlined" style="font-size:32px">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-6">
+        <div class="p-4 rounded-xl bg-black/20 border border-[var(--nt-nav-border)]">
+          <span class="fira-code text-[10px] text-[var(--nt-dim)] uppercase block mb-2 tracking-widest">// MISSION_SITREP</span>
+          <p id="modal-desc" class="outfit text-sm leading-relaxed text-[var(--nt-dim)]">--</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl bg-black/20 border border-[var(--nt-nav-border)]">
+            <span class="fira-code text-[10px] text-[var(--nt-dim)] uppercase block mb-1 tracking-widest">COORDINATES</span>
+            <div id="modal-coords" class="barlow-800 text-xl text-[var(--nt-bright)]">--</div>
+          </div>
+          <div class="p-4 rounded-xl bg-black/20 border border-[var(--nt-nav-border)]">
+            <span class="fira-code text-[10px] text-[var(--nt-dim)] uppercase block mb-1 tracking-widest">REPORTED_AT</span>
+            <div id="modal-time" class="barlow-800 text-xl text-[var(--nt-bright)]">--</div>
+          </div>
+        </div>
+        
+        <div class="flex gap-4 pt-4">
+           <button id="modal-action-btn" class="flex-1 py-4 bg-[#F97316] text-white barlow-800 text-lg rounded-xl shadow-lg hover:bg-[#EA6A0A] transition-all transform active:scale-95">
+             GOTO MISSION CENTER
+           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="../../js/app.js"></script>
 <script src="../../js/theme.js"></script>

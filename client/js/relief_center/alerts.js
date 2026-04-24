@@ -61,9 +61,9 @@
     document.querySelectorAll('#affected-zones button').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('#affected-zones button').forEach(b => {
-          b.classList.remove('active-zone', 'bg-primary-container', 'text-on-primary-container');
+          b.classList.remove('active-zone');
         });
-        btn.classList.add('active-zone', 'bg-primary-container', 'text-on-primary-container');
+        btn.classList.add('active-zone');
         currentZone = btn.dataset.zone;
       });
     });
@@ -72,19 +72,9 @@
     document.querySelectorAll('#severity-levels button').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('#severity-levels button').forEach(b => {
-          b.classList.remove('active-sev', 'bg-[#FF3B30]', 'bg-[#FF6B35]', 'bg-[#FFB830]', 'bg-white/10', 'text-white', 'ring-2', 'ring-white/10');
-          if(b.dataset.sev === 'low') b.style.color = 'var(--nt-dim)';
-          if(b.dataset.sev === 'medium') b.classList.add('text-[#FFB830]');
-          if(b.dataset.sev === 'high') b.classList.add('text-[#FF6B35]');
+          b.classList.remove('active-sev');
         });
-        
-        btn.classList.add('active-sev', 'text-white', 'ring-2', 'ring-white/10');
-        btn.classList.remove('text-[#FFB830]', 'text-[#FF6B35]');
-        if(btn.dataset.sev === 'low') { btn.classList.add('bg-white/10'); btn.style.color = 'white'; }
-        if(btn.dataset.sev === 'medium') btn.classList.add('bg-[#FFB830]');
-        if(btn.dataset.sev === 'high') btn.classList.add('bg-[#FF6B35]');
-        if(btn.dataset.sev === 'critical') btn.classList.add('bg-[#FF3B30]');
-        
+        btn.classList.add('active-sev');
         currentSeverity = btn.dataset.sev;
       });
     });

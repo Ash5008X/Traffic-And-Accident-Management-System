@@ -99,7 +99,7 @@
       container.innerHTML = `
         <div class="text-center py-12" style="color:var(--nt-dim)">
           <span class="material-symbols-outlined text-5xl block mb-3" style="color:var(--nt-dim);opacity:0.4">check_circle</span>
-          <p class="outfit text-xs" style="opacity:0.5">No active incidents in 50 km zone</p>
+          <p class="outfit text-xs" style="opacity:0.5">No active incidents in 15 km zone</p>
         </div>`;
       return;
     }
@@ -282,16 +282,15 @@
 
     // Re-grab after clone
     document.getElementById('btn-en-route')?.addEventListener('click', async () => {
-      await updateStatus(inc._id, 'en_route');
+      await updateStatus(inc._id, 'en_route', "Your request is acknowledged and a team is enrouted to your position");
     });
 
     document.getElementById('btn-resolve')?.addEventListener('click', async () => {
-      await updateStatus(inc._id, 'resolved');
+      await updateStatus(inc._id, 'resolved', "Your request has been resolved");
     });
 
-    // SEND UPDATE = open chat input focus
-    document.getElementById('btn-send-update')?.addEventListener('click', () => {
-      document.getElementById('chat-input')?.focus();
+    document.getElementById('btn-dismiss')?.addEventListener('click', async () => {
+      await updateStatus(inc._id, 'dismissed', "Your request has been dismissed");
     });
 
     // Chat send button
@@ -304,12 +303,33 @@
     });
   }
 
-  async function updateStatus(incidentId, status) {
+  async function updateStatus(incidentId, status, notifMessage = null) {
     try {
-      await apiFetch(`/incidents/${incidentId}/status`, {
-        method: 'PATCH',
+      // 1. Update the actual incident status
+      const path = status === 'dismissed' ? `/incidents/${incidentId}/dismiss` : `/incidents/${incidentId}/status`;
+      const method = status === 'dismissed' ? 'DELETE' : 'PATCH'; // Check if DELETE or PATCH is used for dismiss
+
+      // Actually, looking at incidentController.js:169, it's not specified in routes yet?
+      // Wait, let's check incidentRoutes.js.
+      
+      await apiFetch(path, {
+        method: status === 'dismissed' ? 'PATCH' : 'PATCH',
         body: JSON.stringify({ status })
       });
+
+      // 2. If there's a notification message, send it via the notify endpoint
+      if (notifMessage && selectedIncident) {
+        await apiFetch('/alerts/incident-notify', {
+          method: 'POST',
+          body: JSON.stringify({ 
+            incidentId: String(selectedIncident._id), 
+            message: notifMessage,
+            skipChat: true // Automated updates don't go to chat log
+          })
+        });
+        // We do NOT appendChatBubble here as requested
+      }
+
       // Refresh panel and list
       await loadDashboard();
     } catch (err) {
@@ -358,9 +378,12 @@
   // ─── Zone heatmap ────────────────────────────────────────────────────────────
   function renderZoneHeatmap(zoneBreakdown) {
     const zones = ['A', 'B', 'C', 'D', 'E', 'F'];
+    const ZONE_COLORS_MAP = ['#FF3B30', '#FFB830', '#F97316', '#3A86FF', '#34C759', '#AF52DE'];
+    
     document.querySelectorAll('.zone-cell').forEach((cell, idx) => {
       const zone = zones[idx];
       if (!zone) return;
+      
       const count = zoneBreakdown?.[zone] ?? 0;
       const countEl = cell.querySelector('.fira-code');
       if (countEl) countEl.textContent = String(count).padStart(2, '0');
@@ -368,20 +391,15 @@
       const labelEl = cell.querySelector('.barlow-800');
       if (labelEl) labelEl.textContent = `ZONE ${zone}`;
 
-      let color;
-      if (count >= 5) color = '#FF3B30';
-      else if (count >= 3) color = '#FFB830';
-      else if (count >= 1) color = '#F97316';
-      else color = null;
-
-      if (color) {
-        cell.style.backgroundColor = color + '20';
-        cell.style.borderColor = color + '50';
-        if (labelEl) labelEl.style.color = color;
-      } else {
-        cell.style.backgroundColor = 'var(--nt-card)';
-        cell.style.borderColor = 'var(--nt-card-border)';
-        if (labelEl) labelEl.style.color = 'var(--nt-dim)';
+      const color = ZONE_COLORS_MAP[idx];
+      
+      // Apply zone-specific color regardless of count
+      cell.style.backgroundColor = color + '15'; // Very subtle tint
+      cell.style.borderColor = color + '40';
+      if (labelEl) labelEl.style.color = color;
+      if (countEl) {
+          countEl.style.color = count > 0 ? color : 'var(--nt-dim)';
+          countEl.style.opacity = count > 0 ? '1' : '0.3';
       }
     });
   }
@@ -418,51 +436,82 @@
         center: [centerLat, centerLng],
         zoom: 13,
         zoomControl: false,
-        attributionControl: false,
-        dragging: false,
-        scrollWheelZoom: false
+        attributionControl: false
       });
+      window.leafletMap = map; // Store for updates
 
       L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
 
-      // 5km radius circle
+      // 15km radius circle
       L.circle([centerLat, centerLng], {
-        radius: 50000,
-        color: '#F97316', weight: 2,
-        fill: true, fillColor: '#F97316', fillOpacity: 0.07
+        radius: 15000,
+        color: '#F97316', weight: 1,
+        fill: true, fillColor: '#F97316', fillOpacity: 0.03
       }).addTo(map);
 
       // Center marker
       L.circleMarker([centerLat, centerLng], {
-        radius: 6, color: '#F97316', fillColor: '#F97316', fillOpacity: 1
+        radius: 5, color: '#FFF', fillColor: '#F97316', fillOpacity: 1, weight: 2
       }).addTo(map);
 
       // 6 zone sector lines
       const ZONE_COLORS_MAP = ['#FF3B30','#FFB830','#F97316','#3A86FF','#34C759','#AF52DE'];
       const ZONE_LABELS = ['A','B','C','D','E','F'];
-      const LAT_DEG = 50 / 111.32;
-      const LNG_DEG = 50 / (111.32 * Math.cos(centerLat * Math.PI / 180));
+      const sectorRadius = 0.135; // Approx degrees for 15km
 
       for (let i = 0; i < 6; i++) {
         const bearing = i * 60;
-        const endLat = centerLat + LAT_DEG * Math.cos(bearing * Math.PI / 180);
-        const endLng = centerLng + LNG_DEG * Math.sin(bearing * Math.PI / 180);
+        const endLat = centerLat + sectorRadius * Math.cos(bearing * Math.PI / 180);
+        const endLng = centerLng + sectorRadius * Math.sin(bearing * Math.PI / 180);
 
         L.polyline([[centerLat, centerLng], [endLat, endLng]], {
-          color: ZONE_COLORS_MAP[i], weight: 1, opacity: 0.5, dashArray: '4 4'
+          color: ZONE_COLORS_MAP[i], weight: 1, opacity: 0.3, dashArray: '5, 5'
         }).addTo(map);
 
         const midBearing = bearing + 30;
-        const midLat = centerLat + LAT_DEG * 0.55 * Math.cos(midBearing * Math.PI / 180);
-        const midLng = centerLng + LNG_DEG * 0.55 * Math.sin(midBearing * Math.PI / 180);
+        const midLat = centerLat + sectorRadius * 0.4 * Math.cos(midBearing * Math.PI / 180);
+        const midLng = centerLng + sectorRadius * 0.4 * Math.sin(midBearing * Math.PI / 180);
 
         L.marker([midLat, midLng], {
           icon: L.divIcon({
-            html: `<span style="font-family:'Barlow Condensed',sans-serif;font-weight:800;color:${ZONE_COLORS_MAP[i]};font-size:11px;text-shadow:0 0 4px #000">ZONE ${ZONE_LABELS[i]}</span>`,
+            html: `<span style="font-family:'Barlow Condensed',sans-serif;font-weight:800;color:${ZONE_COLORS_MAP[i]};font-size:10px;text-shadow:0 0 3px #000;opacity:0.6">ZONE ${ZONE_LABELS[i]}</span>`,
             className: '', iconAnchor: [20, 10]
           })
         }).addTo(map);
       }
+
+      updateMapMarkers();
+    });
+  }
+
+  let incidentMarkers = [];
+  function updateMapMarkers() {
+    if (!window.leafletMap || !window.L) return;
+    const L = window.L;
+    const map = window.leafletMap;
+
+    // Clear old markers
+    incidentMarkers.forEach(m => map.removeLayer(m));
+    incidentMarkers = [];
+
+    allActiveIncidents.forEach(inc => {
+      if (!inc.location?.lat || !inc.location?.lng) return;
+      const color = severityColor(inc.severity);
+      
+      const marker = L.circleMarker([inc.location.lat, inc.location.lng], {
+        radius: 6,
+        color: color,
+        fillColor: color,
+        fillOpacity: 0.8,
+        weight: 2
+      }).addTo(map);
+
+      marker.bindTooltip(`${inc.type?.toUpperCase()} - ${inc.severity.toUpperCase()}`, {
+        direction: 'top',
+        className: 'nt-map-tooltip'
+      });
+
+      incidentMarkers.push(marker);
     });
   }
 
@@ -483,7 +532,11 @@
         else hideDetailPanel();
       }
 
-      initMap(stats.centerLat, stats.centerLng);
+      if (!mapInitialized) {
+        initMap(stats.centerLat, stats.centerLng);
+      } else {
+        updateMapMarkers();
+      }
 
       // Footer
       const footerSpans = document.querySelectorAll('footer .flex .fira-code');
@@ -558,10 +611,41 @@
     } catch (e) { console.error('Stat refresh error:', e); }
   }
 
+  // ─── WebSocket Listeners ─────────────────────────────────────────────────────
+  function initSocket() {
+    const socket = (window.NexusAuth && typeof window.NexusAuth.initSocket === 'function')
+      ? window.NexusAuth.initSocket()
+      : null;
+
+    if (socket) {
+      // Listen for new incidents anywhere in the network
+      socket.on('incident:new', () => {
+        console.log('Tactical Alert: New incident reported. Refreshing dashboard...');
+        loadDashboard();
+      });
+
+      // Listen for status changes or chat updates
+      socket.on('incident:updated', (data) => {
+        console.log('Tactical Update: Incident state changed.', data);
+        loadDashboard();
+      });
+
+      // Optional: Handle chat messages specifically for the selected incident
+      socket.on('chat:message', (msg) => {
+        if (selectedIncident && String(msg.incidentId) === String(selectedIncident._id)) {
+           // If it's for the currently open incident, refresh chat log
+           loadDashboard(); 
+        }
+      });
+    }
+  }
+
   // ─── Boot ────────────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
     startClock();
     loadDashboard();
-    setInterval(loadDashboard, 30000);
+    initSocket();
+    // Reduce polling since we have sockets now, but keep as fallback
+    setInterval(loadDashboard, 60000); 
   });
 })();

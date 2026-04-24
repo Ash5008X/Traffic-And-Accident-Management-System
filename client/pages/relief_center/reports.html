@@ -3,7 +3,7 @@
 <html lang="en" data-theme="dark"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>NEXUSTRAFFIC | Reports Center</title>
+<title>NexusTraffic | Reports</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <!-- Shared theme stack (matches nexustraffic-redesign.html) -->
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -50,14 +50,14 @@
   <div class="flex items-center gap-4">
     <div class="fira-code text-sm hidden lg:block" style="color: var(--nt-dim)" id="clock">14:32:08 UTC</div>
 
-    <div class="relative">
-      <span class="material-symbols-outlined cursor-pointer" style="color: var(--nt-dim)">notifications</span>
-      <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#FF2D55] text-[10px] flex items-center justify-center rounded-full text-white font-bold">3</span>
-    </div>
+    <button class="icon-btn relative group" title="Notifications" id="relief-notif-btn">
+      <span class="material-symbols-outlined" style="color: var(--nt-dim)">notifications</span>
+      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#F97316] rounded-full border-2 border-[#141417] hidden notif-dot"></span>
+    </button>
 
     <div class="relative group flex items-center gap-2 cursor-pointer nt-user-profile">
       <span class="outfit text-sm font-semibold nt-user-name" style="color: var(--nt-bright)">Admin</span>
-      <div class="w-8 h-8 rounded-full flex items-center justify-center border overflow-hidden bg-[#1F3448]/30" style="border-color: var(--nt-card-border)">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center border overflow-hidden user-avatar" style="border-color: var(--nt-card-border)">
         <span class="material-symbols-outlined text-[var(--nt-dim)]">account_circle</span>
       </div>
       

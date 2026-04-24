@@ -285,3 +285,75 @@ html, body {
   [data-theme="light"] .border-\[#1F3448\]\/30 { border-color: rgba(180,195,210,0.3) !important; }
   [data-theme="light"] .border-\[#1F3448\]     { border-color: #C8D8E4 !important; }
   [data-theme="light"] .divide-\[#1F3448\]\/40 > * + * { border-color: rgba(180,195,210,0.4) !important; }
+  /* ─── COMPOSE BUTTONS ─────────────────── */
+  .alert-type-btn.active-type {
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
+  }
+
+  .zone-btn {
+    background: rgba(255,255,255,0.05) !important;
+    color: var(--nt-dim) !important;
+    border: none !important;
+    border-radius: 4px !important;
+    transition: all var(--t-base);
+  }
+  .zone-btn:hover {
+    background: rgba(255,255,255,0.1) !important;
+    color: var(--nt-bright) !important;
+  }
+  
+  .zone-btn.active-zone {
+    color: white !important;
+    font-weight: 700;
+  }
+
+  .zone-btn[data-zone="ZONE_A"].active-zone { background: #FF3B30 !important; box-shadow: 0 0 15px rgba(255, 59, 48, 0.4); }
+  .zone-btn[data-zone="ZONE_B"].active-zone { background: #FFB830 !important; box-shadow: 0 0 15px rgba(255, 184, 48, 0.4); }
+  .zone-btn[data-zone="ZONE_C"].active-zone { background: #F97316 !important; box-shadow: 0 0 15px rgba(249, 115, 22, 0.4); }
+  .zone-btn[data-zone="ZONE_D"].active-zone { background: #3A86FF !important; box-shadow: 0 0 15px rgba(58, 134, 255, 0.4); }
+  .zone-btn[data-zone="ZONE_E"].active-zone { background: #34C759 !important; box-shadow: 0 0 15px rgba(52, 199, 89, 0.4); }
+  .zone-btn[data-zone="ZONE_F"].active-zone { background: #BF5AF2 !important; box-shadow: 0 0 15px rgba(191, 90, 242, 0.4); }
+
+  .sev-btn {
+    background: rgba(255,255,255,0.05) !important;
+    border: none !important;
+    border-radius: 4px !important;
+    transition: all var(--t-base);
+    color: var(--nt-dim) !important;
+  }
+  .sev-btn:hover {
+    background: rgba(255,255,255,0.1) !important;
+  }
+  
+  .sev-btn.active-sev {
+    color: white !important;
+    border-color: transparent !important;
+  }
+
+  .sev-btn[data-sev="low"].active-sev {
+    background: #34C759 !important;
+    box-shadow: 0 0 15px rgba(52, 199, 89, 0.3);
+  }
+  .sev-btn[data-sev="medium"].active-sev {
+    background: #FFB830 !important;
+    box-shadow: 0 0 15px rgba(255, 184, 48, 0.3);
+  }
+  .sev-btn[data-sev="high"].active-sev {
+    background: #FF6B35 !important;
+    box-shadow: 0 0 15px rgba(255, 107, 53, 0.3);
+  }
+  .sev-btn[data-sev="critical"].active-sev {
+    background: #FF3B30 !important;
+    box-shadow: 0 0 15px rgba(255, 59, 48, 0.3);
+  }
+
+  [data-theme="light"] .zone-btn {
+    background: #E8EDF2 !important;
+    color: #4A6070 !important;
+    border: none !important;
+  }
+  [data-theme="light"] .sev-btn {
+    background: #E8EDF2 !important;
+    color: #4A6070 !important;
+    border: none !important;
+  }

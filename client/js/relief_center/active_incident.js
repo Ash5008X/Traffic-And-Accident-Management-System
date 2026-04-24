@@ -128,21 +128,28 @@
           })
         }).addTo(map);
       }
+
+      window.leafletMap = map;
+      updateMapMarkers();
     });
   }
 
+  // ─── State ───────────────────────────────────────────────────────────────────
+  let allActiveIncidents = [];
+  let incidentMarkers = [];
+
   // ─── Render Incidents ─────────────────────────────────────────────────────────
-  function renderActiveIncidents(incidents) {
+  function renderActiveIncidents() {
     const container = document.getElementById('active-incidents-container');
     if (!container) return;
     container.innerHTML = '';
 
-    if (!incidents || incidents.length === 0) {
+    if (!allActiveIncidents || allActiveIncidents.length === 0) {
       container.innerHTML = `<div class="text-center py-12" style="color:var(--nt-dim)"><p class="outfit text-xs">No active incidents</p></div>`;
       return;
     }
 
-    incidents.forEach(inc => {
+    allActiveIncidents.forEach(inc => {
       const color = severityColor(inc.severity);
       const sev = (inc.severity || 'low').toUpperCase();
       
@@ -162,6 +169,38 @@
         </div>
       `;
       container.appendChild(card);
+    });
+  }
+
+  function updateMapMarkers() {
+    if (!window.leafletMap || !window.L) return;
+    const L = window.L;
+    const map = window.leafletMap;
+
+    // Clear old markers
+    incidentMarkers.forEach(m => map.removeLayer(m));
+    incidentMarkers = [];
+
+    allActiveIncidents.forEach(inc => {
+      if (!inc.location?.lat || !inc.location?.lng) return;
+      if (inc.status === 'resolved' || inc.status === 'dismissed') return;
+
+      const color = severityColor(inc.severity);
+      
+      const marker = L.circleMarker([inc.location.lat, inc.location.lng], {
+        radius: 6,
+        color: color,
+        fillColor: color,
+        fillOpacity: 0.8,
+        weight: 2
+      }).addTo(map);
+
+      marker.bindTooltip(`${inc.type?.toUpperCase()} [${inc.severity?.toUpperCase()}]`, {
+        direction: 'top',
+        className: 'nt-map-tooltip'
+      });
+
+      incidentMarkers.push(marker);
     });
   }
 
@@ -283,23 +322,25 @@
   async function loadData() {
     try {
       const stats = await apiFetch('/incidents/dashboard-stats');
+      allActiveIncidents = stats.activeIncidents || [];
       
-      // Render active incidents
-      renderActiveIncidents(stats.activeIncidents);
+      // Render components
+      renderActiveIncidents();
       
       // Render Map
       if (stats.centerLat && stats.centerLng) {
         initMap(stats.centerLat, stats.centerLng);
+        updateMapMarkers();
       }
       
       // Render Units
       renderUnits(stats.fieldUnits || []);
       
       // Render Critical Alerts
-      renderCriticalAlerts(stats.activeIncidents || []);
+      renderCriticalAlerts(allActiveIncidents);
       
       // Render Dispatch Log
-      renderDispatchLog(stats.activeIncidents || []);
+      renderDispatchLog(allActiveIncidents);
       
       // Render Metrics
       const totalUnits = (stats.fieldUnits || []).length;
@@ -328,9 +369,29 @@
     }
   }
 
+  // ─── WebSocket Listeners ─────────────────────────────────────────────────────
+  function initSocket() {
+    const socket = (window.NexusAuth && typeof window.NexusAuth.initSocket === 'function')
+      ? window.NexusAuth.initSocket()
+      : null;
+
+    if (socket) {
+      socket.on('incident:new', () => {
+        console.log('Socket Update: New incident reported.');
+        loadData();
+      });
+
+      socket.on('incident:updated', (data) => {
+        console.log('Socket Update: Incident updated.', data);
+        loadData();
+      });
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     startClock();
     loadData();
-    setInterval(loadData, 30000);
+    initSocket();
+    setInterval(loadData, 60000); // Fallback polling
   });
 })();

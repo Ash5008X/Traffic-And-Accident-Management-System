@@ -71,12 +71,36 @@ const fieldUnitModel = {
     );
   },
 
+  async assignTeamToIncident(memberIds, incidentId) {
+    const db = getDB();
+    const ids = memberIds.map(id => new ObjectId(id));
+    return db.collection(COLLECTION).updateMany(
+      { agentId: { $in: ids } },
+      {
+        $set: {
+          status: 'en_route',
+          currentIncident: new ObjectId(incidentId)
+        },
+        $inc: { missionsToday: 1 }
+      }
+    );
+  },
+
   async clearIncident(id) {
     const db = getDB();
     return db.collection(COLLECTION).findOneAndUpdate(
       { _id: new ObjectId(id) },
       { $set: { status: 'available', currentIncident: null } },
       { returnDocument: 'after' }
+    );
+  },
+
+  async clearTeamIncident(memberIds) {
+    const db = getDB();
+    const ids = memberIds.map(id => new ObjectId(id));
+    return db.collection(COLLECTION).updateMany(
+      { agentId: { $in: ids } },
+      { $set: { status: 'available', currentIncident: null } }
     );
   },
 

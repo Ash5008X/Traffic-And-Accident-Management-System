@@ -3,10 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>NEXUSTRAFFIC // FIELD_UNIT_DASHBOARD</title>
+<title>NexusTraffic | My Mission</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Barlow+Condensed:wght@700;800&family=Fira+Code:wght@500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Barlow:wght@700;800;900&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@300,0&display=swap" rel="stylesheet"/>
 
 <link href="../../css/field_unit/dashboard.css" rel="stylesheet"/>
@@ -15,45 +14,41 @@
 <body>
 
 <!-- ── NAVBAR ──────────────────────────────────── -->
-<nav class="navbar">
-  <div style="display:flex;align-items:center;gap:24px;flex:1;">
-    <!-- Brand -->
-    <div class="brand">
-      <div class="brand-mark">
-        <span class="material-symbols-outlined">traffic</span>
-      </div>
-      <span class="brand-name">NEXUS<span>TRAFFIC</span></span>
+<nav class="h-16 flex items-center justify-between px-6 border-b" style="border-color: var(--nt-nav-border); background-color: var(--nt-nav-bg); position: sticky; top: 0; z-index: 50;">
+  <!-- Brand -->
+  <div class="flex items-center gap-4">
+    <div class="nt-brand-logo">
+      <span style="color: var(--nt-bright)">NEXUS</span><span class="text-[#F97316]">TRAFFIC</span>
     </div>
-
-    <!-- Nav links -->
-    <nav class="nav-links">
-      <a class="nav-link active" href="#">My Mission</a>
-      <a class="nav-link" href="#">Incidents</a>
-      <a class="nav-link" href="#">Updates</a>
-      <a class="nav-link" href="#">Profile</a>
-    </nav>
   </div>
 
-  <div class="navbar-right">
-    <!-- Status chip -->
-    <div class="status-chip">
-      <span class="material-symbols-outlined" style="font-size:14px;color:var(--teal);font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 20;">schedule</span>
-      <span class="status-chip-text">Available</span>
-    </div>
+  <!-- Nav links -->
+  <div class="hidden md:flex items-center gap-8">
+    <a class="outfit font-semibold text-[#F97316] border-b-2 border-[#F97316] pb-1" href="field_desktop.html">My Mission</a>
+    <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)" 
+       onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
+       href="field_incidents.html">Incidents</a>
+    <a class="outfit font-medium transition-colors" style="color: var(--nt-dim)" 
+       onmouseover="this.style.color='#F97316'" onmouseout="this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--nt-dim').trim()"
+       href="field_profile.html">Profile</a>
+  </div>
 
-    <!-- Sensors icon -->
-    <button class="icon-btn">
-      <span class="material-symbols-outlined">sensors</span>
+  <div class="flex items-center gap-4">
+    <button class="w-10 h-10 flex items-center justify-center rounded-xl border transition-colors hover:bg-[var(--nt-card2)]" 
+            style="border-color: var(--nt-nav-border); background: var(--nt-nav-bg); color: var(--nt-dim)">
+      <span class="material-symbols-outlined">notifications</span>
     </button>
 
     <!-- Theme toggle -->
-    <button class="theme-btn" id="theme-toggle" aria-label="Toggle theme">
+    <button class="w-10 h-10 flex items-center justify-center rounded-xl border transition-colors hover:bg-[var(--nt-card2)]" 
+            style="border-color: var(--nt-nav-border); background: var(--nt-nav-bg); color: var(--nt-dim)"
+            id="theme-toggle">
       <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
     </button>
 
     <!-- Avatar -->
-    <div class="user-avatar">
-      <img alt="Field Unit Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCu2n7h8gSixH0Ze_-n7sxn3-MtOm1aGO64RXPk0sWcTqZaSMo_pnTxdUoeKxsjs79m43NQvZzjMfKUPRNli4ddMcMpZXyylDN01im0anZWJGreAjFieLBtbLf6qYDJsNrI3XpCnmdZkInRu8enBc7hTTHM1swoKPt40o69SXruKSo_NujfjG59l_LLoH6Xry7KBDFCw421H6ojsCmBt-zAht9Bbjmveh1ubeSrZPvEHgPGkJtVbWAklyCdGIFv5rFqQmHUYyhjH9c"/>
+    <div class="user-avatar w-9 h-9 rounded-full border-2 overflow-hidden cursor-pointer transition-colors hover:border-[#F97316]" style="border-color: var(--nt-nav-border);">
+      <img alt="Field Unit Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCu2n7h8gSixH0Ze_-n7sxn3-MtOm1aGO64RXPk0sWcTqZaSMo_pnTxdUoeKxsjs79m43NQvZzjMfKUPRNli4ddMcMpZXyylDN01im0anZWJGreAjFieLBtbLf6qYDJsNrI3XpCnmdZkInRu8enBc7hTTHM1swoKPt40o69SXruKSo_NujfjG59l_LLoH6Xry7KBDFCw421H6ojsCmBt-zAht9Bbjmveh1ubeSrZPvEHgPGkJtVbWAklyCdGIFv5rFqQmHUYyhjH9c"/>
     </div>
   </div>
 </nav>
@@ -65,43 +60,52 @@
   <aside class="col-left col-scroll">
 
     <!-- Active Mission -->
-    <div class="mission-card pulse-critical">
+    <div id="active-mission-card" class="mission-card pulse-critical hidden">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
         <span class="mission-label">Active Mission</span>
-        <span class="critical-badge">Critical</span>
+        <span id="mission-severity" class="critical-badge">Critical</span>
       </div>
-      <div class="mission-title">Multi-Vehicle Collision</div>
-      <div class="mission-ref">882-QX-44-DELTA</div>
+      <div id="mission-title" class="mission-title">--</div>
+      <div id="mission-id" class="mission-ref">--</div>
 
       <div class="mission-meta-grid">
         <div>
           <span class="mission-meta-key">Coordinates</span>
-          <span class="mission-meta-val">34.052 N<br/>118.243 W</span>
+          <span id="mission-coords" class="mission-meta-val">--</span>
         </div>
         <div>
-          <span class="mission-meta-key">Est. Arrival</span>
-          <span class="mission-meta-val warn">4:32</span>
+          <span class="mission-meta-key">Elapsed Time</span>
+          <span id="mission-elapsed" class="mission-meta-val warn">--:--</span>
         </div>
       </div>
 
-      <button class="arrive-btn">✓ I Have Arrived</button>
-      <button class="backup-btn">⚠ Request Backup</button>
+      <button id="btn-arrived" class="arrive-btn">✓ I Have Arrived</button>
+      <button id="btn-backup" class="backup-btn">⚠ Request Backup</button>
+    </div>
+
+    <!-- Empty Mission State -->
+    <div id="no-mission-card" class="mission-card" style="opacity: 0.5; border-style: dashed; display: flex; align-items: center; justify-content: center; height: 180px;">
+      <span class="outfit text-sm">NO ACTIVE MISSION ASSIGNED</span>
     </div>
 
     <!-- Stats Today -->
     <div class="stats-card">
       <div class="stats-card-title">My Stats Today</div>
       <div class="stat-row">
+        <span class="stat-label">Missions Assigned</span>
+        <span id="stat-assigned" class="stat-val">00</span>
+      </div>
+      <div class="stat-row">
         <span class="stat-label">Missions Completed</span>
-        <span class="stat-val">04</span>
+        <span id="stat-completed" class="stat-val">00</span>
       </div>
       <div class="stat-row">
         <span class="stat-label">Avg Response Time</span>
-        <span class="stat-val">3:42<small> M</small></span>
+        <span id="stat-response" class="stat-val">0<small> M</small></span>
       </div>
       <div class="stat-row">
         <span class="stat-label">Distance Covered</span>
-        <span class="stat-val">12.4<small> KM</small></span>
+        <span id="stat-distance" class="stat-val">0.0<small> KM</small></span>
       </div>
     </div>
 
@@ -110,136 +114,97 @@
   <!-- CENTER COLUMN: Incident Briefing -->
   <div class="col-center col-scroll">
 
-    <div class="briefing-card">
+    <!-- Empty State -->
+    <div id="briefing-empty" class="flex flex-col items-center justify-center gap-4 h-full" style="color:var(--nt-dim)">
+       <span class="material-symbols-outlined" style="font-size:56px;opacity:0.3">assignment_late</span>
+       <p class="outfit text-sm tracking-wider" style="opacity:0.4">NO ACTIVE MISSION TO DISPLAY</p>
+    </div>
+
+    <div id="briefing-card" class="briefing-card hidden">
       <div class="briefing-top-bar"></div>
       <div class="briefing-body">
 
         <!-- Header -->
         <div style="position:relative;margin-bottom:14px;">
-          <div class="incident-ref">Incident_ID // 882-QX-44-DELTA</div>
-          <div class="incident-title">Multi-Vehicle Collision // I-10 Eastbound</div>
-          <span class="critical-badge" style="position:absolute;top:0;right:0;">Critical</span>
+          <div id="brief-id" class="incident-ref">Incident_ID // --</div>
+          <div id="brief-title" class="incident-title">--</div>
+          <span id="brief-severity" class="critical-badge" style="position:absolute;top:0;right:0;">--</span>
         </div>
 
         <!-- Dispatch alert -->
         <div class="dispatch-alert">
           <span class="material-symbols-outlined">emergency</span>
-          <span class="dispatch-alert-text">Critical — Relief Unit Dispatched</span>
+          <span id="dispatch-text" class="dispatch-alert-text">Unit Dispatched</span>
         </div>
 
         <!-- Description -->
-        <p class="briefing-desc">
-          Multiple vehicles involved in high-speed impact. Possible structural damage to central median. Fire risk assessed as Moderate. Hazardous materials check negative.
-        </p>
+        <p id="brief-desc" class="briefing-desc">--</p>
 
         <!-- Meta chips -->
         <div class="meta-chips">
           <div class="meta-chip">
             <span class="meta-chip-key">Coordinates</span>
-            <span class="meta-chip-val">34.0522 N, 118.2437 W</span>
+            <span id="brief-coords" class="meta-chip-val">--</span>
           </div>
           <div class="meta-chip">
             <span class="meta-chip-key">Reported At</span>
-            <span class="meta-chip-val">14:32:08 UTC</span>
-          </div>
-        </div>
-
-        <!-- Resources -->
-        <div class="resources-label">Resources Needed</div>
-        <div class="resource-tags">
-          <span class="resource-tag">First Aid</span>
-          <span class="resource-tag">Fire Unit</span>
-          <span class="resource-tag">Tow Truck</span>
-          <span class="resource-tag">Police</span>
-        </div>
-
-        <!-- On-site actions -->
-        <div class="actions-panel">
-          <div class="actions-label">On-Site Actions</div>
-          <div class="actions-grid">
-            <button class="action-btn green">🚑 Medical Aid Given</button>
-            <button class="action-btn orange">🔥 Hazard Contained</button>
-            <button class="action-btn blue">🚗 Road Cleared</button>
-            <button class="action-btn purple">📋 File Report</button>
+            <span id="brief-time" class="meta-chip-val">--</span>
           </div>
         </div>
 
         <!-- Resolve -->
-        <button class="resolve-btn">
-          <span class="material-symbols-outlined" style="font-size:20px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20;">check_circle</span>
-          Mark Incident Resolved
-        </button>
+        <div style="margin-top: 40px;">
+          <button id="btn-resolve" class="resolve-btn">
+            <span class="material-symbols-outlined" style="font-size:20px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20;">check_circle</span>
+            Mark Incident Resolved
+          </button>
+        </div>
 
       </div>
     </div>
 
   </div>
 
-  <!-- RIGHT COLUMN: Comms & Logs -->
-  <section class="col-right" style="overflow:hidden;">
-
-    <!-- Comms header -->
-    <div class="comms-header">
-      <span class="comms-label">Comms // Admin_CMD</span>
-      <div class="live-indicator">
-        <div class="live-dot live-blink"></div>
-        <span class="live-text">Live</span>
-      </div>
-    </div>
-
-    <!-- Chat messages -->
-    <div class="chat-area">
-
-      <div class="msg-in">
-        <div class="bubble-in">Unit 992-AX, state your arrival status. Perimeter needs to be secured immediately.</div>
-        <span class="msg-meta-in">Admin // 14:38:12</span>
-      </div>
-
-      <div class="msg-out">
-        <div class="bubble-out">In position. Deploying flare perimeter now. Requesting heavy tow for the semi-truck.</div>
-        <span class="msg-meta-out">Me // 14:39:05</span>
-      </div>
-
-      <div class="msg-in">
-        <div class="bubble-in">Copy that. Tow unit ETA 8 mins. Proceed with caution, fuel leak reported at sector 4.</div>
-        <span class="msg-meta-in">Admin // 14:39:44</span>
-      </div>
-
-    </div>
-
-    <!-- Input bar -->
-    <div class="input-bar">
-      <div class="input-wrap">
-        <input class="chat-input" placeholder="Report status or request resources…" type="text"/>
-        <button class="send-btn">
-          <span class="material-symbols-outlined">send</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Completed Missions -->
-    <div class="completed-panel">
-      <div class="completed-label">Today's Completed Missions</div>
-
-      <div class="mission-row">
-        <div>
-          <span class="mission-row-ref">Stalled_Vehicle // Loop-610</span>
-          <span class="mission-row-name">Sector 9 Clear</span>
+  <!-- RIGHT COLUMN: Heatmap -->
+  <section class="col-right col-scroll" style="padding: 24px;">
+    <div class="space-y-8">
+      <!-- Heatmap Grid -->
+      <div class="space-y-4">
+        <h3 class="barlow-700 text-sm tracking-widest px-1" style="color: var(--nt-dim)">NEARBY INCIDENTS HEATMAP</h3>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="zone-cell bg-[#1F3448]/30 border border-[#1F3448]/50 p-4 rounded flex flex-col justify-between aspect-video">
+            <span class="barlow-800" style="color:var(--nt-dim)">ZONE A</span>
+            <span id="zone-A" class="fira-code text-2xl" style="color: var(--nt-bright)">00</span>
+          </div>
+          <div class="zone-cell bg-[#1F3448]/30 border border-[#1F3448]/50 p-4 rounded flex flex-col justify-between aspect-video">
+            <span class="barlow-800" style="color:var(--nt-dim)">ZONE B</span>
+            <span id="zone-B" class="fira-code text-2xl" style="color: var(--nt-bright)">00</span>
+          </div>
+          <div class="zone-cell bg-[#1F3448]/30 border border-[#1F3448]/50 p-4 rounded flex flex-col justify-between aspect-video">
+            <span class="barlow-800" style="color:var(--nt-dim)">ZONE C</span>
+            <span id="zone-C" class="fira-code text-2xl" style="color: var(--nt-bright)">00</span>
+          </div>
+          <div class="zone-cell bg-[#1F3448]/30 border border-[#1F3448]/50 p-4 rounded flex flex-col justify-between aspect-video">
+            <span class="barlow-800" style="color: var(--nt-dim)">ZONE D</span>
+            <span id="zone-D" class="fira-code text-2xl" style="color: var(--nt-bright)">00</span>
+          </div>
+          <div class="zone-cell bg-[#1F3448]/30 border border-[#1F3448]/50 p-4 rounded flex flex-col justify-between aspect-video">
+            <span class="barlow-800" style="color:var(--nt-dim)">ZONE E</span>
+            <span id="zone-E" class="fira-code text-2xl" style="color: var(--nt-bright)">00</span>
+          </div>
+          <div class="zone-cell bg-[#1F3448]/30 border border-[#1F3448]/50 p-4 rounded flex flex-col justify-between aspect-video">
+            <span class="barlow-800" style="color:var(--nt-dim)">ZONE F</span>
+            <span id="zone-F" class="fira-code text-2xl" style="color: var(--nt-bright)">00</span>
+          </div>
         </div>
-        <span class="resolved-tag">Resolved</span>
       </div>
 
-      <div class="mission-row">
-        <div>
-          <span class="mission-row-ref">Debris_Removal // HWY-290</span>
-          <span class="mission-row-name">Obstruction Handled</span>
-        </div>
-        <span class="resolved-tag">Resolved</span>
+      <!-- Live Map Placeholder -->
+      <div class="mini-map rounded border relative overflow-hidden" style="height:220px; background: #0D1B2A; display: flex; align-items: center; justify-content: center;">
+        <span class="material-symbols-outlined text-4xl" style="color: var(--nt-dim)">map</span>
+        <span class="absolute bottom-2 left-2 z-10 fira-code text-[10px] text-[#F97316] font-bold px-2 py-0.5 border border-[#F97316]/30 pointer-events-none" style="background-color: #0D1B2A">LIVE_MAP_STREAM · 15 KM ZONE</span>
       </div>
-
     </div>
-
-  </section>
 
 </div>
 
@@ -258,8 +223,15 @@
   </div>
 </footer>
 
+<script src="/socket.io/socket.io.js"></script>
 <script src="../../js/app.js"></script>
 <script src="../../js/theme.js"></script>
+<script src="../../js/field_unit/field_desktop.js"></script>
+<script>
+  if (window.NexusAuth && typeof window.NexusAuth.initSocket === 'function') {
+    window.NexusAuth.initSocket();
+  }
+</script>
 
 </body>
 </html>

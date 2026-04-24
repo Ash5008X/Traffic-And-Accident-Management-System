@@ -6,11 +6,38 @@ const userModel = require('../modules/userModel');
 const incidentController = {
   async create(req, res) {
     try {
-      const incident = await incidentModel.create({
+      const { haversineKm, classifyZone } = require('../utils/zoneUtils');
+      const db = require('../config/db').getDB();
+      
+      const incidentData = {
         ...req.body,
         reportedBy: req.user.id
-      });
-      // Emit socket event if io is available
+      };
+
+      // Find nearest Relief Center
+      const centers = await db.collection('users').find({ role: 'relief_admin' }).toArray();
+      let nearest = null;
+      let minDistance = Infinity;
+
+      if (incidentData.location && incidentData.location.lat != null) {
+        centers.forEach(center => {
+          if (center.location) {
+            const dist = haversineKm(center.location.lat, center.location.lng, incidentData.location.lat, incidentData.location.lng);
+            if (dist < minDistance) {
+              minDistance = dist;
+              nearest = center;
+            }
+          }
+        });
+      }
+
+      if (nearest) {
+        incidentData.reliefCenterId = nearest._id;
+        incidentData.zone = classifyZone(nearest.location.lat, nearest.location.lng, incidentData.location.lat, incidentData.location.lng);
+      }
+
+      const incident = await incidentModel.create(incidentData);
+      
       if (req.app.get('io')) {
         req.app.get('io').emit('incident:new', incident);
       }
@@ -49,19 +76,107 @@ const incidentController = {
   async updateStatus(req, res) {
     try {
       const { status } = req.body;
-      const incident = await incidentModel.updateStatus(req.params.id, status);
+      const db = require('../config/db').getDB();
+      const teamModel = require('../modules/teamModel');
+      
+      let incident = await incidentModel.findById(req.params.id);
       if (!incident) return res.status(404).json({ error: 'Incident not found' });
 
-      // If resolved, clear the field unit
-      if (status === 'resolved' && incident.assignedUnit) {
-        await fieldUnitModel.clearIncident(incident.assignedUnit.toString());
+      // Handle EN ROUTE (Dispatch Team)
+      if (status === 'en_route' || status === 'dispatched') {
+        const { haversineKm, classifyZone } = require('../utils/zoneUtils');
+        
+        let zone = incident.zone;
+        let reliefCenterId = incident.reliefCenterId;
+
+        // If zone or relief center is missing, try to find nearest one now
+        if (!zone || !reliefCenterId) {
+          const centers = await db.collection('users').find({ role: 'relief_admin' }).toArray();
+          let nearest = null;
+          let minDistance = Infinity;
+
+          if (incident.location && incident.location.lat != null) {
+            centers.forEach(center => {
+              if (center.location) {
+                const dist = haversineKm(center.location.lat, center.location.lng, incident.location.lat, incident.location.lng);
+                if (dist < minDistance) {
+                  minDistance = dist;
+                  nearest = center;
+                }
+              }
+            });
+          }
+
+          if (nearest) {
+            reliefCenterId = nearest._id;
+            zone = classifyZone(nearest.location.lat, nearest.location.lng, incident.location.lat, incident.location.lng);
+            // Save it for later
+            await db.collection('incidents').updateOne({ _id: incident._id }, { $set: { zone, reliefCenterId } });
+          }
+        }
+
+        if (zone && reliefCenterId) {
+          const team = await teamModel.findByZone(zone); 
+          if (team) {
+            await incidentModel.assignTeam(incident._id, team._id, zone, reliefCenterId);
+            await fieldUnitModel.assignTeamToIncident(team.members, incident._id);
+          }
+        }
       }
 
-      if (req.app.get('io')) {
-        req.app.get('io').emit('incident:updated', incident);
+      // If resolved, notify Admin and Reporter
+      if (status === 'resolved') {
+        const alertModel = require('../modules/alertModel');
+        
+        // 1. Notify Admin (if resolved by field unit)
+        if (req.user.role !== 'relief_admin' && incident.reliefCenterId) {
+          const adminAlert = await alertModel.create({
+            type: 'all_clear',
+            message: `[Field Unit] Incident has been resolved by field team (ID: ${incident.incidentId})`,
+            severity: 'success',
+            broadcastBy: req.user.id,
+            targetUser: incident.reliefCenterId.toString(),
+            incidentId: incident._id.toString()
+          });
+          if (req.app.get('io')) {
+            req.app.get('io').to(`user:${incident.reliefCenterId}`).emit('alert:personal', adminAlert);
+          }
+        }
+
+        // 2. Notify Reporter
+        if (incident.reportedBy) {
+          const userAlert = await alertModel.create({
+            type: 'all_clear',
+            message: `Your request has been resolved (ID: ${incident.incidentId})`,
+            severity: 'success',
+            broadcastBy: req.user.id,
+            targetUser: incident.reportedBy.toString(),
+            incidentId: incident._id.toString()
+          });
+          if (req.app.get('io')) {
+            req.app.get('io').to(`user:${incident.reportedBy}`).emit('alert:personal', userAlert);
+          }
+        }
+
+        // Clear team/unit assignments
+        if (incident.assignedTeamId) {
+          const team = await teamModel.findById(incident.assignedTeamId);
+          if (team) {
+            await fieldUnitModel.clearTeamIncident(team.members);
+          }
+        } else if (incident.assignedUnit) {
+          await fieldUnitModel.clearIncident(incident.assignedUnit.toString());
+        }
       }
-      res.json(incident);
+
+      const updated = await incidentModel.updateStatus(req.params.id, status);
+
+      if (req.app.get('io')) {
+        req.app.get('io').emit('incident:updated', updated);
+      }
+      res.json(updated);
     } catch (err) {
+      console.error('Update status error:', err);
       res.status(500).json({ error: 'Server error' });
     }
   },
@@ -140,16 +255,38 @@ const incidentController = {
 
   async backupRequest(req, res) {
     try {
-      const incident = await incidentModel.addAction(req.params.id, {
+      const incident = await incidentModel.findById(req.params.id);
+      if (!incident) return res.status(404).json({ error: 'Incident not found' });
+
+      await incidentModel.addAction(req.params.id, {
         type: 'backup_request',
         performedBy: req.user.id,
         details: req.body.details || 'Backup requested'
       });
+
+      // Notify Relief Admin
+      if (incident.reliefCenterId) {
+        const alertModel = require('../modules/alertModel');
+        const alert = await alertModel.create({
+          type: 'hazard',
+          message: `[Field Unit] Backup required at the site (ID: ${incident.incidentId})`,
+          severity: 'high',
+          broadcastBy: req.user.id,
+          targetUser: incident.reliefCenterId.toString(),
+          incidentId: incident._id.toString()
+        });
+        if (req.app.get('io')) {
+          req.app.get('io').to(`user:${incident.reliefCenterId}`).emit('alert:personal', alert);
+        }
+      }
+
       if (req.app.get('io')) {
-        req.app.get('io').emit('incident:updated', incident);
+        const updated = await incidentModel.findById(req.params.id);
+        req.app.get('io').emit('incident:updated', updated);
       }
       res.json({ success: true, message: 'Backup request sent' });
     } catch (err) {
+      console.error('Backup request error:', err);
       res.status(500).json({ error: 'Server error' });
     }
   },
@@ -213,7 +350,7 @@ const incidentController = {
 
       const centerLat = adminUser.location.lat;
       const centerLng = adminUser.location.lng;
-      const RADIUS_KM = 50;
+      const RADIUS_KM = 15;
 
       // Fetch all non-dismissed incidents
       const allActive = await incidentModel.findAll({ });

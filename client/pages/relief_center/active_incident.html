@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>NexusTRAFFIC | Active Incidents</title>
+<title>NexusTraffic | Active Incidents</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
 <!-- NexusTraffic type stack -->
@@ -19,7 +19,7 @@
 
 </head>
 
-<body class="font-body selection:bg-primary selection:text-on-primary">
+<body class="font-body selection:bg-primary selection:text-on-primary flex flex-col h-screen overflow-hidden">
 
 <!-- ════════════════════════════════════════════════
      TOP NAV BAR
@@ -62,14 +62,14 @@
   <div class="flex items-center gap-4">
     <div class="fira-code text-sm hidden lg:block" style="color: var(--nt-dim)" id="clock">14:32:08 UTC</div>
 
-    <div class="relative">
-      <span class="material-symbols-outlined cursor-pointer" style="color: var(--nt-dim)">notifications</span>
-      <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#FF2D55] text-[10px] flex items-center justify-center rounded-full text-white font-bold">3</span>
-    </div>
+    <button class="icon-btn relative group" title="Notifications" id="relief-notif-btn">
+      <span class="material-symbols-outlined" style="color: var(--nt-dim)">notifications</span>
+      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#F97316] rounded-full border-2 border-[#141417] hidden notif-dot"></span>
+    </button>
 
     <div class="relative group flex items-center gap-2 cursor-pointer nt-user-profile">
       <span class="outfit text-sm font-semibold nt-user-name" style="color: var(--nt-bright)">Admin</span>
-      <div class="w-8 h-8 rounded-full flex items-center justify-center border overflow-hidden bg-[#1F3448]/30" style="border-color: var(--nt-card-border)">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center border overflow-hidden user-avatar" style="border-color: var(--nt-card-border)">
         <span class="material-symbols-outlined text-[var(--nt-dim)]">account_circle</span>
       </div>
       
@@ -91,7 +91,7 @@
   </div>
 </nav>
 
-<main class="pt-16 pb-10 min-h-screen flex w-full">
+<main class="flex-1 flex w-full overflow-hidden">
 
   <!-- LEFT COLUMN: Queue Management (25%) -->
   <aside class="w-[25%] border-r border-[#1F3448]/40 flex flex-col overflow-hidden">
@@ -129,7 +129,7 @@
     <!-- Tactical Map -->
     <div class="flex-1 min-h-[400px] relative nt-card overflow-hidden rounded-sm group" id="leaflet-map-container">
       <div id="leaflet-map" style="width:100%;height:100%;border-radius:inherit;z-index:0;"></div>
-      <span class="absolute bottom-2 left-2 z-10 fira-code text-[10px] text-[#F97316] font-bold px-2 py-0.5 border border-[#F97316]/30 pointer-events-none bg-black/40">LIVE_MAP_STREAM · 50 KM ZONE</span>
+      <span class="absolute bottom-2 left-2 z-10 fira-code text-[10px] text-[#F97316] font-bold px-2 py-0.5 border border-[#F97316]/30 pointer-events-none bg-black/40">LIVE_MAP_STREAM · 15 KM ZONE</span>
     </div>
 
     <!-- Dispatch Log -->

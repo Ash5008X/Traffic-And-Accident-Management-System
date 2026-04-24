@@ -43,7 +43,12 @@ const alertModel = {
   async findByUser(userId) {
     const db = getDB();
     return db.collection(COLLECTION)
-      .find({ targetUser: new ObjectId(userId) })
+      .find({ 
+        $or: [
+          { targetUser: new ObjectId(userId) },
+          { targetUser: null }
+        ]
+      })
       .sort({ createdAt: -1 })
       .toArray();
   },

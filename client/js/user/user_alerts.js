@@ -100,13 +100,48 @@
       const activeBroadcasts = activeAlertRes.ok ? await activeAlertRes.json() : [];
       const myId = getUserId();
 
-      // Filter incidents: Within 50km AND NOT reported by me
+      // Hardcoded Command Center (Relief Admin) location for zone calculation
+      const CENTER_LOC = { lat: 31.264905, lng: 75.700219 };
+
+      function getBearing(lat1, lon1, lat2, lon2) {
+        const y = Math.sin((lon2 - lon1) * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180);
+        const x = Math.cos(lat1 * Math.PI / 180) * Math.sin(lat2 * Math.PI / 180) -
+                  Math.sin(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.cos((lon2 - lon1) * Math.PI / 180);
+        return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+      }
+
+      function getZone(lat, lng) {
+        const bearing = getBearing(CENTER_LOC.lat, CENTER_LOC.lng, lat, lng);
+        const idx = Math.floor(bearing / 60);
+        return String.fromCharCode(65 + idx);
+      }
+
+      const userZone = getZone(USER_LOCATION.lat, USER_LOCATION.lng);
+      const neighborsMap = {
+        'A': ['F', 'B'],
+        'B': ['A', 'C'],
+        'C': ['B', 'D'],
+        'D': ['C', 'E'],
+        'E': ['D', 'F'],
+        'F': ['E', 'A']
+      };
+      const neighborZones = neighborsMap[userZone] || [];
+
+      // Filter incidents: In neighboring zones OR within immediate 5km radius
       allNearbyAlerts = allIncidents.filter(inc => {
         if (inc.reportedBy === myId) return false;
         if (!inc.location || !inc.location.lat) return false;
+        
+        const incZone = inc.zone || getZone(inc.location.lat, inc.location.lng);
         const dist = haversine(USER_LOCATION.lat, USER_LOCATION.lng, inc.location.lat, inc.location.lng);
-        if (dist <= 50) {
+        
+        const isSameZone = incZone === userZone;
+        const isNeighbor = neighborZones.includes(incZone);
+        const isImmediate = dist <= 5; // Keep immediate reports regardless of zone boundary
+
+        if (isSameZone || isNeighbor || isImmediate) {
           inc.distanceKm = dist;
+          inc.zone = incZone;
           return true;
         }
         return false;

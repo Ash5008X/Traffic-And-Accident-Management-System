@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>NEXUSTRAFFIC | Relief Center Dashboard</title>
+<title>NexusTraffic | Dashboard</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
 <!-- NexusTraffic type stack -->
@@ -53,15 +53,15 @@
   <div class="flex items-center gap-4">
     <div class="fira-code text-sm hidden lg:block" style="color: var(--nt-dim)" id="clock">14:32:08 UTC</div>
 
-    <div class="relative">
-      <span class="material-symbols-outlined cursor-pointer" style="color: var(--nt-dim)">notifications</span>
-      <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#FF2D55] text-[10px] flex items-center justify-center rounded-full text-white font-bold">3</span>
-    </div>
+    <button class="icon-btn relative group" title="Notifications" id="relief-notif-btn">
+      <span class="material-symbols-outlined" style="color: var(--nt-dim)">notifications</span>
+      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#F97316] rounded-full border-2 border-[#141417] hidden notif-dot"></span>
+    </button>
 
 
     <div class="relative group flex items-center gap-2 cursor-pointer nt-user-profile">
       <span class="outfit text-sm font-semibold nt-user-name" style="color: var(--nt-bright)">Admin</span>
-      <div class="w-8 h-8 rounded-full flex items-center justify-center border overflow-hidden bg-[#1F3448]/30" style="border-color: var(--nt-card-border)">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center border overflow-hidden user-avatar" style="border-color: var(--nt-card-border)">
         <span class="material-symbols-outlined text-[var(--nt-dim)]">account_circle</span>
       </div>
       
@@ -86,7 +86,7 @@
 <!-- ════════════════════════════════════════════════
      MAIN DASHBOARD LAYOUT
      ════════════════════════════════════════════════ -->
-<main>
+<main class="flex-1 flex overflow-hidden">
 
   <!-- Column 1: ACTIVE INCIDENTS (25%) -->
   <section class="col-left col-scroll w-1/4 flex flex-col border-r border-[#1F3448]/30">
@@ -142,9 +142,9 @@
 
         <!-- Action Toolbar -->
         <div class="flex flex-wrap gap-4">
-          <button id="btn-en-route" class="btn-action flex-1 barlow-700 bg-[#3A86FF] text-white py-4 rounded font-bold tracking-tighter">MARK EN ROUTE</button>
-          <button id="btn-resolve" class="btn-action flex-1 barlow-700 bg-[#34C759] text-white py-4 rounded font-bold tracking-tighter">MARK RESOLVED</button>
-          <button id="btn-send-update" class="btn-action flex-1 barlow-700 bg-[#F97316] text-white py-4 rounded font-bold tracking-tighter">SEND UPDATE TO USER</button>
+          <button id="btn-en-route" class="btn-action flex-1 barlow-700 bg-[#3A86FF] text-white py-4 rounded font-bold tracking-tighter transition-all hover:brightness-110 active:scale-[0.98]">MARK EN ROUTE</button>
+          <button id="btn-resolve" class="btn-action flex-1 barlow-700 bg-[#34C759] text-white py-4 rounded font-bold tracking-tighter transition-all hover:brightness-110 active:scale-[0.98]">MARK RESOLVED</button>
+          <button id="btn-dismiss" class="btn-action flex-1 barlow-700 bg-[#FF3B30] text-white py-4 rounded font-bold tracking-tighter transition-all hover:brightness-110 active:scale-[0.98]">DISMISSED</button>
         </div>
 
         <!-- Communication Thread -->
@@ -237,7 +237,7 @@
       <!-- Live Map with 5 km zone circle -->
       <div class="mini-map rounded border relative overflow-hidden" style="height:220px;">
         <!-- Leaflet map injected here by relief_dashboard.js -->
-        <span class="absolute bottom-2 left-2 z-10 fira-code text-[10px] text-[#F97316] font-bold px-2 py-0.5 border border-[#F97316]/30 pointer-events-none" style="background-color: color-mix(in srgb, var(--nt-card) 80%, transparent)">LIVE_MAP_STREAM · 5 KM ZONE</span>
+        <span class="absolute bottom-2 left-2 z-10 fira-code text-[10px] text-[#F97316] font-bold px-2 py-0.5 border border-[#F97316]/30 pointer-events-none" style="background-color: color-mix(in srgb, var(--nt-card) 80%, transparent)">LIVE_MAP_STREAM · 15 KM ZONE</span>
       </div>
 
     </div>
@@ -257,9 +257,15 @@
 </footer>
 
 
+<script src="/socket.io/socket.io.js"></script>
 <script src="../../js/app.js"></script>
 <script src="../../js/theme.js"></script>
 <script src="../../js/relief_center/relief_dashboard.js"></script>
+<script>
+  if (window.NexusAuth && typeof window.NexusAuth.initSocket === 'function') {
+    window.NexusAuth.initSocket();
+  }
+</script>
 
 </body>
 </html>

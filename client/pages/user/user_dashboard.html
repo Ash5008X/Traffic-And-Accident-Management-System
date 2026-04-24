@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NexusTraffic — Dashboard</title>
+  <title>NexusTraffic | Dashboard</title>
 
   <!-- Distinctive type stack: Bricolage Grotesque (display) + Figtree (body) + JetBrains Mono (data) -->
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -93,10 +93,6 @@
           <span class="material-symbols-outlined">warning</span>
           Report Accident
         </button>
-        <button class="btn btn-ghost">
-          <span class="material-symbols-outlined">check_circle</span>
-          I'm Safe / False Alarm
-        </button>
       </div>
     </div>
 
@@ -180,6 +176,11 @@
 
         </div>
       </div>
+
+      <button id="resolve-report-btn" class="btn btn-primary" style="width: 100%; margin-top: 24px; background: #2EC4B6; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase;">
+        <span class="material-symbols-outlined" style="font-size: 18px;">task_alt</span>
+        Resolve Report
+      </button>
     </div>
     <div class="card status-card" id="no-active-report-card">
       <div style="text-align: center; padding: 20px 0; color: var(--text-muted);">
@@ -267,9 +268,16 @@
   </div>
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
 <script src="../../js/app.js"></script>
 <script src="../../js/theme.js"></script>
 <script src="../../js/user_dashboard.js"></script>
+<script>
+  // Initialize tactical data link
+  if (window.NexusAuth && typeof window.NexusAuth.initSocket === 'function') {
+    window.NexusAuth.initSocket();
+  }
+</script>
 
 </body>
 </html>
